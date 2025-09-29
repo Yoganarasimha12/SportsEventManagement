@@ -71,59 +71,65 @@
   </form>
 
   <script>
-    document.getElementById("customerForm").addEventListener("submit", function(e) {
-      e.preventDefault();
+document.getElementById("customerForm").addEventListener("submit", function (e) {
+    e.preventDefault(); // prevent page refresh
 
-      // Get values
-      let name = document.getElementById("name").value.trim();
-      let email = document.getElementById("email").value.trim();
-      let contact = document.getElementById("contact").value.trim();
-      let accountType = document.getElementById("accountType").value;
+    // get field values
+    const name = document.getElementById("name").value.trim();
+    const email = document.getElementById("email").value.trim();
+    const contact = document.getElementById("contact").value.trim();
+    const accountType = document.getElementById("accountType").value;
 
-      // Error elements
-      let nameError = document.getElementById("nameError");
-      let emailError = document.getElementById("emailError");
-      let contactError = document.getElementById("contactError");
-      let accountTypeError = document.getElementById("accountTypeError");
+    // error spans
+    const nameError = document.getElementById("nameError");
+    const emailError = document.getElementById("emailError");
+    const contactError = document.getElementById("contactError");
+    const accountTypeError = document.getElementById("accountTypeError");
 
-      // Reset errors
-      nameError.textContent = "";
-      emailError.textContent = "";
-      contactError.textContent = "";
-      accountTypeError.textContent = "";
+    // clear old errors
+    nameError.textContent = "";
+    emailError.textContent = "";
+    contactError.textContent = "";
+    accountTypeError.textContent = "";
 
-      let isValid = true;
+    let isValid = true;
 
-      // Validate Name
-      if (!/^[A-Za-z ]+$/.test(name)) {
-        nameError.textContent = "Please enter only alphabets";
+    // validate name (alphabets only)
+    if (!/^[A-Za-z\s]+$/.test(name)) {
+        nameError.textContent = "Please enter only alphabets.";
         isValid = false;
-      }
+    }
 
-      // Validate Email
-      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-        emailError.textContent = "Please enter a valid email";
+    // validate email
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        emailError.textContent = "Please enter a valid email id.";
         isValid = false;
-      }
+    }
 
-      // Validate Contact
-      if (!/^[789]\d{9}$/.test(contact)) {
-        contactError.textContent = "Enter valid 10-digit number starting with 7, 8, or 9";
+    // validate contact (10 digits, starts with 7/8/9)
+    if (!/^[789]\d{9}$/.test(contact)) {
+        contactError.textContent = "Contact must be 10 digits and start with 7/8/9.";
         isValid = false;
-      }
+    }
 
-      // Validate Account Type
-      if (accountType === "") {
-        accountTypeError.textContent = "Please select an account type";
+    // validate account type
+    if (accountType === "") {
+        accountTypeError.textContent = "Please select an account type.";
         isValid = false;
-      }
+    }
 
-      // If valid → log or process
-      if (isValid) {
-        alert("Customer added: " + name);
+    // if valid, add to table
+    if (isValid) {
+        const customerTable = document.getElementById("customerTable").getElementsByTagName("tbody")[0];
+        const newRow = customerTable.insertRow();
+
+        newRow.insertCell(0).innerText = name;
+        newRow.insertCell(1).innerText = email;
+        newRow.insertCell(2).innerText = contact;
+        newRow.insertCell(3).innerText = accountType;
+
+        // clear form
         document.getElementById("customerForm").reset();
-      }
-    });
-  </script>
-</body>
-</html>
+    }
+});
+</script>
