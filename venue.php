@@ -1,136 +1,129 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add Venue</title>
-    <style>
-        body{
-            font-family: 'Roboto', sans-serif;
-        }
-        header {
-            background-color: #283593; /* Dark Blue */
-            color: #fff;
-            padding: 20px;
-            text-align: center;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Customer Form</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
-        nav {
-            background-color: #303f9f; /* Dark Blue */
-            color: #fff;
-            padding: 10px;
-            text-align: center;
-        }
-
-        nav a {
-            color: #fff;
-            text-decoration: none;
-            margin: 0 10px;
-            background-color: #303f9f; /* Dark Blue */
-            padding: 8px 12px;
-            border-radius: 5px;
-            transition: background-color 0.3s ease;
-        }
-
-        nav a:hover {
-            background-color: #283593; /* Slightly Darker Blue on hover */
-        }
-        .container {
-            max-width: 400px;
-            margin: 50px auto;
-            padding: 20px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 5px;
-        }
-
-        input {
-            width: 100%;
-            padding: 8px;
-            margin-bottom: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-        }
-
-        button {
-            padding: 10px 20px;
-            background-color: #007bff;
-            color: #fff;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-
-        button:hover {
-            background-color: #0056b3;
-        }
-    </style>
+  <style>
+    body {
+      background-color: #fff;
+    }
+    .form-label {
+      font-weight: 500;
+    }
+    small {
+      font-size: 0.8rem;
+    }
+  </style>
 </head>
-<body>
-<header>
-        <h1>Sports Event Management System</h1>
-    </header>
+<body class="container mt-4">
 
-    <nav>
-        <a href="admin.php">Home</a>
-        <a href="events.php">Events</a>
-        <a href="createevent.php">create Events</a>
-        <a href="sports.php">Add sports</a>
-        <a href="venue.php">Add venue</a>
-        <a href="messages.php">Messages</a>
-        <a href="participants.php">Participants</a>
-        <a href="login.php?logout=true">Logout</a>
-    </nav>
-    <div class="container">
-        <h2>Add Venue</h2>
-        <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post" enctype="multipart/form-data">
-            <label for="venue_name">Venue Name:</label>
-            <input type="text" id="venue_name" name="venue_name" required>
-            
-            <label for="city">City:</label>
-            <input type="text" id="city" name="city" required>
-            
-            <label for="image">Venue Image:</label>
-            <input type="file" id="image" name="image" accept="image/*" required>
-            
-            <button type="submit" name="submit">Add Venue</button>
-        </form>
+  <form id="customerForm" class="w-100">
+    <!-- Name -->
+    <div class="row mb-3">
+      <label for="name" class="col-sm-2 col-form-label">Name:</label>
+      <div class="col-sm-10">
+        <input type="text" id="name" class="form-control" placeholder="Enter Name">
+        <small class="text-danger" id="nameError"></small>
+      </div>
     </div>
 
-    <?php
-    include 'config.php';
-    // Add venue to database
-    if (isset($_POST['submit'])) {
-        $venue_name = $_POST['venue_name'];
-        $city = $_POST['city'];
+    <!-- Email -->
+    <div class="row mb-3">
+      <label for="email" class="col-sm-2 col-form-label">Email Id:</label>
+      <div class="col-sm-10">
+        <input type="text" id="email" class="form-control" placeholder="Enter Email">
+        <small class="text-danger" id="emailError"></small>
+      </div>
+    </div>
 
-        // Upload image
-        $image_filename = $_FILES["image"]["name"];
-        $image_tmp = $_FILES["image"]["tmp_name"];
-        $image_path = "uploads/" . $image_filename; // Define image path
-        
-        // Move uploaded file to destination directory
-        if (move_uploaded_file($image_tmp, $image_path)) {
-            // Insert venue details into database
-            $stmt = $conn->prepare("INSERT INTO venues (venue_name, city, image_path) VALUES (?, ?, ?)");
-            $stmt->bind_param("sss", $venue_name, $city, $image_path);
-            
-            if ($stmt->execute()) {
-                echo "<p>Venue added successfully!</p>";
-            } else {
-                echo "<p>Error: " . $conn->error . "</p>";
-            }
-            $stmt->close();
-        } else {
-            echo "<p>Sorry, there was an error uploading your file.</p>";
-        }
-    }
+    <!-- Contact -->
+    <div class="row mb-3">
+      <label for="contact" class="col-sm-2 col-form-label">Contact No:</label>
+      <div class="col-sm-10">
+        <input type="text" id="contact" class="form-control" placeholder="Enter Contact No">
+        <small class="text-danger" id="contactError"></small>
+      </div>
+    </div>
 
-    $conn->close();
-    ?>
+    <!-- Account Type -->
+    <div class="row mb-3">
+      <label for="accountType" class="col-sm-2 col-form-label">Account Type:</label>
+      <div class="col-sm-10">
+        <select id="accountType" class="form-select">
+          <option value="">Select account type</option>
+          <option value="Savings">Savings</option>
+          <option value="Current">Current</option>
+        </select>
+        <small class="text-danger" id="accountTypeError"></small>
+      </div>
+    </div>
+
+    <!-- Submit Button -->
+    <div class="row">
+      <div class="col-sm-2"></div>
+      <div class="col-sm-10">
+        <button type="submit" class="btn btn-primary">Add Customer</button>
+      </div>
+    </div>
+  </form>
+
+  <script>
+    document.getElementById("customerForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+
+      // Get values
+      let name = document.getElementById("name").value.trim();
+      let email = document.getElementById("email").value.trim();
+      let contact = document.getElementById("contact").value.trim();
+      let accountType = document.getElementById("accountType").value;
+
+      // Error elements
+      let nameError = document.getElementById("nameError");
+      let emailError = document.getElementById("emailError");
+      let contactError = document.getElementById("contactError");
+      let accountTypeError = document.getElementById("accountTypeError");
+
+      // Reset errors
+      nameError.textContent = "";
+      emailError.textContent = "";
+      contactError.textContent = "";
+      accountTypeError.textContent = "";
+
+      let isValid = true;
+
+      // Validate Name
+      if (!/^[A-Za-z ]+$/.test(name)) {
+        nameError.textContent = "Please enter only alphabets";
+        isValid = false;
+      }
+
+      // Validate Email
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        emailError.textContent = "Please enter a valid email";
+        isValid = false;
+      }
+
+      // Validate Contact
+      if (!/^[789]\d{9}$/.test(contact)) {
+        contactError.textContent = "Enter valid 10-digit number starting with 7, 8, or 9";
+        isValid = false;
+      }
+
+      // Validate Account Type
+      if (accountType === "") {
+        accountTypeError.textContent = "Please select an account type";
+        isValid = false;
+      }
+
+      // If valid → log or process
+      if (isValid) {
+        alert("Customer added: " + name);
+        document.getElementById("customerForm").reset();
+      }
+    });
+  </script>
 </body>
 </html>
