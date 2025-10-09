@@ -85,15 +85,24 @@ const CardProcessTimeline = () => {
     "Card Issued",
   ];
 
+  const [activeStep, setActiveStep] = useState(2);
+
   return (
-    <div className="timeline-container mx-auto mt-4">
-      {steps.map((step, index) => (
-        <div className="timeline-step" key={index}>
-          <div className="circle">{index + 1}</div>
-          <div className="line" />
-          <div className="step-text">{step}</div>
-        </div>
-      ))}
+    <div className="content">
+      <div className="timeline-box">
+        {steps.map((step, index) => (
+          <div
+            className={`timeline-step ${
+              index === activeStep ? "active" : "inactive"
+            }`}
+            key={index}
+          >
+            <div className="circle">{index + 1}</div>
+            {index !== steps.length - 1 && <div className="line"></div>}
+            <div className="step-text">{step}</div>
+          </div>
+        ))}
+      </div>
     </div>
   );
 };
