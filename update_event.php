@@ -173,3 +173,51 @@ body {
   background-color: var(--sc-green);
 }
 
+basic
+
+import React from "react";
+
+export default function CardDetails() {
+  return (
+    <div>
+      <h2>CARD Details</h2>
+
+      <div>
+        <label>Name of the Applicant:</label>
+        <input type="text" placeholder="Enter name" />
+      </div>
+
+      <div>
+        <label>Email Address:</label>
+        <input type="email" placeholder="Enter email" />
+      </div>
+
+      <div>
+        <label>Credit Score:</label>
+        <input type="number" placeholder="Enter credit score" />
+      </div>
+
+      <div>
+        <label>Application Status:</label>
+        <input type="text" placeholder="Pending / Approved / Rejected" />
+      </div>
+
+      <div>
+        <button>Accept</button>
+        <button>Reject</button>
+      </div>
+
+      <div>
+        <h3>Status</h3>
+        <div>
+          <span>●</span>
+          <span>→</span>
+          <span>●</span>
+          <span>→</span>
+          <span>●</span>
+        </div>
+      </div>
+    </div>
+  );
+}
+
