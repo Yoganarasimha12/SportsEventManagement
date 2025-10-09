@@ -83,6 +83,14 @@ const CardDetailsSection = () => {
     status: "Final Approve",
   };
 
+  const showPopup = () => {
+    document.getElementById("popup-card").style.display = "flex";
+  };
+
+  const hidePopup = () => {
+    document.getElementById("popup-card").style.display = "none";
+  };
+
   return (
     <div className="col-8 d-flex justify-content-center">
       <div className="card-details-wrapper">
@@ -112,20 +120,13 @@ const CardDetailsSection = () => {
 
         {/* Action Buttons */}
         <div className="action-box p-4 border text-center mt-3">
-          <button
-            className="btn btn-primary me-3"
-            onClick={() =>
-              document
-                .getElementById("popup-card")
-                .classList.add("show-popup")
-            }
-          >
+          <button className="btn btn-primary me-3" onClick={showPopup}>
             Accept
           </button>
           <button className="btn btn-danger">Reject</button>
         </div>
 
-        {/* ✅ Simple Popup Card */}
+        {/* ✅ Popup Card (hidden initially) */}
         <div id="popup-card" className="popup-card">
           <div className="popup-content">
             <h5>Confirm Credit Card Approval</h5>
@@ -135,23 +136,14 @@ const CardDetailsSection = () => {
             <p><strong>Status:</strong> {cardDetails.status}</p>
 
             <div className="text-end mt-3">
-              <button
-                className="btn btn-secondary me-2"
-                onClick={() =>
-                  document
-                    .getElementById("popup-card")
-                    .classList.remove("show-popup")
-                }
-              >
+              <button className="btn btn-secondary me-2" onClick={hidePopup}>
                 Cancel
               </button>
               <button
                 className="btn btn-success"
                 onClick={() => {
                   alert("Credit card approved successfully!");
-                  document
-                    .getElementById("popup-card")
-                    .classList.remove("show-popup");
+                  hidePopup();
                 }}
               >
                 Yes, Approve
