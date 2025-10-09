@@ -265,3 +265,19 @@ button.btn {
   color: #333;              /* ✅ subtle contrast for paragraphs */
   margin-bottom: 8px;
 }
+
+popup-card {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  backdrop-filter: blur(6px);
+  background: rgba(0, 0, 0, 0.2);
+  display: flex;
+  align-items: center;      /* ✅ centers vertically */
+  justify-content: center;  /* ✅ centers horizontally */
+  z-index: 3000;
+  transition: all 0.3s ease;
+}
