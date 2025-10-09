@@ -73,7 +73,6 @@ body {
 react
 
 import React from "react";
-import "bootstrap/dist/css/bootstrap.min.css";
 import "./CardProcessTimeline.css";
 
 const CardProcessTimeline = () => {
@@ -85,15 +84,13 @@ const CardProcessTimeline = () => {
     "Card Issued",
   ];
 
-  const [activeStep, setActiveStep] = useState(2);
-
   return (
     <div className="content">
       <div className="timeline-box">
         {steps.map((step, index) => (
           <div
             className={`timeline-step ${
-              index === activeStep ? "active" : "inactive"
+              step === "Final Approve" ? "highlight" : ""
             }`}
             key={index}
           >
@@ -118,13 +115,14 @@ body {
   background-color: rgb(245, 245, 245);
 }
 
-/* Main timeline container */
+/* Move the timeline box slightly to the left */
 .timeline-box {
   background-color: white;
   border: 2px solid #e0e0e0;
   border-radius: 8px;
   width: 220px;
-  margin: 40px auto;
+  margin-left: 80px; /* shifted left */
+  margin-top: 40px;
   padding: 20px 0;
   display: flex;
   flex-direction: column;
@@ -132,7 +130,7 @@ body {
   box-shadow: 0 0 8px rgba(0, 0, 0, 0.05);
 }
 
-/* Step wrapper */
+/* Each step container */
 .timeline-step {
   display: flex;
   flex-direction: column;
@@ -140,7 +138,7 @@ body {
   position: relative;
 }
 
-/* Circle base style */
+/* Circle for steps */
 .circle {
   border-radius: 50%;
   width: 32px;
@@ -151,39 +149,32 @@ body {
   font-weight: bold;
   font-size: 0.9rem;
   color: white;
-  background-color: #cfcfcf; /* lighter gray for inactive */
+  background-color: #d0d0d0; /* lighter gray */
   z-index: 1;
-  transition: background-color 0.3s ease;
 }
 
-/* Line connecting circles */
+/* Vertical line between steps */
 .line {
   width: 2px;
   height: 40px;
   background-color: #e0e0e0;
   margin: 4px 0;
-  transition: background-color 0.3s ease;
 }
 
-/* Text for each step */
+/* Step text */
 .step-text {
   margin-top: 5px;
-  font-size: 0.8rem; /* smaller text */
+  font-size: 0.8rem;
   color: #888;
   text-align: center;
-  transition: color 0.3s ease, font-weight 0.3s ease;
 }
 
-/* Active step highlight */
-.timeline-step.active .circle {
-  background-color: #0473ea;
+/* Highlighted (current) step */
+.timeline-step.highlight .circle {
+  background-color: #0473ea; /* blue for "Final Approve" */
 }
 
-.timeline-step.active .step-text {
+.timeline-step.highlight .step-text {
   color: #0473ea;
   font-weight: bold;
-}
-
-.timeline-step.active + .line {
-  background-color: #0473ea;
 }
