@@ -1,4 +1,4 @@
-<?php
+ii<?php
 // Start a session
 session_start();
 
@@ -8,7 +8,7 @@ include 'config.php';
 // Check if form is submitted and all required fields are set
 if(isset($_POST['event_id'], $_POST['event_name'], $_POST['event_date'], $_POST['event_time'])) {
     // Get event details from the form
-    $event_id = $_POST['event_id'];
+    $event_id = $_POST['event_id']
     $event_name = $_POST['event_name'];
     $event_date = $_POST['event_date'];
     $event_time = $_POST['event_time'];
@@ -103,5 +103,73 @@ export default function CardDetails() {
       </div>
     </div>
   );
+}
+
+css
+
+:root {
+  --sc-blue: #0072ce;
+  --sc-green: #00b140;
+  --sc-grey: #f2f2f2;
+  --sc-dark: #333333;
+  --sc-red: #d0021b;
+}
+
+body {
+  background-color: var(--sc-grey);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Theme Colors */
+.text-sc-blue {
+  color: var(--sc-blue);
+}
+
+/* Card Section */
+.card-section {
+  max-width: 900px;
+}
+
+/* Buttons */
+.btn-accept {
+  background-color: var(--sc-green);
+  color: white;
+  font-weight: 600;
+  border: none;
+}
+
+.btn-accept:hover {
+  background-color: #009637;
+}
+
+.btn-reject {
+  background-color: var(--sc-red);
+  color: white;
+  font-weight: 600;
+  border: none;
+}
+
+.btn-reject:hover {
+  background-color: #b30016;
+}
+
+/* Status Dots */
+.status-line {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 40px;
+}
+
+.status-dot {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background-color: #ccc;
+  transition: 0.3s;
+}
+
+.status-dot.active {
+  background-color: var(--sc-green);
 }
 
