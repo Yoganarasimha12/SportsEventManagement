@@ -99,3 +99,56 @@ const CardProcessTimeline = () => {
 };
 
 export default CardProcessTimeline;
+
+
+css
+
+.timeline-container {
+  position: relative;
+  width: 250px;
+  background-color: #fff;
+  border: 2px solid #ccc;
+  border-radius: 8px;
+  padding: 20px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.timeline-step {
+  position: relative;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.circle {
+  background-color: #6c757d; /* Bootstrap gray */
+  color: #fff;
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  z-index: 1;
+}
+
+.line {
+  width: 2px;
+  height: 40px;
+  background-color: #ccc;
+  margin: 4px 0;
+}
+
+.timeline-step:last-child .line {
+  display: none;
+}
+
+.step-text {
+  margin-top: 5px;
+  text-align: center;
+  font-size: 0.95rem;
+  color: #333;
+}
