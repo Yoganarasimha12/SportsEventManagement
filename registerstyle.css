@@ -103,52 +103,78 @@ export default CardProcessTimeline;
 
 css
 
-.timeline-container {
-  position: relative;
-  width: 250px;
-  background-color: #fff;
-  border: 2px solid #ccc;
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: rgb(245, 245, 245);
+}
+
+/* Main timeline container */
+.timeline-box {
+  background-color: white;
+  border: 2px solid #e0e0e0;
   border-radius: 8px;
+  width: 220px;
+  margin: 40px auto;
   padding: 20px 0;
   display: flex;
   flex-direction: column;
   align-items: center;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.05);
 }
 
+/* Step wrapper */
 .timeline-step {
-  position: relative;
   display: flex;
-  align-items: center;
   flex-direction: column;
-}
-
-.circle {
-  background-color: #6c757d; /* Bootstrap gray */
-  color: #fff;
-  border-radius: 50%;
-  width: 36px;
-  height: 36px;
-  display: flex;
   align-items: center;
-  justify-content: center;
-  font-weight: bold;
-  z-index: 1;
+  position: relative;
 }
 
+/* Circle base style */
+.circle {
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  font-size: 0.9rem;
+  color: white;
+  background-color: #cfcfcf; /* lighter gray for inactive */
+  z-index: 1;
+  transition: background-color 0.3s ease;
+}
+
+/* Line connecting circles */
 .line {
   width: 2px;
   height: 40px;
-  background-color: #ccc;
+  background-color: #e0e0e0;
   margin: 4px 0;
+  transition: background-color 0.3s ease;
 }
 
-.timeline-step:last-child .line {
-  display: none;
-}
-
+/* Text for each step */
 .step-text {
   margin-top: 5px;
+  font-size: 0.8rem; /* smaller text */
+  color: #888;
   text-align: center;
-  font-size: 0.95rem;
-  color: #333;
+  transition: color 0.3s ease, font-weight 0.3s ease;
+}
+
+/* Active step highlight */
+.timeline-step.active .circle {
+  background-color: #0473ea;
+}
+
+.timeline-step.active .step-text {
+  color: #0473ea;
+  font-weight: bold;
+}
+
+.timeline-step.active + .line {
+  background-color: #0473ea;
 }
