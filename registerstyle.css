@@ -113,62 +113,49 @@ const CardDetailsSection = () => {
         {/* Action Buttons */}
         <div className="action-box p-4 border text-center mt-3">
           <button
-            type="button"
             className="btn btn-primary me-3"
-            data-bs-toggle="modal"
-            data-bs-target="#confirmModal"
+            onClick={() =>
+              document
+                .getElementById("popup-card")
+                .classList.add("show-popup")
+            }
           >
             Accept
           </button>
           <button className="btn btn-danger">Reject</button>
         </div>
 
-        {/* Bootstrap Modal */}
-        <div
-          className="modal fade"
-          id="confirmModal"
-          tabIndex="-1"
-          aria-labelledby="confirmModalLabel"
-          aria-hidden="true"
-        >
-          <div className="modal-dialog modal-dialog-centered">
-            <div className="modal-content">
-              <div className="modal-header">
-                <h5 className="modal-title" id="confirmModalLabel">
-                  Confirm Card Approval
-                </h5>
-                <button
-                  type="button"
-                  className="btn-close"
-                  data-bs-dismiss="modal"
-                  aria-label="Close"
-                ></button>
-              </div>
+        {/* ✅ Simple Popup Card */}
+        <div id="popup-card" className="popup-card">
+          <div className="popup-content">
+            <h5>Confirm Credit Card Approval</h5>
+            <p><strong>Name:</strong> {cardDetails.name}</p>
+            <p><strong>Credit Score:</strong> {cardDetails.creditScore}</p>
+            <p><strong>Email:</strong> {cardDetails.email}</p>
+            <p><strong>Status:</strong> {cardDetails.status}</p>
 
-              <div className="modal-body">
-                <p><strong>Name:</strong> {cardDetails.name}</p>
-                <p><strong>Credit Score:</strong> {cardDetails.creditScore}</p>
-                <p><strong>Email:</strong> {cardDetails.email}</p>
-                <p><strong>Status:</strong> {cardDetails.status}</p>
-              </div>
-
-              <div className="modal-footer">
-                <button
-                  type="button"
-                  className="btn btn-secondary"
-                  data-bs-dismiss="modal"
-                >
-                  Cancel
-                </button>
-                <button
-                  type="button"
-                  className="btn btn-success"
-                  data-bs-dismiss="modal"
-                  onClick={() => alert("Credit card approved successfully!")}
-                >
-                  Confirm & Approve
-                </button>
-              </div>
+            <div className="text-end mt-3">
+              <button
+                className="btn btn-secondary me-2"
+                onClick={() =>
+                  document
+                    .getElementById("popup-card")
+                    .classList.remove("show-popup")
+                }
+              >
+                Cancel
+              </button>
+              <button
+                className="btn btn-success"
+                onClick={() => {
+                  alert("Credit card approved successfully!");
+                  document
+                    .getElementById("popup-card")
+                    .classList.remove("show-popup");
+                }}
+              >
+                Yes, Approve
+              </button>
             </div>
           </div>
         </div>
