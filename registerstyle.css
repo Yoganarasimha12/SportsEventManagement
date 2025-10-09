@@ -84,38 +84,94 @@ const CardDetailsSection = () => {
   };
 
   return (
-    <div className="col-8">
-      {/* Card Details Box */}
-      <div className="w-100 h-50 mt-4 p-4 border card-details-box">
-        <h5 className="mb-4">Credit Card Details</h5>
+    <div className="col-8 d-flex justify-content-center">
+      <div className="card-details-wrapper">
+        {/* Card Details Box */}
+        <div className="card-details-box p-4 border">
+          <h5 className="mb-4">Credit Card Details</h5>
 
-        <div className="row details-grid">
-          <div className="col-6 mb-3">
-            <span className="label">Name:</span>
-            <span className="value">{cardDetails.name}</span>
-          </div>
-
-          <div className="col-6 mb-3">
-            <span className="label">Credit Score:</span>
-            <span className="value">{cardDetails.creditScore}</span>
-          </div>
-
-          <div className="col-6 mb-3">
-            <span className="label">Email:</span>
-            <span className="value">{cardDetails.email}</span>
-          </div>
-
-          <div className="col-6 mb-3">
-            <span className="label">Application Status:</span>
-            <span className="value status">{cardDetails.status}</span>
+          <div className="row details-grid">
+            <div className="col-6 mb-3">
+              <span className="label">Name:</span>
+              <span className="value">{cardDetails.name}</span>
+            </div>
+            <div className="col-6 mb-3">
+              <span className="label">Credit Score:</span>
+              <span className="value">{cardDetails.creditScore}</span>
+            </div>
+            <div className="col-6 mb-3">
+              <span className="label">Email:</span>
+              <span className="value">{cardDetails.email}</span>
+            </div>
+            <div className="col-6 mb-3">
+              <span className="label">Application Status:</span>
+              <span className="value status">{cardDetails.status}</span>
+            </div>
           </div>
         </div>
-      </div>
 
-      {/* Action Buttons Section */}
-      <div className="w-100 h-50 mt-3 p-4 border text-center action-box">
-        <button className="btn btn-success me-3">Accept</button>
-        <button className="btn btn-danger">Reject</button>
+        {/* Action Buttons */}
+        <div className="action-box p-4 border text-center mt-3">
+          <button
+            type="button"
+            className="btn btn-primary me-3"
+            data-bs-toggle="modal"
+            data-bs-target="#confirmModal"
+          >
+            Accept
+          </button>
+          <button className="btn btn-danger">Reject</button>
+        </div>
+
+        {/* Bootstrap Modal */}
+        <div
+          className="modal fade"
+          id="confirmModal"
+          tabIndex="-1"
+          aria-labelledby="confirmModalLabel"
+          aria-hidden="true"
+        >
+          <div className="modal-dialog modal-dialog-centered">
+            <div className="modal-content">
+              <div className="modal-header">
+                <h5 className="modal-title" id="confirmModalLabel">
+                  Confirm Card Approval
+                </h5>
+                <button
+                  type="button"
+                  className="btn-close"
+                  data-bs-dismiss="modal"
+                  aria-label="Close"
+                ></button>
+              </div>
+
+              <div className="modal-body">
+                <p><strong>Name:</strong> {cardDetails.name}</p>
+                <p><strong>Credit Score:</strong> {cardDetails.creditScore}</p>
+                <p><strong>Email:</strong> {cardDetails.email}</p>
+                <p><strong>Status:</strong> {cardDetails.status}</p>
+              </div>
+
+              <div className="modal-footer">
+                <button
+                  type="button"
+                  className="btn btn-secondary"
+                  data-bs-dismiss="modal"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="button"
+                  className="btn btn-success"
+                  data-bs-dismiss="modal"
+                  onClick={() => alert("Credit card approved successfully!")}
+                >
+                  Confirm & Approve
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );
@@ -157,6 +213,49 @@ css
   box-shadow: 0 0 8px rgba(0, 0, 0, 0.05);
 }
 
+button.btn {
+  width: 120px;
+  font-weight: 500;
+  border-radius: 6px;
+}
+
+
+
+//
+
+
+/* Center and limit width */
+.card-details-wrapper {
+  width: 70%;
+  max-width: 600px;
+}
+
+/* Card box styling */
+.card-details-box,
+.action-box {
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.05);
+}
+
+/* Label/value layout */
+.details-grid .label {
+  font-weight: 600;
+  color: #333;
+  display: inline-block;
+  width: 130px;
+}
+
+.details-grid .value {
+  color: #555;
+}
+
+.details-grid .status {
+  color: #0473ea;
+  font-weight: bold;
+}
+
+/* Buttons */
 button.btn {
   width: 120px;
   font-weight: 500;
