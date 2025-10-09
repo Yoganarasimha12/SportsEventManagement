@@ -73,108 +73,92 @@ body {
 react
 
 import React from "react";
-import "./CardProcessTimeline.css";
+import "./CardDetailsSection.css";
 
-const CardProcessTimeline = () => {
-  const steps = [
-    "Application Submitted",
-    "Document Review",
-    "Credit Check",
-    "Final Approve",
-    "Card Issued",
-  ];
+const CardDetailsSection = () => {
+  const cardDetails = {
+    name: "John Doe",
+    creditScore: "785",
+    email: "john.doe@example.com",
+    status: "Final Approve",
+  };
 
   return (
-    <div className="content">
-      <div className="timeline-box">
-        {steps.map((step, index) => (
-          <div
-            className={`timeline-step ${
-              step === "Final Approve" ? "highlight" : ""
-            }`}
-            key={index}
-          >
-            <div className="circle">{index + 1}</div>
-            {index !== steps.length - 1 && <div className="line"></div>}
-            <div className="step-text">{step}</div>
+    <div className="col-8">
+      {/* Card Details Box */}
+      <div className="w-100 h-50 mt-4 p-4 border card-details-box">
+        <h5 className="mb-4">Credit Card Details</h5>
+
+        <div className="row details-grid">
+          <div className="col-6 mb-3">
+            <span className="label">Name:</span>
+            <span className="value">{cardDetails.name}</span>
           </div>
-        ))}
+
+          <div className="col-6 mb-3">
+            <span className="label">Credit Score:</span>
+            <span className="value">{cardDetails.creditScore}</span>
+          </div>
+
+          <div className="col-6 mb-3">
+            <span className="label">Email:</span>
+            <span className="value">{cardDetails.email}</span>
+          </div>
+
+          <div className="col-6 mb-3">
+            <span className="label">Application Status:</span>
+            <span className="value status">{cardDetails.status}</span>
+          </div>
+        </div>
+      </div>
+
+      {/* Action Buttons Section */}
+      <div className="w-100 h-50 mt-3 p-4 border text-center action-box">
+        <button className="btn btn-success me-3">Accept</button>
+        <button className="btn btn-danger">Reject</button>
       </div>
     </div>
   );
 };
 
-export default CardProcessTimeline;
+export default CardDetailsSection;
 
 
 css
 
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background-color: rgb(245, 245, 245);
-}
-
-/* Move the timeline box slightly to the left */
-.timeline-box {
-  background-color: white;
-  border: 2px solid #e0e0e0;
+/* Card Details Box Styling */
+.card-details-box {
+  background-color: #ffffff;
   border-radius: 8px;
-  width: 220px;
-  margin-left: 80px; /* shifted left */
-  margin-top: 40px;
-  padding: 20px 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
   box-shadow: 0 0 8px rgba(0, 0, 0, 0.05);
 }
 
-/* Each step container */
-.timeline-step {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  position: relative;
+/* Labels & values */
+.details-grid .label {
+  font-weight: 600;
+  color: #333;
+  display: inline-block;
+  width: 140px;
 }
 
-/* Circle for steps */
-.circle {
-  border-radius: 50%;
-  width: 32px;
-  height: 32px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-weight: bold;
-  font-size: 0.9rem;
-  color: white;
-  background-color: #d0d0d0; /* lighter gray */
-  z-index: 1;
+.details-grid .value {
+  color: #555;
 }
 
-/* Vertical line between steps */
-.line {
-  width: 2px;
-  height: 40px;
-  background-color: #e0e0e0;
-  margin: 4px 0;
-}
-
-/* Step text */
-.step-text {
-  margin-top: 5px;
-  font-size: 0.8rem;
-  color: #888;
-  text-align: center;
-}
-
-/* Highlighted (current) step */
-.timeline-step.highlight .circle {
-  background-color: #0473ea; /* blue for "Final Approve" */
-}
-
-.timeline-step.highlight .step-text {
+.details-grid .status {
   color: #0473ea;
   font-weight: bold;
+}
+
+/* Action Buttons Section */
+.action-box {
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.05);
+}
+
+button.btn {
+  width: 120px;
+  font-weight: 500;
+  border-radius: 6px;
 }
