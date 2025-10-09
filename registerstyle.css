@@ -68,3 +68,34 @@ body {
     color: #007bff;
     text-decoration: underline;
 } 
+
+
+react
+
+import React from "react";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "./CardProcessTimeline.css";
+
+const CardProcessTimeline = () => {
+  const steps = [
+    "Application Submitted",
+    "Document Review",
+    "Credit Check",
+    "Final Approve",
+    "Card Issued",
+  ];
+
+  return (
+    <div className="timeline-container mx-auto mt-4">
+      {steps.map((step, index) => (
+        <div className="timeline-step" key={index}>
+          <div className="circle">{index + 1}</div>
+          <div className="line" />
+          <div className="step-text">{step}</div>
+        </div>
+      ))}
+    </div>
+  );
+};
+
+export default CardProcessTimeline;
