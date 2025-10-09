@@ -41,98 +41,67 @@ $conn->close();
 
 REACT
 
-import React, { useState } from "react";
+import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import "./CardDetails.css"; // we'll include custom CSS below
+import "./CardDetails.css";
 
-function CardDetails() {
-  const [statusStep, setStatusStep] = useState(1);
-  const [applicationStatus, setApplicationStatus] = useState("Pending");
-
-  const handleAccept = () => {
-    setStatusStep(3);
-    setApplicationStatus("Accepted");
-  };
-
-  const handleReject = () => {
-    setStatusStep(2);
-    setApplicationStatus("Rejected");
-  };
-
+export default function CardDetails() {
   return (
-    <div className="min-vh-100 bg-sc-grey d-flex flex-column">
-      {/* Navbar */}
-      <nav className="navbar px-4 bg-white shadow-sm">
-        <span className="navbar-brand text-sc-blue fw-bold">
-          Credit Card Origination System
-        </span>
-        <button className="btn btn-link text-sc-blue fw-semibold">Logout</button>
-      </nav>
+    <div className="container my-5 p-5 bg-white rounded-4 shadow-lg card-section">
+      <h3 className="text-sc-blue fw-bold mb-4">CARD Details</h3>
 
-      {/* Main Content */}
-      <div className="container card-container my-5 p-4 bg-white rounded-4 shadow-lg">
-        <div className="row">
-          {/* Left Column - Status */}
-          <div className="col-md-4 text-center border-end">
-            <h5 className="fw-bold text-dark mb-4">Status</h5>
+      {/* Card Details Form */}
+      <form className="row g-4">
+        <div className="col-md-6">
+          <label className="form-label fw-semibold">Name of the Applicant</label>
+          <input
+            type="text"
+            className="form-control"
+            placeholder="Enter name"
+          />
+        </div>
+        <div className="col-md-6">
+          <label className="form-label fw-semibold">Email Address</label>
+          <input
+            type="email"
+            className="form-control"
+            placeholder="Enter email"
+          />
+        </div>
+        <div className="col-md-6">
+          <label className="form-label fw-semibold">Credit Score</label>
+          <input
+            type="number"
+            className="form-control"
+            placeholder="e.g. 750"
+          />
+        </div>
+        <div className="col-md-6">
+          <label className="form-label fw-semibold">Application Status</label>
+          <input
+            type="text"
+            className="form-control"
+            placeholder="Pending / Approved / Rejected"
+          />
+        </div>
+      </form>
 
-            <div className="status-line mx-auto">
-              <div
-                className={`status-dot ${statusStep >= 1 ? "active" : ""}`}
-              ></div>
-              <div
-                className={`status-dot ${statusStep >= 2 ? "active" : ""}`}
-              ></div>
-              <div
-                className={`status-dot ${statusStep >= 3 ? "active" : ""}`}
-              ></div>
-            </div>
+      {/* Buttons */}
+      <div className="d-flex justify-content-center gap-3 mt-5">
+        <button className="btn btn-accept px-4">Accept</button>
+        <button className="btn btn-reject px-4">Reject</button>
+      </div>
 
-            <div className="d-grid gap-2 mt-4">
-              <button className="btn btn-accept" onClick={handleAccept}>
-                Accept
-              </button>
-              <button className="btn btn-reject" onClick={handleReject}>
-                Reject
-              </button>
-            </div>
-
-            <div className="d-grid gap-2 mt-4">
-              <button className="btn btn-print">PRINT CARD</button>
-              <button className="btn btn-mail">GENERATE MAIL</button>
-            </div>
-          </div>
-
-          {/* Right Column - Card Details */}
-          <div className="col-md-8 ps-4">
-            <h4 className="section-title mb-4">CARD Details</h4>
-            <form className="row g-4">
-              <div className="col-md-6">
-                <label className="form-label fw-semibold">
-                  Name of the Applicant
-                </label>
-                <input
-                  type="text"
-                  className="form-control"
-                  placeholder="Enter name"
-                />
-              </div>
-              <div className="col-md-6">
-                <label className="form-label fw-semibold">Email Address</label>
-                <input
-                  type="email"
-                  className="form-control"
-                  placeholder="Enter email"
-                />
-              </div>
-              <div className="col-md-6">
-                <label className="form-label fw-semibold">Credit Score</label>
-                <input
-                  type="number"
-                  className="form-control"
-                  placeholder="e.g. 750"
-                />
-              </div>
-              <div className="col-md-6">
-                <label class
+      {/* Status Section */}
+      <div className="text-center mt-5">
+        <h5 className="fw-bold text-dark mb-3">Status</h5>
+        <div className="status-line mx-auto">
+          <div className="status-dot active"></div>
+          <div className="status-dot"></div>
+          <div className="status-dot"></div>
+        </div>
+      </div>
+    </div>
+  );
+}
 
