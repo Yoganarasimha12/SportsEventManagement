@@ -20,7 +20,7 @@ react
 import React from "react";
 import "./Timeline.css";
 
-const Timeline = ({ activeStep }) => {
+const Timeline = () => {
   const steps = [
     "Application Submitted",
     "Document Review",
@@ -29,25 +29,32 @@ const Timeline = ({ activeStep }) => {
     "Card Issued",
   ];
 
+  // 🔹 Set the active step statically here
+  const activeStep = 3; // highlights “Credit Check”
+
   return (
-    <div className="timeline-container">
-      {steps.map((step, index) => (
-        <div className="timeline-step" key={index}>
-          <div
-            className={`circle ${activeStep === index + 1 ? "active" : ""}`}
-          >
-            {index + 1}
+    <div style={{ marginLeft: "40px" }}>
+      <h2 style={{ color: "#0072ce" }}>Application Progress</h2>
+
+      <div className="timeline-container">
+        {steps.map((step, index) => (
+          <div className="timeline-step" key={index}>
+            <div
+              className={`circle ${activeStep === index + 1 ? "active" : ""}`}
+            >
+              {index + 1}
+            </div>
+            <div
+              className={`step-text ${
+                activeStep === index + 1 ? "active-text" : ""
+              }`}
+            >
+              {step}
+            </div>
+            {index !== steps.length - 1 && <div className="line"></div>}
           </div>
-          <div
-            className={`step-text ${
-              activeStep === index + 1 ? "active-text" : ""
-            }`}
-          >
-            {step}
-          </div>
-          {index !== steps.length - 1 && <div className="line"></div>}
-        </div>
-      ))}
+        ))}
+      </div>
     </div>
   );
 };
