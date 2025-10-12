@@ -20,21 +20,31 @@ react
 import React from "react";
 import "./Timeline.css";
 
-const steps = [
-  "Application Submitted",
-  "Document Review",
-  "Credit Check",
-  "Final Approval",
-  "Card Issued",
-];
+const Timeline = ({ activeStep }) => {
+  const steps = [
+    "Application Submitted",
+    "Document Review",
+    "Credit Check",
+    "Final Approval",
+    "Card Issued",
+  ];
 
-const Timeline = () => {
   return (
     <div className="timeline-container">
       {steps.map((step, index) => (
         <div className="timeline-step" key={index}>
-          <div className="circle">{index + 1}</div>
-          <div className="step-text">{step}</div>
+          <div
+            className={`circle ${activeStep === index + 1 ? "active" : ""}`}
+          >
+            {index + 1}
+          </div>
+          <div
+            className={`step-text ${
+              activeStep === index + 1 ? "active-text" : ""
+            }`}
+          >
+            {step}
+          </div>
           {index !== steps.length - 1 && <div className="line"></div>}
         </div>
       ))}
