@@ -124,3 +124,58 @@ const Timeline = ({ steps, activeStep }) => {
 };
 
 export default Timeline;
+
+
+react-2
+
+import React from "react";
+import { Link, useLocation } from "react-router-dom";
+
+const steps = [
+  { name: "App Sub", path: "/application-submitted" },
+  { name: "Doc Rev", path: "/document-review" },
+  { name: "Crd Chk", path: "/credit-check" },
+  { name: "Finl Approval", path: "/final-approval" },
+  { name: "Card Issued", path: "/card-issued" },
+];
+
+const Timeline = () => {
+  const location = useLocation();
+  const activeStep = steps.findIndex((step) => location.pathname === step.path);
+
+  return (
+    <div className="timeline-container">
+      {steps.map((step, index) => (
+        <div key={index} className="timeline-step">
+          <Link to={step.path} className="timeline-link">
+            <div
+              className={`circle ${
+                activeStep === index ? "active" : ""
+              } ${index < activeStep ? "completed" : ""}`}
+            >
+              {index + 1}
+            </div>
+          </Link>
+
+          <div
+            className={`step-text ${
+              activeStep === index ? "active-text" : ""
+            }`}
+          >
+            {step.name}
+          </div>
+
+          {index !== steps.length - 1 && (
+            <div
+              className={`line ${
+                index < activeStep ? "active-line" : ""
+              }`}
+            ></div>
+          )}
+        </div>
+      ))}
+    </div>
+  );
+};
+
+export default Timeline;
