@@ -260,3 +260,34 @@ const FinalApproval = () => {
 };
 
 export default FinalApproval;
+
+
+fa.css
+
+/* Minimal custom styling for overlay popup */
+.popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.35);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1050;
+}
+
+.popup-box {
+  max-width: 400px;
+}
+
+/* Optional: minor tweaks for clean spacing */
+.card h6 {
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.card hr {
+  margin: 1rem 0;
+}
