@@ -28,7 +28,7 @@ const FinalApproval = () => {
   };
 
   const handleConfirm = () => {
-    alert("Final approval confirmed and card process initiated.");
+    alert("Final approval confirmed successfully!");
     setShowPopup(false);
   };
 
@@ -37,34 +37,32 @@ const FinalApproval = () => {
   };
 
   return (
-    <div className="approval-container">
+    <div className="approval-page">
       {/* Timeline Section */}
-      <div className="timeline-section">
-        <h3 className="heading">Application Progress</h3>
-        <div className="timeline-container">
-          {["Application Submitted", "Document Review", "Credit Check", "Final Approval", "Card Issued"].map(
-            (step, index) => (
-              <div className="timeline-step" key={index}>
-                <div className={`circle ${index === 3 ? "active" : ""}`}>
-                  {index + 1}
-                </div>
-                <div className="line"></div>
+      <div className="timeline-container">
+        {["Application Submitted", "Document Review", "Credit Check", "Final Approval", "Card Issued"].map(
+          (step, index) => (
+            <div className="timeline-step" key={index}>
+              <div className={`circle ${index === 3 ? "active" : ""}`}>
+                {index + 1}
               </div>
-            )
-          )}
-        </div>
+              {index !== 4 && <div className="line"></div>}
+            </div>
+          )
+        )}
       </div>
 
-      {/* Card Details Section */}
-      <div className="card-section">
-        <h3 className="card-heading">CARD DETAILS</h3>
-        <div className="card-details">
+      {/* Card Section */}
+      <div className="card-container">
+        <h3 className="card-title">Final Approval Details</h3>
+
+        <div className="card-fields">
           <div>
-            <label>Name of Applicant:</label>
+            <label>Name:</label>
             <input type="text" value="John Doe" readOnly />
           </div>
           <div>
-            <label>Email Address:</label>
+            <label>Email:</label>
             <input type="text" value="john.doe@email.com" readOnly />
           </div>
           <div>
@@ -72,38 +70,29 @@ const FinalApproval = () => {
             <input type="text" value="785" readOnly />
           </div>
           <div>
-            <label>Income Verification Status:</label>
-            <input type="text" value="Verified" readOnly />
-          </div>
-          <div>
-            <label>Application Status:</label>
-            <input type="text" value="Pending Final Approval" readOnly />
+            <label>Income Verified:</label>
+            <input type="text" value="Yes" readOnly />
           </div>
         </div>
 
         <div className="button-group">
-          <button className="accept-btn" onClick={handleAccept}>
-            Accept
-          </button>
-          <button className="reject-btn">Reject</button>
+          <button className="btn accept" onClick={handleAccept}>Accept</button>
+          <button className="btn reject">Reject</button>
         </div>
       </div>
 
-      {/* Popup Modal */}
+      {/* Popup */}
       {showPopup && (
         <div className="popup-overlay">
-          <div className="popup-box">
+          <div className="popup">
             <h4>Confirm Final Approval</h4>
-            <p><strong>Applicant:</strong> John Doe</p>
-            <p><strong>Credit Score:</strong> 785</p>
-            <p><strong>Status:</strong> Ready for card issue</p>
-            <div className="popup-buttons">
-              <button className="confirm-btn" onClick={handleConfirm}>
-                Confirm
-              </button>
-              <button className="cancel-btn" onClick={handleCancel}>
-                Cancel
-              </button>
+            <p>Applicant: John Doe</p>
+            <p>Credit Score: 785</p>
+            <p>Status: Ready for Card Issue</p>
+
+            <div className="popup-actions">
+              <button className="btn confirm" onClick={handleConfirm}>Confirm</button>
+              <button className="btn cancel" onClick={handleCancel}>Cancel</button>
             </div>
           </div>
         </div>
@@ -117,141 +106,133 @@ export default FinalApproval;
 
 tl.css
 
-::root {
+:::root {
   --sc-blue: #0072ce;
   --sc-green: #00b140;
-  --sc-grey: #f3f3f3;
+  --sc-grey: #f7f9fa;
+  --sc-border: #d9d9d9;
   --sc-dark: #333;
 }
 
-/* Layout */
-.approval-container {
+/* Page Layout */
+.approval-page {
   display: flex;
-  justify-content: space-around;
-  align-items: flex-start;
+  flex-direction: column;
+  align-items: center;
   padding: 40px;
   font-family: "Segoe UI", sans-serif;
+  background: white;
 }
 
 /* Timeline */
-.timeline-section {
-  width: 30%;
-}
-.heading {
-  color: var(--sc-blue);
-  margin-bottom: 10px;
-}
-
 .timeline-container {
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
   align-items: center;
-  border: 2px solid var(--sc-blue);
-  padding: 20px;
-  border-radius: 8px;
-  background: white;
+  width: 70%;
+  margin-bottom: 40px;
+  border: 1px solid var(--sc-border);
+  border-radius: 10px;
+  padding: 15px 20px;
 }
 
 .timeline-step {
   display: flex;
-  flex-direction: column;
   align-items: center;
   position: relative;
 }
 
 .circle {
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
+  width: 28px;
+  height: 28px;
   background: var(--sc-grey);
+  color: var(--sc-dark);
+  border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-weight: bold;
-  color: var(--sc-dark);
-  z-index: 2;
+  font-size: 14px;
+  font-weight: 600;
 }
 
 .circle.active {
   background: var(--sc-green);
-  color: white;
-  box-shadow: 0 0 0 3px var(--sc-blue);
+  color: #fff;
 }
 
 .line {
-  width: 40px;
-  height: 3px;
+  width: 50px;
+  height: 2px;
   background: var(--sc-blue);
-  position: absolute;
-  top: 14px;
-  left: 30px;
-  z-index: 1;
+  margin: 0 8px;
 }
 
-/* Card Details */
-.card-section {
-  width: 55%;
+/* Card Section */
+.card-container {
+  width: 60%;
   background: var(--sc-grey);
-  padding: 25px;
-  border-radius: 8px;
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.1);
+  margin-bottom: 80px; /* Leaves ~25% space below */
 }
 
-.card-heading {
+.card-title {
   color: var(--sc-blue);
+  font-size: 18px;
   margin-bottom: 15px;
 }
 
-.card-details {
+.card-fields {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 15px;
+  gap: 12px 20px;
   margin-bottom: 25px;
 }
 
-.card-details label {
+.card-fields label {
   display: block;
   font-weight: 600;
-  margin-bottom: 5px;
   color: var(--sc-dark);
+  margin-bottom: 3px;
 }
 
-.card-details input {
+.card-fields input {
   width: 90%;
-  padding: 8px;
-  border: 1px solid #ccc;
+  padding: 6px;
+  border: 1px solid var(--sc-border);
   border-radius: 6px;
-  background: #fff;
+  background: white;
+  font-size: 14px;
 }
 
 /* Buttons */
 .button-group {
   display: flex;
-  gap: 15px;
+  gap: 12px;
 }
 
-.accept-btn {
+.btn {
+  padding: 7px 18px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+  font-size: 14px;
+  transition: 0.2s ease;
+}
+
+.btn.accept {
   background: var(--sc-green);
   color: white;
-  padding: 8px 18px;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
 }
 
-.reject-btn {
+.btn.reject {
   background: #d9534f;
   color: white;
-  padding: 8px 18px;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
 }
 
-.accept-btn:hover {
-  opacity: 0.9;
-}
-.reject-btn:hover {
+.btn:hover {
   opacity: 0.9;
 }
 
@@ -262,41 +243,43 @@ tl.css
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.4);
+  background: rgba(0, 0, 0, 0.35);
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-.popup-box {
+.popup {
   background: white;
   padding: 25px;
   border-radius: 10px;
+  width: 300px;
   text-align: center;
-  width: 320px;
-  box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 0 6px rgba(0, 0, 0, 0.2);
 }
 
-.popup-buttons {
-  margin-top: 20px;
+.popup h4 {
+  color: var(--sc-blue);
+  margin-bottom: 10px;
+}
+
+.popup p {
+  margin: 4px 0;
+  color: var(--sc-dark);
+}
+
+.popup-actions {
+  margin-top: 15px;
   display: flex;
   justify-content: space-around;
 }
 
-.confirm-btn {
+.btn.confirm {
   background: var(--sc-green);
   color: white;
-  padding: 8px 16px;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
 }
 
-.cancel-btn {
+.btn.cancel {
   background: var(--sc-blue);
   color: white;
-  padding: 8px 16px;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
 }
