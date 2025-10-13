@@ -90,3 +90,37 @@ $conn->close();
     </div>
 </body>
 </html>
+
+
+react
+
+
+import React from "react";
+import { Link } from "react-router-dom";
+
+const Timeline = ({ steps, activeStep }) => {
+  return (
+    <div className="timeline-container">
+      {steps.map((step, index) => (
+        <div key={index} className="timeline-step">
+          <Link to={`/step${index + 1}`}>
+            <div
+              className={`circle ${activeStep === index ? "active" : ""}`}
+            >
+              {index + 1}
+            </div>
+          </Link>
+          <div className={`step-text ${activeStep === index ? "active-text" : ""}`}>
+            {step}
+          </div>
+
+          {index !== steps.length - 1 && (
+            <div className={`line ${activeStep > index ? "active" : ""}`} />
+          )}
+        </div>
+      ))}
+    </div>
+  );
+};
+
+export default Timeline;
