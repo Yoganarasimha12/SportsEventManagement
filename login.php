@@ -116,178 +116,71 @@ $conn->close();
 react
 
 
-import React, { useState } from "react";
+import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import "./FinalApproval.css";
+import "./FinalApproval.css"; // optional minimal custom styles
 
-const FinalApproval = () => {
-  const [showPopup, setShowPopup] = useState(false);
-  const [popupType, setPopupType] = useState(""); // "accept" or "reject"
-
-  const handlePopup = (type) => {
-    setPopupType(type);
-    setShowPopup(true);
-  };
-
-  const handleClose = () => setShowPopup(false);
-
+function FinalApproval() {
   return (
-    <div className="container my-5">
-      <div className="card shadow-lg border-0 p-4">
-        <h4 className="text-primary mb-4 text-center">Final Approval Details</h4>
+    <div className="final-approval-container d-flex justify-content-center align-items-center">
+      <div className="card shadow-sm p-3" style={{ width: "75%", maxWidth: "700px" }}>
+        <h5 className="text-center mb-3 fw-bold">Final Approval Details</h5>
+        <hr />
 
-        {/* Applicant Info */}
-        <div className="mb-3">
-          <h6 className="text-secondary">Applicant Information</h6>
-          <div className="row">
-            <div className="col-md-6"><strong>Name:</strong> John Doe</div>
-            <div className="col-md-6"><strong>Date of Birth:</strong> 12 Mar 1995</div>
-            <div className="col-md-6"><strong>Email:</strong> john.doe@email.com</div>
-            <div className="col-md-6"><strong>Mobile:</strong> +91 9876543210</div>
-            <div className="col-md-12"><strong>Address:</strong> Bengaluru, Karnataka</div>
-          </div>
+        <div className="row mb-2">
+          <div className="col-6"><strong>Name:</strong></div>
+          <div className="col-6 text-end">John Doe</div>
+        </div>
+        <div className="row mb-2">
+          <div className="col-6"><strong>Credit Score:</strong></div>
+          <div className="col-6 text-end">785</div>
+        </div>
+        <div className="row mb-2">
+          <div className="col-6"><strong>Income:</strong></div>
+          <div className="col-6 text-end">₹85,000 / month</div>
+        </div>
+        <div className="row mb-2">
+          <div className="col-6"><strong>Card Type:</strong></div>
+          <div className="col-6 text-end">Platinum Rewards</div>
+        </div>
+        <div className="row mb-2">
+          <div className="col-6"><strong>Proposed Limit:</strong></div>
+          <div className="col-6 text-end">₹2,00,000</div>
+        </div>
+        <div className="row mb-2">
+          <div className="col-6"><strong>Verification:</strong></div>
+          <div className="col-6 text-end text-success">Completed</div>
         </div>
 
         <hr />
-
-        {/* Employment Info */}
-        <div className="mb-3">
-          <h6 className="text-secondary">Employment & Income Details</h6>
-          <div className="row">
-            <div className="col-md-6"><strong>Occupation:</strong> Salaried</div>
-            <div className="col-md-6"><strong>Employer:</strong> Infosys Ltd.</div>
-            <div className="col-md-6"><strong>Monthly Income:</strong> ₹80,000</div>
-            <div className="col-md-6"><strong>Employment Tenure:</strong> 3 Years 4 Months</div>
-            <div className="col-md-6"><strong>Income Proof Verified:</strong> Yes ✅</div>
-          </div>
-        </div>
-
-        <hr />
-
-        {/* Credit Info */}
-        <div className="mb-3">
-          <h6 className="text-secondary">Credit Information</h6>
-          <div className="row">
-            <div className="col-md-6"><strong>Credit Score:</strong> 785</div>
-            <div className="col-md-6"><strong>Outstanding Loans:</strong> ₹15,000</div>
-            <div className="col-md-6"><strong>Credit Utilization:</strong> 32%</div>
-            <div className="col-md-6"><strong>Risk Level:</strong> Low</div>
-          </div>
-        </div>
-
-        <hr />
-
-        {/* Document Verification */}
-        <div className="mb-3">
-          <h6 className="text-secondary">Document Verification Summary</h6>
-          <div className="row">
-            <div className="col-md-6"><strong>PAN Card:</strong> ✅ Verified</div>
-            <div className="col-md-6"><strong>Aadhaar:</strong> ✅ Verified</div>
-            <div className="col-md-6"><strong>Address Proof:</strong> ✅ Verified</div>
-            <div className="col-md-6"><strong>Bank Statement:</strong> ✅ Verified</div>
-            <div className="col-md-12"><strong>Remarks:</strong> All documents valid and match application.</div>
-          </div>
-        </div>
-
-        <hr />
-
-        {/* Card & Limit Info */}
-        <div className="mb-3">
-          <h6 className="text-secondary">Card & Credit Limit Details</h6>
-          <div className="row">
-            <div className="col-md-6"><strong>Card Type:</strong> Platinum Rewards</div>
-            <div className="col-md-6"><strong>Proposed Limit:</strong> ₹2,00,000</div>
-            <div className="col-md-6"><strong>Interest Rate:</strong> 3.25% p.m.</div>
-            <div className="col-md-6"><strong>Annual Fees:</strong> ₹499</div>
-          </div>
-        </div>
-
-        <hr />
-
-        {/* Officer Remarks */}
-        <div className="mb-4">
-          <h6 className="text-secondary">Credit Officer Remarks</h6>
-          <p>Customer has stable income and excellent repayment history.</p>
-        </div>
-
-        {/* Action Buttons */}
-        <div className="d-flex justify-content-center gap-3">
-          <button
-            className="btn btn-success px-4"
-            onClick={() => handlePopup("accept")}
-          >
-            Accept
-          </button>
-          <button
-            className="btn btn-danger px-4"
-            onClick={() => handlePopup("reject")}
-          >
-            Reject
-          </button>
+        <div className="d-flex justify-content-center gap-3 mt-3">
+          <button className="btn btn-success px-4">Accept</button>
+          <button className="btn btn-danger px-4">Reject</button>
         </div>
       </div>
-
-      {/* Popup Modal */}
-      {showPopup && (
-        <div className="popup-overlay">
-          <div className="popup-box bg-white p-4 rounded shadow">
-            {popupType === "accept" ? (
-              <>
-                <h5 className="text-success mb-3">Confirm Final Approval</h5>
-                <p><strong>Applicant:</strong> John Doe</p>
-                <p><strong>Credit Limit:</strong> ₹2,00,000</p>
-                <p>Do you want to approve and issue the credit card?</p>
-              </>
-            ) : (
-              <>
-                <h5 className="text-danger mb-3">Reject Application</h5>
-                <p>Please confirm rejection of <strong>John Doe’s</strong> credit card request.</p>
-              </>
-            )}
-            <div className="d-flex justify-content-end gap-3 mt-3">
-              <button className="btn btn-secondary" onClick={handleClose}>
-                Cancel
-              </button>
-              <button className={`btn ${popupType === "accept" ? "btn-success" : "btn-danger"}`}>
-                {popupType === "accept" ? "Confirm" : "Reject"}
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   );
-};
+}
 
 export default FinalApproval;
 
 
 fa.css
 
-/* Minimal custom styling for overlay popup */
-.popup-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.35);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1050;
+.final-approval-container {
+  height: 75vh; /* keeps it within view between header & footer */
 }
 
-.popup-box {
-  max-width: 400px;
+.card {
+  border-radius: 12px;
+  background-color: #fff;
 }
 
-/* Optional: minor tweaks for clean spacing */
-.card h6 {
-  font-weight: 600;
-  margin-bottom: 10px;
+hr {
+  margin: 0.5rem 0;
 }
 
-.card hr {
-  margin: 1rem 0;
+.btn {
+  border-radius: 20px;
+  font-weight: 500;
 }
