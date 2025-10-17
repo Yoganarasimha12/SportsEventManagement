@@ -133,3 +133,21 @@ document.getElementById("customerForm").addEventListener("submit", function (e) 
     }
 });
 </script>
+
+
+react
+
+import React from "react";
+import { useNavigate } from "react-router-dom";
+
+const TempButton = () => {
+  const navigate = useNavigate();
+
+  return (
+    <button onClick={() => navigate("/show-application/document-status")}>
+      Go to Application
+    </button>
+  );
+};
+
+export default TempButton;
