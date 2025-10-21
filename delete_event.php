@@ -81,3 +81,90 @@ const Timeline = () => {
 };
 
 export default Timeline;
+
+
+.timeline-container {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  font-family: "Segoe UI", sans-serif;
+}
+
+#timeline-header {
+  font-family: Arial, sans-serif;
+  color: #000000;
+  font-weight: bold;
+  margin-bottom: 20px;
+  padding-inline: 25px;
+  width: 314px;
+}
+
+.timeline-step {
+  display: flex;
+  align-items: center;
+  position: relative;
+  margin-bottom: 30px;
+}
+
+.timeline-link {
+  text-decoration: none;
+}
+
+.circle {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  color: #000;
+  background-color: #ffffff;
+  border: 3px solid #c3defa;
+  transition: all 0.5s ease-in-out;
+  z-index: 2;
+}
+
+.circle.active {
+  background-color: white;
+  border: 3px solid #0473ea; /* blue border */
+  color: #000;
+  box-shadow: 0 0 8px rgba(0, 30, 140, 0.3);
+}
+
+.circle.completed {
+  background-color: #0473ea; /* fully filled blue */
+  border: 3px solid #0473ea;
+  color: white;
+  transition: all 0.6s ease-in-out;
+}
+
+.step-text {
+  margin-left: 20px;
+  color: #333;
+  font-size: 16px;
+  transition: color 0.4s ease-in-out;
+}
+
+.step-text.active-text {
+  color: #0473ea;
+  font-weight: bold;
+}
+
+/* --- LINE ANIMATION --- */
+.line {
+  position: absolute;
+  left: 22px;
+  top: 45px;
+  width: 3px;
+  height: 0;
+  background-color: #c3defa;
+  z-index: 1;
+  border-radius: 3px;
+  transition: height 0.6s ease-in-out, background-color 0.6s ease-in-out;
+}
+
+.line.active-line {
+  height: 30px; /* grows smoothly */
+  background-color: #0473ea; /* changes color as it fills */
+}
