@@ -179,3 +179,42 @@ const Timeline = () => {
 };
 
 export default Timeline;
+
+
+
+
+@Test
+
+void createCustomer_setsCustomerOnAccounts_andSaves() {
+
+// Arrange: build a new customer with one account (account.customer initially null)
+
+Customer toCreate = new Customer();
+
+toCreate.setFirstName("New");
+
+toCreate.setLastName("Customer");
+
+toCreate.setEmail("new@example.com");
+
+Account acc = new Account();
+
+acc.setAccountNumber("NEW-ACC-01");
+
+acc.setAccount Balance (new BigDecimal(val: "50.00"));
+
+toCreate.setAccounts (List.of(acc));
+
+// Mock save to return a customer with an id (simulate DB-generated id)
+
+Customer saved = new Customer();
+
+saved.setId(55L);
+
+saved.setFirstName (toCreate.getFirstName());
+
+saved.setLastName (toCreate.getLastName());
+
+saved.setEmail(toCreate.getEmail());
+
+saved.setAccounts (toCreate.getAccounts());
