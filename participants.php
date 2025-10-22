@@ -55,3 +55,40 @@ $participantsResult = $conn->query($participantsQuery);
     </main>
 </body>
 </html>
+
+
+insert
+
+INSERT INTO customer (
+    customer_id,
+    address_line1,
+    annual_income,
+    card_type,
+    city,
+    company_name,
+    country,
+    date_of_birth,
+    email,
+    first_name,
+    last_name,
+    middle_name,
+    phone,
+    pincode,
+    state
+) VALUES (
+    DEFAULT,
+    '45 Nehru Street',
+    '1200000',
+    'VISA',
+    'Mumbai',
+    'Tata Consultancy Services',
+    'India',
+    '1988-11-23',
+    'priya.singh@example.com',
+    'Priya',
+    'Singh',
+    'L',
+    '+919812345678',
+    '400001',
+    'Maharashtra'
+);
