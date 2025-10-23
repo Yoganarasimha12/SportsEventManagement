@@ -78,3 +78,36 @@
 </body>
 
 </html>
+
+
+---jpa---
+
+
+package com.scb.axessspringboottraining.models;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+
+@Entity
+public class CreditCardDetails {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long credit_card_id;
+
+    private Long user_id;
+
+    private Long application_id;
+
+    private String card_number;
+
+    private String card_type;
+
+    private String status;
+
+    private String issued_at;
+
+    private String expiry_date;
+}
