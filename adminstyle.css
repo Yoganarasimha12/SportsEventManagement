@@ -62,3 +62,95 @@ p {
     padding: 20px;
     margin: 0;
 }
+
+
+jpa controller 
+
+package com.scb.axessspringboottraining.controller;
+
+import com.scb.axessspringboottraining.models.CreditCardDetails;
+import com.scb.axessspringboottraining.service.CreditCardDetailsService;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("/api/creditcards")
+@CrossOrigin(origins = "http://localhost:3000")
+public class CreditCardDetailsController {
+
+    @Autowired
+    private CreditCardDetailsService service;
+
+    @GetMapping
+    public List<CreditCardDetails> getAllCreditCards() {
+        return service.getAllCreditCards();
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<CreditCardDetails> getCreditCardById(@PathVariable Long id) {
+        CreditCardDetails card = service.getCreditCardById(id);
+        return ResponseEntity.ok(card);
+    }
+
+    @PostMapping
+    public CreditCardDetails addCreditCard(@RequestBody CreditCardDetails card) {
+        return service.addCreditCard(card);
+    }
+}
+
+
+
+
+repo
+
+package com.scb.axessspringboottraining.repo;
+
+import com.scb.axessspringboottraining.models.CreditCardDetails;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public interface CreditCardDetailsRepo extends JpaRepository<CreditCardDetails, Long> {
+}
+
+
+service
+
+
+package com.scb.axessspringboottraining.service;
+
+import com.scb.axessspringboottraining.models.CreditCardDetails;
+import com.scb.axessspringboottraining.repo.CreditCardDetailsRepo;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+@Service
+public class CreditCardDetailsService {
+
+    @Autowired
+    private CreditCardDetailsRepo repo;
+
+    public CreditCardDetails getCreditCardById(Long id) {
+        return repo.findById(id).orElseThrow(() -> new RuntimeException("Credit Card not found with id: " + id));
+    }
+
+    public List<CreditCardDetails> getAllCreditCards() {
+        return repo.findAll();
+    }
+
+    public CreditCardDetails addCreditCard(CreditCardDetails card) {
+        return repo.save(card);
+    }
+}
+
+
+
+
