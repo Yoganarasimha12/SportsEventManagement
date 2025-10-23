@@ -291,3 +291,146 @@ const FinalApproval = () => {
 };
 
 export default FinalApproval;
+
+
+
+
+
+card issued
+
+
+
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import "./Timeline.css";
+import "./DocumentStatus.css";
+
+const CardIssuedDetails = () => {
+  const cardId = 1; // You can dynamically set this if needed
+  const api = `http://localhost:8080/api/creditcards/${cardId}`;
+
+  const [cardInfo, setCardInfo] = useState({});
+  const [showPopup, setShowPopup] = useState(false);
+
+  // Load credit card details
+  const loadCardDetails = async () => {
+    try {
+      const res = await axios.get(api);
+      console.log(res.data);
+      setCardInfo(res.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    loadCardDetails();
+  }, []);
+
+  // Accept button handler
+  const handleAccept = () => {
+    setShowPopup(true);
+  };
+
+  // Confirm popup handler
+  const handleConfirm = () => {
+    alert("Card issuance confirmed and status updated.");
+    setShowPopup(false);
+  };
+
+  // Cancel popup handler
+  const handleCancel = () => {
+    setShowPopup(false);
+  };
+
+  return (
+    <div className="row m-0 py-2">
+      {/* Progress Card Section */}
+      <div id="progress-card" className="col-9 p-4 position-relative">
+        {/* Header 1: Card Details */}
+        <div className="mb-3">
+          <div id="progress-card-header">
+            <h5>Card Details</h5>
+          </div>
+          <div className="d-flex justify-content-start py-2">
+            <div className="info-holder me-5">
+              <span className="info-label">Card Number: </span>
+              <span className="info-value">{cardInfo.card_number}</span>
+            </div>
+            <div className="info-holder">
+              <span className="info-label">Card Type: </span>
+              <span className="info-value">{cardInfo.card_type}</span>
+            </div>
+          </div>
+          <div className="d-flex justify-content-start py-2">
+            <div className="info-holder me-5">
+              <span className="info-label">Status: </span>
+              <span className="info-value">{cardInfo.status}</span>
+            </div>
+            <div className="info-holder">
+              <span className="info-label">Issued At: </span>
+              <span className="info-value">{cardInfo.issued_at}</span>
+            </div>
+          </div>
+          <div className="d-flex justify-content-start py-2">
+            <div className="info-holder me-5">
+              <span className="info-label">Expiry Date: </span>
+              <span className="info-value">{cardInfo.expiry_date}</span>
+            </div>
+            <div className="info-holder">
+              <span className="info-label">Application ID: </span>
+              <span className="info-value">{cardInfo.application_id}</span>
+            </div>
+          </div>
+        </div>
+
+        {/* Header 2: User Info */}
+        <div className="mb-3">
+          <div id="progress-card-header">
+            <h5>User Details</h5>
+          </div>
+          <div className="d-flex justify-content-start py-2">
+            <div className="info-holder me-5">
+              <span className="info-label">User ID: </span>
+              <span className="info-value">{cardInfo.user_id}</span>
+            </div>
+          </div>
+        </div>
+
+        {/* Accept / Reject Buttons */}
+        <div className="button-group mt-3">
+          <button className="accept-btn me-2" onClick={handleAccept}>
+            Accept
+          </button>
+          <button className="reject-btn">Reject</button>
+        </div>
+      </div>
+
+      {/* Popup Overlay */}
+      {showPopup && (
+        <div className="popup-overlay">
+          <div className="popup-box">
+            <h5>
+              <strong>Confirm Card Issuance</strong>
+            </h5>
+            <p>
+              By clicking <strong>Confirm</strong>, you are confirming that the
+              credit card has been issued successfully.
+            </p>
+            <div className="popup-buttons">
+              <button className="confirm-btn" onClick={handleConfirm}>
+                Confirm
+              </button>
+              <button className="cancel-btn" onClick={handleCancel}>
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default CardIssuedDetails;
+
