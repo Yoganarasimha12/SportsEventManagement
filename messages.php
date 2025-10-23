@@ -485,3 +485,24 @@ final.css
     transform: scale(1);
   }
 }
+
+
+reject
+
+
+.reject-btn {
+  background: #e24e48; /* soft red for reject */
+  color: #ffffff;
+  padding: 10px 24px;
+  border: none;
+  border-radius: 8px;
+  font-size: 14.5px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.25s ease, transform 0.15s ease;
+}
+
+.reject-btn:hover {
+  background: #b33a36; /* slightly darker on hover */
+  transform: translateY(-1px);
+}
