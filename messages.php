@@ -283,3 +283,205 @@ export default Timeline;
   transform: scale(1.05);
   border-color: #1b4d89;
 }
+
+
+info-grid
+
+
+<div className="info-grid">
+  <div>
+    <span className="info-label">Date of Birth:</span>
+    <span className="info-value">{applicantInfo.date_of_birth}</span>
+  </div>
+  <div>
+    <span className="info-label">Email:</span>
+    <span className="info-value">{applicantInfo.email}</span>
+  </div>
+  <div>
+    <span className="info-label">Contact Number:</span>
+    <span className="info-value">{applicantInfo.phone}</span>
+  </div>
+  <div>
+    <span className="info-label">Card Type:</span>
+    <span className="info-value">Gold</span>
+  </div>
+</div>
+
+
+final.css
+
+
+/* --- Main Card Section --- */
+#progress-card {
+  margin-top: -400px;
+  width: 910px;
+  background-color: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  margin-bottom: 24px;
+  padding: 36px;
+  transition: box-shadow 0.2s ease-in-out;
+}
+
+#progress-card:hover {
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.1);
+}
+
+/* --- Section Headers --- */
+#progress-card-header {
+  border-bottom: 1px solid #edf2f7;
+  margin-bottom: 20px;
+  padding-bottom: 6px;
+}
+
+#progress-card-header h5 {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: #1b4d89;
+  letter-spacing: 0.3px;
+  margin-bottom: 0;
+}
+
+/* --- Grid Layout for Info --- */
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  column-gap: 60px;
+  row-gap: 14px;
+  margin-bottom: 28px;
+}
+
+.info-grid div {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid #f1f5f9;
+  padding-bottom: 6px;
+}
+
+.info-label {
+  font-weight: 500;
+  color: #4a5568;
+  font-size: 14.5px;
+}
+
+.info-value {
+  color: #1e293b;
+  font-weight: 400;
+  font-size: 14.5px;
+  text-align: right;
+}
+
+/* --- Buttons --- */
+.button-group {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 32px;
+}
+
+.accept-btn {
+  background: #1b4d89;
+  color: #fff;
+  padding: 10px 24px;
+  border: none;
+  border-radius: 8px;
+  font-weight: 500;
+  font-size: 14.5px;
+  cursor: pointer;
+  transition: background 0.25s ease, transform 0.15s ease;
+}
+
+.accept-btn:hover {
+  background: #163c6a;
+  transform: translateY(-1px);
+}
+
+/* --- Popup Overlay --- */
+.popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.4);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 50;
+}
+
+/* --- Popup Box --- */
+.popup-box {
+  background: #ffffff;
+  padding: 32px 40px;
+  border-radius: 12px;
+  text-align: left;
+  width: 460px;
+  box-shadow: 0 6px 22px rgba(0, 0, 0, 0.18);
+  animation: popupFadeIn 0.25s ease;
+}
+
+.popup-box h5 {
+  font-size: 1.1rem;
+  color: #1b4d89;
+  margin-bottom: 8px;
+}
+
+.popup-box p {
+  color: #4a5568;
+  font-size: 14.5px;
+  margin-bottom: 20px;
+  line-height: 1.4;
+}
+
+/* --- Popup Buttons --- */
+.popup-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.confirm-btn {
+  background: #16a34a;
+  color: white;
+  padding: 8px 18px;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.15s ease;
+}
+
+.confirm-btn:hover {
+  background: #138f3f;
+  transform: translateY(-1px);
+}
+
+.cancel-btn {
+  background: #a3a3a3;
+  color: #ffffff;
+  padding: 8px 18px;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.cancel-btn:hover {
+  background: #8e8e8e;
+}
+
+/* --- Animation --- */
+@keyframes popupFadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
