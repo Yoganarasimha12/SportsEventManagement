@@ -183,114 +183,103 @@ export default Timeline;
 .timeline-container {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
   position: relative;
-  font-family: "Poppins", sans-serif;
-  padding: 25px 10px;
-  background: transparent;
+  font-family: "Inter", "Segoe UI", sans-serif;
+  padding-left: 8px;
 }
 
 #timeline-header {
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   font-weight: 600;
-  color: #0b2447;
+  color: #1e2a3a;
   margin-bottom: 25px;
-  padding-left: 15px;
-  border-left: 4px solid #0078ff;
+  padding-left: 12px;
+  border-left: 3px solid #1b4d89;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.4px;
 }
 
 .timeline-step {
   display: flex;
   align-items: center;
   position: relative;
-  margin-bottom: 40px;
+  margin-bottom: 35px;
 }
 
 .timeline-link {
   text-decoration: none;
-  z-index: 2;
 }
 
 .circle {
-  width: 50px;
-  height: 50px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 2px solid #c9d6df;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-weight: 600;
-  font-size: 18px;
-  color: #0b2447;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.5);
-  border: 3px solid rgba(0, 120, 255, 0.2);
-  backdrop-filter: blur(6px);
-  transition: all 0.4s ease;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+  font-size: 15px;
+  font-weight: 500;
+  color: #4a5568;
+  background-color: #ffffff;
+  transition: all 0.25s ease;
 }
 
 .circle.active {
-  border: 3px solid #0078ff;
-  background: linear-gradient(145deg, #0078ff, #00b8ff);
-  color: #fff;
-  box-shadow: 0 6px 18px rgba(0, 120, 255, 0.3);
-  transform: scale(1.08);
+  border-color: #1b4d89;
+  color: #1b4d89;
+  font-weight: 600;
 }
 
 .circle.completed {
-  background: linear-gradient(145deg, #00b894, #26de81);
-  border: 3px solid #00b894;
+  background-color: #1b4d89;
   color: #fff;
-  box-shadow: 0 4px 14px rgba(0, 184, 148, 0.25);
+  border-color: #1b4d89;
 }
 
 .step-text {
-  margin-left: 20px;
-  font-size: 0.95rem;
-  color: #555;
-  transition: all 0.3s ease;
-  font-weight: 500;
-  letter-spacing: 0.3px;
+  margin-left: 15px;
+  font-size: 15px;
+  color: #444;
+  font-weight: 400;
+  transition: color 0.3s ease;
 }
 
 .step-text.active-text {
-  color: #0078ff;
+  color: #1b4d89;
   font-weight: 600;
 }
 
 .step-text.completed {
-  color: #00b894;
-  font-weight: 600;
+  color: #1b4d89;
+  font-weight: 500;
 }
 
 .step-text.completed::after {
   content: "✓";
-  color: #00b894;
-  font-weight: bold;
-  margin-left: 10px;
+  color: #1b4d89;
+  font-weight: 600;
+  margin-left: 8px;
 }
 
-/* Connecting Lines */
+/* Connector line */
 .line {
   position: absolute;
-  left: 24px;
-  top: 52px;
-  width: 3px;
-  height: 0;
-  background-color: rgba(0, 120, 255, 0.15);
+  left: 19px;
+  top: 42px;
+  width: 2px;
+  height: 35px;
+  background-color: #e2e8f0;
+  transition: background-color 0.3s ease;
   border-radius: 2px;
-  transition: all 1.2s ease;
-  z-index: 1;
 }
 
 .line.active-line {
-  height: 35px;
-  background: linear-gradient(180deg, #00b894, #0078ff);
+  background-color: #1b4d89;
 }
 
-/* Hover animation */
+/* Hover effect */
 .circle:hover {
-  transform: scale(1.1);
-  cursor: pointer;
+  transform: scale(1.05);
+  border-color: #1b4d89;
 }
