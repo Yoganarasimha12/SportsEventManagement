@@ -288,22 +288,53 @@ export default Timeline;
 info-grid
 
 
-<div className="info-grid">
-  <div>
-    <span className="info-label">Date of Birth:</span>
-    <span className="info-value">{applicantInfo.date_of_birth}</span>
+{/* --- Section 1: Basic Details --- */}
+<div className="mb-4">
+  <div id="progress-card-header">
+    <h5>Basic Details</h5>
   </div>
-  <div>
-    <span className="info-label">Email:</span>
-    <span className="info-value">{applicantInfo.email}</span>
+  <div className="info-grid">
+    <div>
+      <span className="info-label">Date of Birth:</span>
+      <span className="info-value">{applicantInfo.date_of_birth}</span>
+    </div>
+    <div>
+      <span className="info-label">Email:</span>
+      <span className="info-value">{applicantInfo.email}</span>
+    </div>
+    <div>
+      <span className="info-label">Contact Number:</span>
+      <span className="info-value">{applicantInfo.phone}</span>
+    </div>
+    <div>
+      <span className="info-label">Application ID:</span>
+      <span className="info-value">{applicantInfo.application_id}</span>
+    </div>
   </div>
-  <div>
-    <span className="info-label">Contact Number:</span>
-    <span className="info-value">{applicantInfo.phone}</span>
+</div>
+
+{/* --- Section 2: Card Details --- */}
+<div className="mb-4">
+  <div id="progress-card-header">
+    <h5>Card Details</h5>
   </div>
-  <div>
-    <span className="info-label">Card Type:</span>
-    <span className="info-value">Gold</span>
+  <div className="info-grid">
+    <div>
+      <span className="info-label">Card Type:</span>
+      <span className="info-value">{applicantInfo.card_type}</span>
+    </div>
+    <div>
+      <span className="info-label">Approved Credit Limit:</span>
+      <span className="info-value">Rs. {applicantInfo.credit_limit}</span>
+    </div>
+    <div>
+      <span className="info-label">Interest Rate:</span>
+      <span className="info-value">{applicantInfo.interest_rate}%</span>
+    </div>
+    <div>
+      <span className="info-label">Initial Acceptance Status:</span>
+      <span className="info-value">{applicantInfo.acceptance_status}</span>
+    </div>
   </div>
 </div>
 
