@@ -310,7 +310,6 @@ const CardIssuedDetails = () => {
   const api = `http://localhost:8080/api/creditcards/${cardId}`;
 
   const [cardInfo, setCardInfo] = useState({});
-  const [showPopup, setShowPopup] = useState(false);
 
   // Load credit card details
   const loadCardDetails = async () => {
@@ -326,22 +325,6 @@ const CardIssuedDetails = () => {
   useEffect(() => {
     loadCardDetails();
   }, []);
-
-  // Accept button handler
-  const handleAccept = () => {
-    setShowPopup(true);
-  };
-
-  // Confirm popup handler
-  const handleConfirm = () => {
-    alert("Card issuance confirmed and status updated.");
-    setShowPopup(false);
-  };
-
-  // Cancel popup handler
-  const handleCancel = () => {
-    setShowPopup(false);
-  };
 
   return (
     <div className="row m-0 py-2">
@@ -396,38 +379,7 @@ const CardIssuedDetails = () => {
             </div>
           </div>
         </div>
-
-        {/* Accept / Reject Buttons */}
-        <div className="button-group mt-3">
-          <button className="accept-btn me-2" onClick={handleAccept}>
-            Accept
-          </button>
-          <button className="reject-btn">Reject</button>
-        </div>
       </div>
-
-      {/* Popup Overlay */}
-      {showPopup && (
-        <div className="popup-overlay">
-          <div className="popup-box">
-            <h5>
-              <strong>Confirm Card Issuance</strong>
-            </h5>
-            <p>
-              By clicking <strong>Confirm</strong>, you are confirming that the
-              credit card has been issued successfully.
-            </p>
-            <div className="popup-buttons">
-              <button className="confirm-btn" onClick={handleConfirm}>
-                Confirm
-              </button>
-              <button className="cancel-btn" onClick={handleCancel}>
-                Cancel
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   );
 };
