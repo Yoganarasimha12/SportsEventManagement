@@ -146,3 +146,148 @@ if (!is_dir($uploads_dir)) {
     ?>
 </body>
 </html>
+
+
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import "./Timeline.css";
+import "./DocumentStatus.css";
+
+const FinalApproval = () => {
+  const applicationId = 1; // hardcoded for now
+  const api = `http://localhost:8080/api/customers/${applicationId}`;
+
+  const [applicantInfo, setApplicantInfo] = useState({});
+  const [showPopup, setShowPopup] = useState(false);
+
+  // Load applicant details
+  const loadApplicantDetails = async () => {
+    try {
+      const res = await axios.get(api);
+      console.log(res.data);
+      setApplicantInfo(res.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    loadApplicantDetails();
+  }, []);
+
+  // Accept button handler
+  const handleAccept = () => {
+    setShowPopup(true);
+  };
+
+  // Confirm popup handler
+  const handleConfirm = () => {
+    alert("Final approval confirmed and card process initiated.");
+    setShowPopup(false);
+  };
+
+  // Cancel popup handler
+  const handleCancel = () => {
+    setShowPopup(false);
+  };
+
+  return (
+    <div className="row m-0 py-2">
+      {/* Progress Card Section */}
+      <div id="progress-card" className="col-9 p-4 position-relative">
+        {/* Header 1: Basic Details */}
+        <div className="mb-3">
+          <div id="progress-card-header">
+            <h5>Basic Details</h5>
+          </div>
+          <div className="d-flex justify-content-start py-2">
+            <div className="info-holder me-5">
+              <span className="info-label">Date of Birth: </span>
+              <span className="info-value">{applicantInfo.date_of_birth}</span>
+            </div>
+            <div className="info-holder">
+              <span className="info-label">Email: </span>
+              <span className="info-value">{applicantInfo.email}</span>
+            </div>
+          </div>
+          <div className="d-flex justify-content-start py-2">
+            <div className="info-holder me-5">
+              <span className="info-label">Contact Number: </span>
+              <span className="info-value">{applicantInfo.phone}</span>
+            </div>
+            <div className="info-holder">
+              <span className="info-label">Card Type: </span>
+              <span className="info-value">{applicantInfo.card_type}</span>
+            </div>
+          </div>
+        </div>
+
+        {/* Header 2: Address */}
+        <div className="mb-3">
+          <div id="progress-card-header">
+            <h5>Address</h5>
+          </div>
+          <div className="d-flex justify-content-start py-2">
+            <div className="info-holder me-5">
+              <span className="info-label">House No./Area/Locality: </span>
+              <span className="info-value">{applicantInfo.address_line}</span>
+            </div>
+          </div>
+          <div className="d-flex justify-content-start py-2">
+            <div className="info-holder me-5">
+              <span className="info-label">City: </span>
+              <span className="info-value">{applicantInfo.city}</span>
+            </div>
+            <div className="info-holder">
+              <span className="info-label">Pincode: </span>
+              <span className="info-value">{applicantInfo.pincode}</span>
+            </div>
+          </div>
+          <div className="d-flex justify-content-start py-2">
+            <div className="info-holder me-5">
+              <span className="info-label">State: </span>
+              <span className="info-value">{applicantInfo.state}</span>
+            </div>
+            <div className="info-holder">
+              <span className="info-label">Country: </span>
+              <span className="info-value">{applicantInfo.country}</span>
+            </div>
+          </div>
+        </div>
+
+        {/* Accept / Reject Buttons */}
+        <div className="button-group mt-3">
+          <button className="accept-btn me-2" onClick={handleAccept}>
+            Accept
+          </button>
+          <button className="reject-btn">Reject</button>
+        </div>
+      </div>
+
+      {/* Popup Overlay */}
+      {showPopup && (
+        <div className="popup-overlay">
+          <div className="popup-box">
+            <h5>
+              <strong>Confirm Final Approval</strong>
+            </h5>
+            <p>
+              By clicking <strong>Confirm</strong>, you are confirming the
+              Credit Card is <strong>Ready to Issue.</strong>
+            </p>
+            <div className="popup-buttons">
+              <button className="confirm-btn" onClick={handleConfirm}>
+                Confirm
+              </button>
+              <button className="cancel-btn" onClick={handleCancel}>
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default FinalApproval;
