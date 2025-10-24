@@ -64,104 +64,176 @@ p {
 }
 
 
-jpa controller 
+react
 
-package com.scb.axessspringboottraining.controller;
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import "./Timeline.css";
+import "./CardIssued.css";
 
-import com.scb.axessspringboottraining.models.CreditCardDetails;
-import com.scb.axessspringboottraining.service.CreditCardDetailsService;
+const CardIssued = () => {
+  const cardId = 3;
+  const api = `http://localhost:8080/api/creditcards/${cardId}`;
+  const [cardInfo, setCardInfo] = useState({});
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
-
-@RestController
-@RequestMapping("/api/creditcards")
-@CrossOrigin(origins = "http://localhost:3000")
-public class CreditCardDetailsController {
-
-    @Autowired
-    private CreditCardDetailsService service;
-
-    @GetMapping
-    public List<CreditCardDetails> getAllCreditCards() {
-        return service.getAllCreditCards();
+  const loadCardDetails = async () => {
+    try {
+      const res = await axios.get(api);
+      setCardInfo(res.data);
+    } catch (error) {
+      console.log(error);
     }
+  };
 
-    @GetMapping("/{id}")
-    public ResponseEntity<CreditCardDetails> getCreditCardById(@PathVariable Long id) {
-        CreditCardDetails card = service.getCreditCardById(id);
-        return ResponseEntity.ok(card);
-    }
+  useEffect(() => {
+    loadCardDetails();
+  }, []);
 
-    @PostMapping
-    public CreditCardDetails addCreditCard(@RequestBody CreditCardDetails card) {
-        return service.addCreditCard(card);
-    }
+  return (
+    <div className="row m-0 py-2">
+      <div
+        id="progress-bar"
+        className="col-3 py-2 d-flex flex-column align-items-start"
+      >
+        {/* <Timeline/> */}
+      </div>
+
+      {/* Progress Card Section */}
+      <div id="progress-card" className="col-9 p-4 position-relative">
+        {/* ---- Credit Card Details ---- */}
+        <div className="premium-card-section">
+          <div className="premium-card-header">
+            <h5>Credit Card Details</h5>
+          </div>
+
+          <div className="premium-card-body">
+            <div className="row mb-2">
+              <div className="col-md-6">
+                <span className="info-label">Card Number:</span>
+                <span className="info-value">{cardInfo.card_number}</span>
+              </div>
+              <div className="col-md-6">
+                <span className="info-label">Card Type:</span>
+                <span className="info-value">{cardInfo.card_type}</span>
+              </div>
+            </div>
+
+            <div className="row mb-2">
+              <div className="col-md-6">
+                <span className="info-label">Status:</span>
+                <span className="info-value">{cardInfo.status}</span>
+              </div>
+              <div className="col-md-6">
+                <span className="info-label">Issued At:</span>
+                <span className="info-value">{cardInfo.issued_at}</span>
+              </div>
+            </div>
+
+            <div className="row mb-2">
+              <div className="col-md-6">
+                <span className="info-label">Expiry Date:</span>
+                <span className="info-value">{cardInfo.expiry_date}</span>
+              </div>
+              <div className="col-md-6">
+                <span className="info-label">Application ID:</span>
+                <span className="info-value">{cardInfo.application_id}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* ---- Approval Details ---- */}
+        <div className="mb-3 mt-4">
+          <div id="progress-card-header">
+            <h5>Approval Details</h5>
+          </div>
+
+          <div className="d-flex justify-content-start py-2">
+            <span className="info-label">Approver ID: </span>
+            <span className="info-value">10023</span>
+          </div>
+
+          <div className="d-flex justify-content-start py-2">
+            <span className="info-label">Approver Name: </span>
+            <span className="info-value">Vinay Rao</span>
+          </div>
+
+          <div className="d-flex justify-content-start py-2">
+            <span className="info-label">Approval Date: </span>
+            <span className="info-value">28-05-2003</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default CardIssued;
+
+
+
+issued.css
+
+#progress-card {
+  width: 910px;
+  padding: 10px;
+  border-radius: 12px;
+  background-color: #ffffff;
 }
 
-
-
-
-repo
-
-package com.scb.axessspringboottraining.repo;
-
-import com.scb.axessspringboottraining.models.CreditCardDetails;
-
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
-
-@Repository
-public interface CreditCardDetailsRepo extends JpaRepository<CreditCardDetails, Long> {
+/* ======= Premium Card Section ======= */
+.premium-card-section {
+  background: linear-gradient(135deg, #0b132b, #1c2541, #3a506b);
+  color: #fff;
+  border-radius: 16px;
+  padding: 25px 30px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-
-service
-
-
-package com.scb.axessspringboottraining.service;
-
-import com.scb.axessspringboottraining.models.CreditCardDetails;
-import com.scb.axessspringboottraining.repo.CreditCardDetailsRepo;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import java.util.List;
-
-@Service
-public class CreditCardDetailsService {
-
-    @Autowired
-    private CreditCardDetailsRepo repo;
-
-    public CreditCardDetails getCreditCardById(Long id) {
-        return repo.findById(id).orElseThrow(() -> new RuntimeException("Credit Card not found with id: " + id));
-    }
-
-    public List<CreditCardDetails> getAllCreditCards() {
-        return repo.findAll();
-    }
-
-    public CreditCardDetails addCreditCard(CreditCardDetails card) {
-        return repo.save(card);
-    }
+.premium-card-section:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 25px rgba(0, 0, 0, 0.3);
 }
 
-
-post---
-
-{
-  "application_id": 1001,
-  "card_number": "1234-5678-9012-3456",
-  "card_type": "VISA",
-  "status": "ACTIVE",
-  "issued_at": "2025-01-01",
-  "expiry_date": "2030-01-01"
+.premium-card-header h5 {
+  color: #ffffff;
+  font-size: 20px;
+  font-weight: 600;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  padding-bottom: 8px;
+  margin-bottom: 16px;
 }
 
+.premium-card-body .info-label {
+  display: block;
+  font-size: 13px;
+  color: #b5b8c5;
+}
+
+.premium-card-body .info-value {
+  display: block;
+  font-weight: 600;
+  font-size: 15px;
+  color: #ffffff;
+}
+
+/* ======= Other Styles ======= */
+#progress-card-header {
+  color: #1c2541;
+  font-weight: 600;
+  border-bottom: 2px solid #3a506b;
+  padding-bottom: 5px;
+}
+
+.info-holder {
+  border: none;
+  padding: 5px;
+}
+
+.info-value {
+  font-weight: bold;
+  color: #1c2541;
+}
 
 
