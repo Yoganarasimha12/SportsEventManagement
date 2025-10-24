@@ -436,3 +436,387 @@ FinalApproval.css
 .cancel-btn:hover {
   opacity: 0.85;
 }
+
+Final approval.js Combined
+
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import "./FinalApproval.css";
+
+const FinalApproval = () => {
+  const applicationId = 1; // demo id for now
+
+  const customerApi = `http://localhost:8080/api/customers/${applicationId}`;
+  const cardApi = `http://localhost:8080/api/creditcards/${applicationId}`;
+
+  const [applicantInfo, setApplicantInfo] = useState({});
+  const [cardInfo, setCardInfo] = useState({});
+  const [showPopup, setShowPopup] = useState(false);
+  const [showCard, setShowCard] = useState(false);
+
+  // Load both customer and card data
+  useEffect(() => {
+    const loadData = async () => {
+      try {
+        const [customerRes, cardRes] = await Promise.all([
+          axios.get(customerApi),
+          axios.get(cardApi),
+        ]);
+        setApplicantInfo(customerRes.data);
+        setCardInfo(cardRes.data);
+
+        // Automatically show card if already issued
+        if (cardRes.data.status === "ISSUED") setShowCard(true);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    loadData();
+  }, []);
+
+  // Handlers
+  const handleAccept = () => setShowPopup(true);
+  const handleConfirm = () => {
+    alert("Final approval confirmed — card issued successfully.");
+    setShowPopup(false);
+    setShowCard(true);
+  };
+  const handleCancel = () => setShowPopup(false);
+
+  return (
+    <div className="row m-0 py-2">
+      <div id="progress-bar" className="col-3 py-2 d-flex flex-column align-items-start">
+        {/* <Timeline /> */}
+      </div>
+
+      {/* Main container */}
+      <div id="progress-card" className="col-9 p-4 position-relative">
+
+        {/* Basic Details */}
+        <div className="section-container">
+          <div className="section-header">
+            <h5>Basic Details</h5>
+          </div>
+          <div className="details-grid">
+            <div>
+              <span className="label">Date of Birth:</span>
+              <span className="value">{applicantInfo.date_of_birth}</span>
+            </div>
+            <div>
+              <span className="label">Email:</span>
+              <span className="value">{applicantInfo.email}</span>
+            </div>
+            <div>
+              <span className="label">Contact Number:</span>
+              <span className="value">{applicantInfo.phone}</span>
+            </div>
+          </div>
+        </div>
+
+        {/* Card Details */}
+        <div className="section-container mt-4">
+          <div className="section-header">
+            <h5>Card Details</h5>
+          </div>
+          <div className="details-grid">
+            <div>
+              <span className="label">Card Type:</span>
+              <span className="value">{cardInfo.card_type || "GOLD"}</span>
+            </div>
+            <div>
+              <span className="label">Approved Limit:</span>
+              <span className="value">₹{cardInfo.credit_limit || "1,00,000"}</span>
+            </div>
+            <div>
+              <span className="label">Interest Rate:</span>
+              <span className="value">{cardInfo.interest_rate || "20%"} </span>
+            </div>
+            <div>
+              <span className="label">Initial Status:</span>
+              <span className="value">{cardInfo.status || "Accepted"}</span>
+            </div>
+          </div>
+        </div>
+
+        {/* Buttons */}
+        <div className="button-group mt-4">
+          <button className="accept-btn me-2" onClick={handleAccept}>
+            Accept
+          </button>
+          <button className="reject-btn">Reject</button>
+        </div>
+
+        {/* Popup */}
+        {showPopup && (
+          <div className="popup-overlay">
+            <div className="popup-box">
+              <h5><strong>Confirm Final Approval</strong></h5>
+              <p>
+                By clicking <strong>Confirm</strong>, you are confirming the credit card is
+                <strong> Ready to Issue.</strong>
+              </p>
+              <div className="popup-buttons">
+                <button className="confirm-btn" onClick={handleConfirm}>
+                  Confirm
+                </button>
+                <button className="cancel-btn" onClick={handleCancel}>
+                  Cancel
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Issued Card Section */}
+        {showCard && (
+          <div className="issued-card-container mt-5">
+            <div className="issued-card-info">
+              <h6>Card Issued Details</h6>
+              <div className="issued-details-grid">
+                <div>
+                  <span className="label">Issued At:</span>
+                  <span className="value">{cardInfo.issued_at}</span>
+                </div>
+                <div>
+                  <span className="label">Expiry Date:</span>
+                  <span className="value">{cardInfo.expiry_date}</span>
+                </div>
+                <div>
+                  <span className="label">Status:</span>
+                  <span className="value">{cardInfo.status}</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Right side Credit Card */}
+            <div className="credit-card-visual">
+              <div className="credit-card">
+                <div className="card-chip"></div>
+                <div className="card-number">{cardInfo.card_number || "1234 5678 9012 3456"}</div>
+                <div className="card-footer">
+                  <div className="card-type">{cardInfo.card_type || "Gold"}</div>
+                  <div className="expiry">Exp: {cardInfo.expiry_date || "08/30"}</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+};
+
+export default FinalApproval;
+
+
+
+Finalapproval.css combined
+
+
+/* ====== General Layout ====== */
+#progress-card {
+  width: 920px;
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+}
+
+/* ====== Section Containers ====== */
+.section-container {
+  background: #f9fafc;
+  padding: 20px 25px;
+  border-radius: 10px;
+  box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.03);
+}
+
+.section-header h5 {
+  color: #0473ea;
+  font-weight: 600;
+  border-left: 4px solid #0473ea;
+  padding-left: 10px;
+  margin-bottom: 15px;
+}
+
+/* ====== Details Grid ====== */
+.details-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px 60px;
+}
+
+.label {
+  color: #666;
+  font-weight: 500;
+  margin-right: 6px;
+}
+
+.value {
+  color: #111;
+  font-weight: 600;
+}
+
+/* ====== Buttons ====== */
+.button-group {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.accept-btn {
+  background: #0473ea;
+  color: #fff;
+  padding: 10px 24px;
+  border: none;
+  border-radius: 8px;
+  font-size: 14.5px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.25s ease, transform 0.15s ease;
+}
+
+.accept-btn:hover {
+  background: #0359b6;
+  transform: translateY(-1px);
+}
+
+.reject-btn {
+  background: #e24e48;
+  color: #fff;
+  padding: 10px 24px;
+  border: none;
+  border-radius: 8px;
+  font-size: 14.5px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.25s ease, transform 0.15s ease;
+}
+
+.reject-btn:hover {
+  background: #b33a36;
+  transform: translateY(-1px);
+}
+
+/* ====== Popup ====== */
+.popup-overlay {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0, 0, 0, 0.4);
+  display: flex; justify-content: center; align-items: center;
+}
+
+.popup-box {
+  background: white;
+  padding: 25px;
+  border-radius: 10px;
+  text-align: left;
+  width: 520px;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
+}
+
+.popup-buttons {
+  margin-top: 20px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+.confirm-btn {
+  background: #38d200;
+  color: white;
+  padding: 8px 18px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.confirm-btn:hover {
+  background-color: #1ea733;
+  transition: 0.25s;
+}
+
+.cancel-btn {
+  background: #a3a3a3;
+  color: white;
+  padding: 8px 18px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.cancel-btn:hover {
+  opacity: 0.8;
+}
+
+/* ====== Issued Card Section ====== */
+.issued-card-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #f9fafc;
+  border-radius: 12px;
+  padding: 25px 35px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+.issued-card-info h6 {
+  color: #0473ea;
+  font-weight: 600;
+  margin-bottom: 15px;
+}
+
+.issued-details-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px 40px;
+}
+
+/* ====== Credit Card Visual ====== */
+.credit-card-visual {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  flex: 0 0 320px;
+}
+
+.credit-card {
+  width: 320px;
+  height: 190px;
+  border-radius: 16px;
+  padding: 20px;
+  background: linear-gradient(135deg, #0473ea, #021f4f);
+  color: #fff;
+  box-shadow: 0 10px 20px rgba(4, 115, 234, 0.2);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.card-chip {
+  width: 40px;
+  height: 30px;
+  background: gold;
+  border-radius: 6px;
+}
+
+.card-number {
+  font-size: 20px;
+  letter-spacing: 2px;
+  font-weight: 600;
+  text-align: left;
+}
+
+.card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 14px;
+  opacity: 0.9;
+}
+
+.card-type {
+  font-weight: 600;
+  text-transform: uppercase;
+}
