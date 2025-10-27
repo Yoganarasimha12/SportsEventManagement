@@ -295,3 +295,40 @@ const deliverySteps = {
 
 const currentStep = deliverySteps[cardInfo.deliveryStatus] || 1;
 
+
+{/* ✅ DELIVERY TIMELINE SECTION */}
+<div className="delivery-section">
+  <h5 className="delivery-title">Card Delivery Status</h5>
+
+  <div className="delivery-timeline">
+    {["Not Printed", "Printed", "Dispatched", "Delivered"].map((step, index) => {
+      const stepNumber =
+        {
+          "Not Printed": 1,
+          "Printed": 2,
+          "Dispatched": 3,
+          "Delivered": 4,
+        }[cardInfo.deliveryStatus] || 1;
+
+      return (
+        <div key={index} className="delivery-step-wrapper">
+          <div
+            className={`delivery-step-circle ${
+              index + 1 <= stepNumber ? "active" : ""
+            }`}
+          >
+            {index + 1}
+          </div>
+          <span className="delivery-step-label">{step}</span>
+          {index < 3 && (
+            <div
+              className={`delivery-step-line ${
+                index + 1 < stepNumber ? "active" : ""
+              }`}
+            />
+          )}
+        </div>
+      );
+    })}
+  </div>
+</div>
