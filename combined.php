@@ -46,60 +46,63 @@ const CardIssued = () => {
   };
 
   return (
-    <div className="row m-0 py-2">
+  <div className="row m-0 py-2">
 
-      {/* FINAL APPROVAL CONTAINER */}
-      <div className="approval-box">
+    {/* Timeline Placeholder */}
+    <div id="progress-bar" className="col-3 py-2"></div>
 
-        <h4 className="section-title">Final Approval</h4>
+    {/* ✅ RIGHT SIDE CONTENT */}
+    <div id="progress-card" className="col-9 p-4 position-relative">
 
-        <div className="approval-info">
-          <div className="info-line"><strong>Card Type:</strong> Gold</div>
-          <div className="info-line"><strong>Approved Limit:</strong> ₹1,00,000</div>
-          <div className="info-line"><strong>Interest Rate:</strong> 20%</div>
-          <div className="info-line"><strong>Initial Acceptance:</strong> Accepted</div>
-        </div>
-
-        {!approved && (
-          <div className="btn-group">
-            <button className="accept-btn" onClick={handleAccept}>Accept</button>
-            <button className="reject-btn" onClick={handleReject}>Reject</button>
+      {/* ✅ Final Approval Container */}
+      {!isApproved && (
+        <div className="approval-box">
+          <h5 className="section-title">Final Approval</h5>
+          <div className="approval-info">
+            <p className="info-line"><strong>Card Type:</strong> {cardInfo.cardType}</p>
+            <p className="info-line"><strong>Approved Limit:</strong> ₹1,00,000</p>
+            <p className="info-line"><strong>Interest Rate:</strong> 20%</p>
           </div>
-        )}
 
-      </div>
+          <div className="btn-group">
+            <button className="accept-btn" onClick={handleAccept}>
+              Accept
+            </button>
+            <button className="reject-btn" onClick={handleReject}>
+              Reject
+            </button>
+          </div>
+        </div>
+      )}
 
-      {/* CARD ISSUED SECTION - SHOW ONLY AFTER APPROVAL */}
-      {approved && (
+      {/* ✅ Card Issued Section — shows only after approval */}
+      {isApproved && (
         <div className="premium-card-section">
-
+          
           <div className="premium-layout">
-
-            {/* CARD VISUAL */}
+            {/* Card */}
             <div className="premium-card-visual">
               <div className="credit-card-ui">
-
                 <div className="bank-logo">
-                  <img src="/Asset/Logos/try_scb_logo.png" alt="SCB" />
+                  <img src="/Assets/Logos/try_scb_logo.png" alt="SCB Logo" />
                 </div>
 
                 <div className="chip"></div>
 
                 <div className="cc-number">
-                  {cardInfo.maskedCardNumber || "XXXX XXXX XXXX 0123"}
+                  {cardInfo.maskedCardNumber || "XXXX-XXXX-XXXX-0123"}
                 </div>
 
                 <div className="cc-footer">
-                  <span className="cc-holder">VINAY RAO</span>
+                  <span className="cc-holder">Card Holder</span>
                   <span className="cc-expiry">
-                    VALID: {cardInfo.expiryDate?.slice(5, 7)}/{cardInfo.expiryDate?.slice(2, 4)}
+                    VALID: {cardInfo.expiryDate ? `${cardInfo.expiryDate.slice(5,7)}/${cardInfo.expiryDate.slice(2,4)}` : ""}
                   </span>
                 </div>
-
               </div>
             </div>
 
-            {/* RIGHT INFO */}
+            {/* Right Info */}
             <div className="premium-info-box">
               <div className="premium-info-row">
                 <span className="label">Card Type:</span>
@@ -108,9 +111,7 @@ const CardIssued = () => {
 
               <div className="premium-info-row">
                 <span className="label">Issued Date:</span>
-                <span className="value">
-                  {cardInfo.generatedAt?.slice(0, 10)}
-                </span>
+                <span className="value">{cardInfo.generatedAt?.slice(0, 10)}</span>
               </div>
 
               <div className="premium-info-row">
@@ -118,30 +119,27 @@ const CardIssued = () => {
                 <span className="value">{cardInfo.cardStatus}</span>
               </div>
             </div>
-
-          </div>
-
-        </div>
-      )}
-
-      {/* PREMIUM CONFIRM POPUP */}
-      {showPopup && (
-        <div className="popup-overlay">
-          <div className="popup-box">
-            <h5>Confirm Final Approval</h5>
-            <p>
-              Once confirmed, the credit card will be marked as <strong>Issued</strong>.
-            </p>
-            <div className="popup-buttons">
-              <button className="confirm-btn" onClick={confirmApproval}>Confirm</button>
-              <button className="cancel-btn" onClick={cancelPopup}>Cancel</button>
-            </div>
           </div>
         </div>
       )}
 
     </div>
-  );
+
+    {/* ✅ Popup */}
+    {showPopup && (
+      <div className="popup-overlay">
+        <div className="popup-box">
+          <h5><strong>Confirm Final Approval</strong></h5>
+          <p>Once confirmed, card will be issued.</p>
+          <div className="popup-buttons">
+            <button className="confirm-btn" onClick={handleConfirm}>Confirm</button>
+            <button className="cancel-btn" onClick={handleCancel}>Cancel</button>
+          </div>
+        </div>
+      </div>
+    )}
+  </div>
+);
 };
 
 export default CardIssued;
