@@ -96,49 +96,49 @@ INSERT INTO customer (
 
 
 .css
+/* Wrapper Section */
+.premium-card-section {
+  width: 85%;
+  padding: 10px;
+  margin-left: 10px;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+}
+
+/* Header */
+.premium-card-header h5 {
+  color: #0473EA;
+  font-size: 22px;
+  font-weight: 600;
+  padding-bottom: 12px;
+  margin: 15px 0 20px;
+  border-bottom: 2px solid #0473EA;
+}
+
+/* Main Layout */
 .premium-layout {
   display: flex;
   justify-content: space-between;
-  gap: 30px;
   align-items: center;
+  gap: 28px;
 }
 
-.premium-info-box {
-  flex: 1;
-  background: #ffffff;
-  border-radius: 12px;
-  padding: 18px 20px;
-  box-shadow: 0 4px 14px rgba(0,0,0,0.1);
-  border-left: 6px solid #0473ea;
-}
-
-.premium-info-row {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 12px;
-}
-
-.label {
-  color: #777;
-  font-size: 14px;
-}
-
-.value {
-  font-size: 15px;
-  font-weight: 600;
-  color: #1a2b5f;
+/* Left: Credit Card UI */
+.premium-card-visual {
+  flex: 0.9;
 }
 
 .credit-card-ui {
-  width: 260px;
-  height: 150px;
-  border-radius: 14px;
-  padding: 16px;
-  background: linear-gradient(145deg, #0a0f2b, #1d2959);
+  background: linear-gradient(135deg, #2b5876, #4e4376);
+  width: 330px;
+  height: 180px;
+  padding: 20px;
+  border-radius: 16px;
+  color: #fff;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  color: #fff;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
 }
 
 .chip {
@@ -149,8 +149,69 @@ INSERT INTO customer (
 }
 
 .cc-number {
-  letter-spacing: 2px;
-  font-size: 16px;
+  font-size: 18px;
+  text-align: center;
+  letter-spacing: 3px;
+  font-weight: 600;
+}
+
+.cc-footer {
+  display: flex;
+  justify-content: space-between;
+}
+
+.cc-holder {
+  text-transform: uppercase;
+  font-weight: 500;
+}
+
+.cc-expiry {
+  font-weight: 600;
+}
+
+/* Right: Info box */
+.premium-info-box {
+  flex: 1.1;
+  background: #ffffff;
+  padding: 18px 22px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  border-left: 6px solid #0473EA;
+}
+
+.premium-info-row {
+  margin-bottom: 14px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.label {
+  color: #555;
+  font-size: 14px;
+}
+
+.value {
+  font-size: 15px;
+  font-weight: 600;
+  color: #1a2b5f;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .premium-layout {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .premium-card-visual {
+    width: 100%;
+    justify-content: center;
+    margin-bottom: 20px;
+  }
+
+  .credit-card-ui {
+    width: 100%;
+  }
 }
 
 
