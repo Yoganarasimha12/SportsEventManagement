@@ -446,3 +446,37 @@ card delivery timeline
   margin: 0 6px;
   transition: 0.3s ease-in-out;
 }
+
+
+update
+
+{/* Bottom Delivery Timeline */}
+<div className="delivery-status-container">
+
+  <div className={`delivery-step ${cardInfo.deliveryStatus >= 1 ? "active" : ""}`}>
+    <span className="delivery-circle"></span>
+    <span className="delivery-label">Sent to Print</span>
+  </div>
+
+  <div className="delivery-line"></div>
+
+  <div className={`delivery-step ${cardInfo.deliveryStatus >= 2 ? "active" : ""}`}>
+    <span className="delivery-circle"></span>
+    <span className="delivery-label">Printed</span>
+  </div>
+
+  <div className="delivery-line"></div>
+
+  <div className={`delivery-step ${cardInfo.deliveryStatus >= 3 ? "active" : ""}`}>
+    <span className="delivery-circle"></span>
+    <span className="delivery-label">Dispatched</span>
+  </div>
+
+  <div className="delivery-line"></div>
+
+  <div className={`delivery-step ${cardInfo.deliveryStatus >= 4 ? "active" : ""}`}>
+    <span className="delivery-circle"></span>
+    <span className="delivery-label">Delivered</span>
+  </div>
+
+</div>
