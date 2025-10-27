@@ -286,3 +286,12 @@ tl.css
 
 update
 
+const deliverySteps = {
+  "Not Printed": 1,
+  "Printed": 2,
+  "Dispatched": 3,
+  "Delivered": 4
+};
+
+const currentStep = deliverySteps[cardInfo.deliveryStatus] || 1;
+
