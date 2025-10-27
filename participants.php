@@ -196,22 +196,16 @@ INSERT INTO customer (
   color: #1a2b5f;
 }
 
-/* Responsive */
-@media (max-width: 900px) {
-  .premium-layout {
-    flex-direction: column;
-    align-items: flex-start;
-  }
+.bank-logo {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+}
 
-  .premium-card-visual {
-    width: 100%;
-    justify-content: center;
-    margin-bottom: 20px;
-  }
-
-  .credit-card-ui {
-    width: 100%;
-  }
+.bank-logo img {
+  height: 26px;        /* adjust size */
+  object-fit: contain;
+  opacity: 0.95;       /* slight premium transparency */
 }
 
 
