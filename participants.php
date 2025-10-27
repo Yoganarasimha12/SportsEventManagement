@@ -96,79 +96,20 @@ INSERT INTO customer (
 
 
 .css
-#progress-card {
-  width: 900px;
-  border-radius: 14px;
-  padding: 25px;
-}
-
-.premium-card-header h5 {
-  font-size: 20px;
-  font-weight: 700;
-  color: #1a2b5f;
-  margin-bottom: 18px;
-}
-
 .premium-layout {
   display: flex;
-  gap: 35px;
+  justify-content: space-between;
+  gap: 30px;
   align-items: center;
-}
-
-.premium-card-visual {
-  flex: 1;
-}
-
-.credit-card-ui {
-  width: 270px;
-  height: 160px;
-  border-radius: 14px;
-  padding: 18px;
-  background: linear-gradient(145deg, #0a0f2b, #1d2959);
-  color: white;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
-
-.chip {
-  width: 45px;
-  height: 30px;
-  background: gold;
-  border-radius: 6px;
-}
-
-.cc-number {
-  font-size: 16px;
-  letter-spacing: 2px;
-  margin-top: 10px;
-}
-
-.cc-footer {
-  display: flex;
-  justify-content: space-between;
-  font-size: 12px;
 }
 
 .premium-info-box {
   flex: 1;
   background: #ffffff;
   border-radius: 12px;
-  padding: 20px 20px 20px 28px;
-  position: relative;
-  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
-}
-
-/* Premium left strip */
-.premium-info-box::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  top: 12px;
-  bottom: 12px;
-  width: 6px;
-  background: #0473ea;
-  border-radius: 4px;
+  padding: 18px 20px;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.1);
+  border-left: 6px solid #0473ea;
 }
 
 .premium-info-row {
@@ -188,12 +129,37 @@ INSERT INTO customer (
   color: #1a2b5f;
 }
 
+.credit-card-ui {
+  width: 260px;
+  height: 150px;
+  border-radius: 14px;
+  padding: 16px;
+  background: linear-gradient(145deg, #0a0f2b, #1d2959);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  color: #fff;
+}
+
+.chip {
+  width: 42px;
+  height: 28px;
+  background: gold;
+  border-radius: 6px;
+}
+
+.cc-number {
+  letter-spacing: 2px;
+  font-size: 16px;
+}
+
 
 .js
 
 
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import "./Timeline.css";
 import "./CardIssued.css";
 
 const CardIssued = () => {
@@ -201,25 +167,32 @@ const CardIssued = () => {
   const api = `http://localhost:8080/api/creditcards/${cardId}`;
   const [cardInfo, setCardInfo] = useState({});
 
-  useEffect(() => {
-    const loadCardDetails = async () => {
-      try {
-        const res = await axios.get(api);
-        setCardInfo(res.data);
-      } catch (error) {
-        console.log(error);
-      }
-    };
+  const loadCardDetails = async () => {
+    try {
+      const res = await axios.get(api);
+      console.log("API Data:", res.data);
+      setCardInfo(res.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
+  useEffect(() => {
     loadCardDetails();
   }, []);
 
+  useEffect(() => {
+    console.log("State Updated:", cardInfo);
+  }, [cardInfo]);
+
   return (
     <div className="row m-0 py-2">
-      {/* Content Section */}
+      {/* Left Empty Space for Timeline */}
+      <div id="progress-bar" className="col-3 py-2"></div>
+
+      {/* Right Side Page Content */}
       <div id="progress-card" className="col-9 p-4 position-relative">
         <div className="premium-card-section">
-
           {/* Header */}
           <div className="premium-card-header">
             <h5>Credit Card Details</h5>
@@ -227,35 +200,39 @@ const CardIssued = () => {
 
           {/* Flex Layout */}
           <div className="premium-layout">
-
-            {/* LEFT: Card visual */}
+            
+            {/* LEFT: Card Visual */}
             <div className="premium-card-visual">
               <div className="credit-card-ui">
                 <div className="chip"></div>
                 <div className="cc-number">
-                  {cardInfo.maskedCardNumber || "XXXX XXXX XXXX 0123"}
+                  {cardInfo.maskedCardNumber || "XXXX-XXXX-XXXX-0123"}
                 </div>
                 <div className="cc-footer">
                   <span className="cc-holder">Card Holder</span>
                   <span className="cc-expiry">
-                    {cardInfo.expiryDate || "12/26"}
+                    {cardInfo.expiryDate || "12/30"}
                   </span>
                 </div>
               </div>
             </div>
 
-            {/* RIGHT: Card Information */}
+            {/* RIGHT: Info Pairs */}
             <div className="premium-info-box">
               <div className="premium-info-row">
-                <span className="label">Card Type</span>
+                <span className="label">Card Type:</span>
                 <span className="value">{cardInfo.cardType}</span>
               </div>
+
               <div className="premium-info-row">
-                <span className="label">Issued Date</span>
-                <span className="value">{cardInfo.generatedAt}</span>
+                <span className="label">Issued Date:</span>
+                <span className="value">
+                  {cardInfo.generatedAt?.slice(0, 10) || ""}
+                </span>
               </div>
+
               <div className="premium-info-row">
-                <span className="label">Status</span>
+                <span className="label">Status:</span>
                 <span className="value">{cardInfo.cardStatus}</span>
               </div>
             </div>
