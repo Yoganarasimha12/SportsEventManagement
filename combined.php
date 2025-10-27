@@ -138,6 +138,31 @@ const CardIssued = () => {
         </div>
       </div>
     )}
+
+ <div className="delivery-timeline-container">
+        <div className={`timeline-step ${cardInfo.deliveryStatus >= 1 ? "active" : ""}`}>
+          <span className="step-circle"></span>
+          <span className="step-label">Sent to Print</span>
+        </div>
+        <div className="timeline-divider"></div>
+        <div className={`timeline-step ${cardInfo.deliveryStatus >= 2 ? "active" : ""}`}>
+          <span className="step-circle"></span>
+          <span className="step-label">Printed</span>
+        </div>
+        <div className="timeline-divider"></div>
+        <div className={`timeline-step ${cardInfo.deliveryStatus >= 3 ? "active" : ""}`}>
+          <span className="step-circle"></span>
+          <span className="step-label">Dispatched</span>
+        </div>
+        <div className="timeline-divider"></div>
+        <div className={`timeline-step ${cardInfo.deliveryStatus >= 4 ? "active" : ""}`}>
+          <span className="step-circle"></span>
+          <span className="step-label">Delivered</span>
+        </div>
+      </div>
+    </div>
+  </div>
+);
   </div>
 );
 };
@@ -362,4 +387,62 @@ cardissued.css
   border-radius: 8px;
   border: none;
   cursor: pointer;
+}
+
+card delivery timeline
+
+.delivery-timeline-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 25px 0;
+  padding: 20px;
+  background: rgba(255,255,255,0.05);
+  border-radius: 15px;
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255,255,255,0.1);
+}
+
+.timeline-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 25%;
+  text-align: center;
+}
+
+.step-circle {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 3px solid #777;
+  background-color: #222;
+  transition: 0.3s ease-in-out;
+}
+
+.timeline-step.active .step-circle {
+  background: linear-gradient(135deg, #00704A, #00A97F);
+  border-color: #00c597;
+  box-shadow: 0 0 10px rgba(0,255,200,0.6);
+}
+
+.step-label {
+  margin-top: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  color: white;
+  opacity: 0.6;
+  transition: 0.3s;
+}
+
+.timeline-step.active .step-label {
+  opacity: 1;
+}
+
+.timeline-divider {
+  flex-grow: 1;
+  height: 3px;
+  background: #555;
+  margin: 0 6px;
+  transition: 0.3s ease-in-out;
 }
