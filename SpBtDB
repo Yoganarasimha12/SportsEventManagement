@@ -1,0 +1,274 @@
+models/CreditCardDetails
+
+
+
+package com.scb.axessspringboottraining.models;
+
+import jakarta.persistence.*;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
+@Entity
+@Table(name = "credit_card_details")
+public class CreditCardDetails {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long cardId;
+
+    @Column(nullable = false)
+    private Long applicationId;
+
+    @Column(nullable = false, length = 20)
+    private String cardType;
+
+    @Column(nullable = false, length = 16, unique = true)
+    private String cardNumber;
+
+    @Column(nullable = false)
+    private String cvv; // store encrypted
+
+    @Column(nullable = false)
+    private LocalDate expiryDate;
+
+    @Column(nullable = false)
+    private LocalDateTime generatedAt = LocalDateTime.now();
+
+    @Column(nullable = false)
+    private String cardStatus = "Pending"; // Pending, Approved, Active, Blocked
+
+    @Column(nullable = false)
+    private String deliveryStatus = "Not Dispatched"; // Not Dispatched, In Transit, Delivered
+
+    // Getters and Setters
+    public Long getCardId() { return cardId; }
+    public void setCardId(Long cardId) { this.cardId = cardId; }
+
+    public Long getApplicationId() { return applicationId; }
+    public void setApplicationId(Long applicationId) { this.applicationId = applicationId; }
+
+    public String getCardType() { return cardType; }
+    public void setCardType(String cardType) { this.cardType = cardType; }
+
+    public String getCardNumber() { return cardNumber; }
+    public void setCardNumber(String cardNumber) { this.cardNumber = cardNumber; }
+
+    public String getCvv() { return cvv; }
+    public void setCvv(String cvv) { this.cvv = cvv; }
+
+    public LocalDate getExpiryDate() { return expiryDate; }
+    public void setExpiryDate(LocalDate expiryDate) { this.expiryDate = expiryDate; }
+
+    public LocalDateTime getGeneratedAt() { return generatedAt; }
+    public void setGeneratedAt(LocalDateTime generatedAt) { this.generatedAt = generatedAt; }
+
+    public String getCardStatus() { return cardStatus; }
+    public void setCardStatus(String cardStatus) { this.cardStatus = cardStatus; }
+
+    public String getDeliveryStatus() { return deliveryStatus; }
+    public void setDeliveryStatus(String deliveryStatus) { this.deliveryStatus = deliveryStatus; }
+}
+
+
+
+dto/CreditCradDetailsDTO
+
+
+package com.scb.axessspringboottraining.dto;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
+public class CreditCardDetailsDTO {
+
+    private Long cardId;
+    private Long applicationId;
+    private String cardType;
+    private String maskedCardNumber; // Masked for UI
+    private LocalDate expiryDate;
+    private LocalDateTime generatedAt;
+    private String cardStatus;
+    private String deliveryStatus;
+
+    // Getters and Setters
+    public Long getCardId() { return cardId; }
+    public void setCardId(Long cardId) { this.cardId = cardId; }
+
+    public Long getApplicationId() { return applicationId; }
+    public void setApplicationId(Long applicationId) { this.applicationId = applicationId; }
+
+    public String getCardType() { return cardType; }
+    public void setCardType(String cardType) { this.cardType = cardType; }
+
+    public String getMaskedCardNumber() { return maskedCardNumber; }
+    public void setMaskedCardNumber(String maskedCardNumber) { this.maskedCardNumber = maskedCardNumber; }
+
+    public LocalDate getExpiryDate() { return expiryDate; }
+    public void setExpiryDate(LocalDate expiryDate) { this.expiryDate = expiryDate; }
+
+    public LocalDateTime getGeneratedAt() { return generatedAt; }
+    public void setGeneratedAt(LocalDateTime generatedAt) { this.generatedAt = generatedAt; }
+
+    public String getCardStatus() { return cardStatus; }
+    public void setCardStatus(String cardStatus) { this.cardStatus = cardStatus; }
+
+    public String getDeliveryStatus() { return deliveryStatus; }
+    public void setDeliveryStatus(String deliveryStatus) { this.deliveryStatus = deliveryStatus; }
+}
+
+
+repository/CreditCardDetailsRepo
+
+package com.scb.axessspringboottraining.repository;
+
+import com.scb.axessspringboottraining.models.CreditCardDetails;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+import java.util.Optional;
+
+@Repository
+public interface CreditCardDetailsRepo extends JpaRepository<CreditCardDetails, Long> {
+
+    Optional<CreditCardDetails> findByApplicationId(Long applicationId);
+}
+
+
+service/Creditcard details service
+
+package com.scb.axessspringboottraining.service;
+
+import com.scb.axessspringboottraining.dto.CreditCardDetailsDTO;
+import com.scb.axessspringboottraining.models.CreditCardDetails;
+import com.scb.axessspringboottraining.repository.CreditCardDetailsRepo;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
+@Service
+public class CreditCardDetailsService {
+
+    @Autowired
+    private CreditCardDetailsRepo repo;
+
+    // Utility to mask card number
+    private String maskCardNumber(String cardNumber) {
+        if (cardNumber.length() >= 4) {
+            return "XXXX-XXXX-XXXX-" + cardNumber.substring(cardNumber.length() - 4);
+        }
+        return cardNumber;
+    }
+
+    // Convert Entity → DTO
+    private CreditCardDetailsDTO toDTO(CreditCardDetails entity) {
+        CreditCardDetailsDTO dto = new CreditCardDetailsDTO();
+        dto.setCardId(entity.getCardId());
+        dto.setApplicationId(entity.getApplicationId());
+        dto.setCardType(entity.getCardType());
+        dto.setMaskedCardNumber(maskCardNumber(entity.getCardNumber()));
+        dto.setExpiryDate(entity.getExpiryDate());
+        dto.setGeneratedAt(entity.getGeneratedAt());
+        dto.setCardStatus(entity.getCardStatus());
+        dto.setDeliveryStatus(entity.getDeliveryStatus());
+        return dto;
+    }
+
+    // Get all cards
+    public List<CreditCardDetailsDTO> getAllCards() {
+        return repo.findAll()
+                .stream()
+                .map(this::toDTO)
+                .collect(Collectors.toList());
+    }
+
+    // Get card by ID
+    public CreditCardDetailsDTO getCardById(Long id) {
+        CreditCardDetails entity = repo.findById(id)
+                .orElseThrow(() -> new RuntimeException("Card not found"));
+        return toDTO(entity);
+    }
+
+    // Get card by applicationId
+    public CreditCardDetailsDTO getCardByApplicationId(Long applicationId) {
+        CreditCardDetails entity = repo.findByApplicationId(applicationId)
+                .orElseThrow(() -> new RuntimeException("Card not found for applicationId"));
+        return toDTO(entity);
+    }
+
+    // Add new card
+    public CreditCardDetailsDTO addCard(CreditCardDetails card) {
+        // You can add encryption for CVV here if needed
+        CreditCardDetails saved = repo.save(card);
+        return toDTO(saved);
+    }
+
+    // Update card status/delivery status
+    public CreditCardDetailsDTO updateCardStatus(Long cardId, String cardStatus, String deliveryStatus) {
+        CreditCardDetails entity = repo.findById(cardId)
+                .orElseThrow(() -> new RuntimeException("Card not found"));
+        if (cardStatus != null) entity.setCardStatus(cardStatus);
+        if (deliveryStatus != null) entity.setDeliveryStatus(deliveryStatus);
+        CreditCardDetails updated = repo.save(entity);
+        return toDTO(updated);
+    }
+}
+
+
+
+controller/CreditCardDetailsController
+
+
+package com.scb.axessspringboottraining.controller;
+
+import com.scb.axessspringboottraining.dto.CreditCardDetailsDTO;
+import com.scb.axessspringboottraining.models.CreditCardDetails;
+import com.scb.axessspringboottraining.service.CreditCardDetailsService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("/api/creditcards")
+@CrossOrigin(origins = "http://localhost:3000")
+public class CreditCardDetailsController {
+
+    @Autowired
+    private CreditCardDetailsService service;
+
+    @GetMapping
+    public List<CreditCardDetailsDTO> getAllCards() {
+        return service.getAllCards();
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<CreditCardDetailsDTO> getCardById(@PathVariable Long id) {
+        return ResponseEntity.ok(service.getCardById(id));
+    }
+
+    @GetMapping("/application/{applicationId}")
+    public ResponseEntity<CreditCardDetailsDTO> getCardByApplicationId(@PathVariable Long applicationId) {
+        return ResponseEntity.ok(service.getCardByApplicationId(applicationId));
+    }
+
+    @PostMapping
+    public ResponseEntity<CreditCardDetailsDTO> addCard(@RequestBody CreditCardDetails card) {
+        return ResponseEntity.ok(service.addCard(card));
+    }
+
+    @PutMapping("/{id}/status")
+    public ResponseEntity<CreditCardDetailsDTO> updateCardStatus(
+            @PathVariable Long id,
+            @RequestParam(required = false) String cardStatus,
+            @RequestParam(required = false) String deliveryStatus) {
+        return ResponseEntity.ok(service.updateCardStatus(id, cardStatus, deliveryStatus));
+    }
+}
+
+
+
+
+
