@@ -280,11 +280,13 @@ const CardIssued = () => {
               </div>
 
               <div className="premium-info-row">
-                <span className="label">Issued Date:</span>
-                <span className="value">
-                  {cardInfo.generatedAt?.slice(0, 10) || ""}
-                </span>
-              </div>
+  <span className="label">Valid:</span>
+  <span className="value">
+    {cardInfo.expiryDate
+      ? `${cardInfo.expiryDate.slice(5, 7)}/${cardInfo.expiryDate.slice(2, 4)}`
+      : ""}
+  </span>
+</div>
 
               <div className="premium-info-row">
                 <span className="label">Status:</span>
