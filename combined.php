@@ -391,60 +391,66 @@ cardissued.css
 
 card delivery timeline
 
-.delivery-timeline-container {
+/* ✅ Horizontal Delivery Timeline */
+.delivery-status-container {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin: 25px 0;
-  padding: 20px;
-  background: rgba(255,255,255,0.05);
-  border-radius: 15px;
-  backdrop-filter: blur(8px);
-  border: 1px solid rgba(255,255,255,0.1);
+  margin-top: 35px;
+  background: #ffffff;
+  padding: 22px 30px;
+  border-radius: 12px;
+  border-left: 5px solid #0473EA;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.15);
 }
 
-.timeline-step {
+.delivery-step {
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 25%;
-  text-align: center;
+  width: 25%; 
+  position: relative;
 }
 
-.step-circle {
-  width: 28px;
-  height: 28px;
+.delivery-circle {
+  width: 26px;
+  height: 26px;
   border-radius: 50%;
-  border: 3px solid #777;
-  background-color: #222;
+  border: 3px solid #8fa6c5;
+  background-color: #e5eaf0;
   transition: 0.3s ease-in-out;
 }
 
-.timeline-step.active .step-circle {
-  background: linear-gradient(135deg, #00704A, #00A97F);
-  border-color: #00c597;
-  box-shadow: 0 0 10px rgba(0,255,200,0.6);
+.delivery-step.active .delivery-circle {
+  background: #00704A;
+  border-color: #00A97F;
+  box-shadow: 0 0 12px rgba(0, 200, 150, 0.6);
 }
 
-.step-label {
-  margin-top: 8px;
+.delivery-label {
   font-size: 13px;
   font-weight: 600;
-  color: white;
-  opacity: 0.6;
+  color: #1a2b5f;
+  margin-top: 8px;
+  opacity: 0.55;
   transition: 0.3s;
 }
 
-.timeline-step.active .step-label {
+.delivery-step.active .delivery-label {
   opacity: 1;
+  color: #00704A;
 }
 
-.timeline-divider {
+.delivery-line {
   flex-grow: 1;
   height: 3px;
-  background: #555;
+  background: #c6d3e6;
   margin: 0 6px;
   transition: 0.3s ease-in-out;
+}
+
+.delivery-step.active + .delivery-line {
+  background: #00A97F;
 }
 
 
