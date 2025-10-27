@@ -303,3 +303,36 @@ INSERT INTO application (application_id) VALUES
 (103),
 (104),
 (105);
+
+@Entity
+@Table(name = "credit_card_details")
+public class CreditCardDetails {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "card_id")
+    private Long cardId;
+
+    @Column(name = "application_id")
+    private Long applicationId;
+
+    @Column(name = "card_type")
+    private String cardType;
+
+    @Column(name = "masked_card_number")
+    private String maskedCardNumber;
+
+    @Column(name = "expiry_date")
+    private String expiryDate;
+
+    @Column(name = "generated_at")
+    private LocalDateTime generatedAt;
+
+    @Column(name = "card_status")
+    private String cardStatus;
+
+    @Column(name = "delivery_status")
+    private String deliveryStatus;
+
+    // ✅ Getters & Setters
+}
