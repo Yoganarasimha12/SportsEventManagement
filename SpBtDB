@@ -287,6 +287,19 @@ CREATE TABLE application (
 );
 
 
+INSERT INTO credit_card_details 
+(application_id, card_type, card_number, cvv, expiry_date, generated_at, card_status, delivery_status)
+VALUES
+(101, 'GOLD', '5123456789102345', '842', '2027-08-31', '2025-10-27 12:34:00', 'Pending', 'Not Dispatched'),
+(102, 'PLATINUM', '4023789012345678', '319', '2028-03-30', '2025-10-25 09:20:00', 'Approved', 'In Transit'),
+(103, 'SILVER', '6011234567890123', '527', '2026-12-31', '2025-10-26 16:45:00', 'Active', 'Delivered'),
+(104, 'GOLD', '5102345678912340', '146', '2027-05-31', '2025-10-24 11:10:00', 'Pending', 'Not Dispatched'),
+(105, 'PLATINUM', '4026890123456781', '784', '2028-09-30', '2025-10-27 10:55:00', 'Approved', 'In Transit');
 
 
-
+INSERT INTO application (application_id) VALUES
+(101),
+(102),
+(103),
+(104),
+(105);
