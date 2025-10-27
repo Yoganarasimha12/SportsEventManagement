@@ -270,5 +270,23 @@ public class CreditCardDetailsController {
 
 
 
+CREATE TABLE credit_card_details (
+    card_id BIGSERIAL PRIMARY KEY,
+    application_id BIGINT NOT NULL,
+    card_number VARCHAR(16) NOT NULL UNIQUE,
+    cvv VARCHAR(255) NOT NULL,
+    card_type VARCHAR(20) NOT NULL,
+    expiry_date DATE NOT NULL,
+    generated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    card_status VARCHAR(20) DEFAULT 'Pending',
+    delivery_status VARCHAR(20) DEFAULT 'Not Dispatched'
+);
+
+CREATE TABLE application (
+    application_id BIGINT PRIMARY KEY
+);
+
+
+
 
 
