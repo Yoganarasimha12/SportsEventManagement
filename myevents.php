@@ -116,3 +116,57 @@ if ($result->num_rows > 0) {
 $stmt->close();
 $conn->close();
 ?>
+
+
+{/*  Print + Email Buttons */}
+<div className="action-btn-container">
+  <button className="premium-btn print-btn">
+     Print
+  </button>
+
+  <button className="premium-btn email-btn">
+    Send Email
+  </button>
+</div>
+
+
+/* ✅ Action Button Container */
+.action-btn-container {
+  position: relative;
+  width: 100%;
+  margin: 25px 0 30px;
+  height: 50px;
+}
+
+/* ✅ Premium Buttons */
+.premium-btn {
+  position: absolute;
+  width: 160px;
+  height: 45px;
+  border: none;
+  border-radius: 10px;
+  font-size: 15px;
+  font-weight: 600;
+  color: #fff;
+  background: linear-gradient(135deg, #0e78d5, #024b72);
+  cursor: pointer;
+  transition: all 0.25s ease-in-out;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+}
+
+.premium-btn:hover {
+  scale: 1.06;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.18);
+}
+
+.print-btn {
+  left: 25%;
+}
+
+.email-btn {
+  left: 75%;
+  transform: translateX(-100%);
+}
+
+
+  
