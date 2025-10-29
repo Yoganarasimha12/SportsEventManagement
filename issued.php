@@ -177,3 +177,45 @@ const CardIssued = () => {
 };
 
 export default CardIssued;
+
+
+update
+
+
+<div className="delivery-status-container">
+
+<div className=(delivery-step $(cardInfo.deliveryStatus > 1? "active": ""}}=
+
+<span className="delivery-circle"></span>
+
+<span className="delivery-label">Sent to Print</span>
+
+</div>
+
+<div className="delivery-line"></div>
+<div classhame("delivery-step $(cardinfo.deliverystatus 27 "active":"
+
+span classhane"delivery-circle"></span>
+
+<span className"delivery-label">Printed</span>
+
+</div>
+
+<div classNamehame-"delivery-line"></div>
+
+<div className("delivery-step $(cardInfo.deliverystatus > 3? "active": ""}")>
+
+<span className="delivery-circle"></span> <span className="delivery-label">Dispatched</span>
+
+</div>
+
+<div className "delivery-line"></div>
+
+<div className-[delivery-step $( cardInfo.deliverystatus > 4? "active":"" <span className="delivery-circle"></span >
+
+<span classttame " delivery-label">Delivered</span>
+
+</div>
+
+</div>
+
