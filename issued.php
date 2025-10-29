@@ -182,40 +182,36 @@ export default CardIssued;
 update
 
 
-<div className="delivery-status-container">
 
-<div className=(delivery-step $(cardInfo.deliveryStatus > 1? "active": ""}}=
+  <div className="delivery-status-container">
+    {/*
+      Minimal & safe: use the numeric currentStep you already compute earlier:
+      const currentStep = deliverySteps[cardInfo.deliveryStatus] || 1;
+      Each step becomes "active" when currentStep >= that step number.
+    */}
+    <div className={`delivery-step ${currentStep >= 1 ? "active" : ""}`}>
+      <span className="delivery-circle" />
+      <span className="delivery-label">Sent to Print</span>
+    </div>
 
-<span className="delivery-circle"></span>
+    <div className="delivery-line" />
 
-<span className="delivery-label">Sent to Print</span>
+    <div className={`delivery-step ${currentStep >= 2 ? "active" : ""}`}>
+      <span className="delivery-circle" />
+      <span className="delivery-label">Printed</span>
+    </div>
 
-</div>
+    <div className="delivery-line" />
 
-<div className="delivery-line"></div>
-<div classhame("delivery-step $(cardinfo.deliverystatus 27 "active":"
+    <div className={`delivery-step ${currentStep >= 3 ? "active" : ""}`}>
+      <span className="delivery-circle" />
+      <span className="delivery-label">Dispatched</span>
+    </div>
 
-span classhane"delivery-circle"></span>
+    <div className="delivery-line" />
 
-<span className"delivery-label">Printed</span>
-
-</div>
-
-<div classNamehame-"delivery-line"></div>
-
-<div className("delivery-step $(cardInfo.deliverystatus > 3? "active": ""}")>
-
-<span className="delivery-circle"></span> <span className="delivery-label">Dispatched</span>
-
-</div>
-
-<div className "delivery-line"></div>
-
-<div className-[delivery-step $( cardInfo.deliverystatus > 4? "active":"" <span className="delivery-circle"></span >
-
-<span classttame " delivery-label">Delivered</span>
-
-</div>
-
-</div>
-
+    <div className={`delivery-step ${currentStep >= 4 ? "active" : ""}`}>
+      <span className="delivery-circle" />
+      <span className="delivery-label">Delivered</span>
+    </div>
+  </div>
