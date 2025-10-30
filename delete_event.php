@@ -293,3 +293,7 @@ const [currentStage, setCurrentStage] = useState("");
       })
       .catch((err) => console.error(err));
   }, []);
+
+
+updated timeline.js
+
