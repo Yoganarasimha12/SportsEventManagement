@@ -168,3 +168,113 @@ export default Timeline;
   height: 30px; /* grows smoothly */
   background-color: #0473ea; /* changes color as it fills */
 }
+
+
+timeline css
+
+/* Timeline container - fixed on left side */
+.timeline-container {
+  position: fixed;
+  top: 100px; /* adjust based on your Navbar height */
+  left: 60px; /* adjust for desired left margin */
+  width: 220px; /* fixed width */
+  background-color: #fff;
+  padding: 20px 10px;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  font-family: "Inter", "Segoe UI", sans-serif;
+  z-index: 100;
+}
+
+/* Step container */
+.timeline-step {
+  display: flex;
+  align-items: center;
+  position: relative;
+  margin-bottom: 35px;
+}
+
+/* Step link */
+.timeline-link {
+  text-decoration: none;
+}
+
+/* Step circle */
+.circle {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  border: 2px solid #c9d6df;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+  font-weight: 500;
+  color: #4a5568;
+  background-color: #fff;
+  transition: all 0.25s ease;
+}
+
+.circle.active {
+  border-color: #1b4d89;
+  color: #1b4d89;
+  font-weight: 600;
+}
+
+.circle.completed {
+  background-color: #1b4d89;
+  color: #fff;
+  border-color: #1b4d89;
+}
+
+/* Step text */
+.step-text {
+  margin-left: 14px;
+  font-size: 14px;
+  color: #444;
+  font-weight: 400;
+  transition: color 0.3s ease;
+}
+
+.step-text.active-text {
+  color: #1b4d89;
+  font-weight: 600;
+}
+
+.step-text.completed {
+  color: #1b4d89;
+  font-weight: 500;
+}
+
+/* Line between steps */
+.line {
+  position: absolute;
+  left: 19px;
+  top: 42px;
+  width: 2px;
+  height: 35px;
+  background-color: #e2e8f0;
+  transition: background-color 0.3s ease;
+  border-radius: 2px;
+}
+
+.line.active-line {
+  background-color: #1b4d89;
+}
+
+/* Hover effect */
+.circle:hover {
+  transform: scale(1.05);
+  border-color: #1b4d89;
+}
+
+/* Optional: small screen adjustments */
+@media (max-width: 768px) {
+  .timeline-container {
+    position: static;
+    width: 100%;
+    box-shadow: none;
+    padding: 10px;
+    border-radius: 0;
+  }
+}
