@@ -277,3 +277,19 @@ timeline css
     border-radius: 0;
   }
 }
+
+
+app id logic
+
+const [currentStage, setCurrentStage] = useState("");
+
+  const applicationId = 1; // Replace with dynamic id from context or URL
+
+  useEffect(() => {
+    axios
+      .get(`http://localhost:8080/api/applications/${applicationId}`)
+      .then((res) => {
+        setCurrentStage(res.data.current_stage);
+      })
+      .catch((err) => console.error(err));
+  }, []);
