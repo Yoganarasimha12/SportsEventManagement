@@ -281,18 +281,56 @@ timeline css
 
 app id logic
 
-const [currentStage, setCurrentStage] = useState("");
+  // existing credit card logic
+  const cardId = 2;
+  const [cardInfo, setCardInfo] = useState({});
+  const creditCardApi = `http://localhost:8080/api/creditcards/${cardId}`;
 
-  const applicationId = 1; // Replace with dynamic id from context or URL
+  // new application logic
+  const applicationId = 1;
+  const [applicationInfo, setApplicationInfo] = useState({});
+
+  // mapping delivery status to step
+  const deliverySteps = {
+    "Not Printed": 1,
+    "Printed": 2,
+    "Dispatched": 3,
+    "Delivered": 4,
+  };
+  const currentStep = deliverySteps[cardInfo.deliveryStatus] || 1;
+
+  // existing card data
+  const loadCardDetails = async () => {
+    try {
+      const res = await axios.get(creditCardApi);
+      console.log("Card API Data:", res.data);
+      setCardInfo(res.data);
+    } catch (error) {
+      console.log("Card API Error:", error);
+    }
+  };
+
+  // new application data
+  const loadApplicationDetails = async () => {
+    try {
+      const res = await axios.get(`http://localhost:8080/api/applications/${applicationId}`);
+      console.log("Application API Data:", res.data);
+      setApplicationInfo(res.data);
+    } catch (error) {
+      console.log("Application API Error:", error);
+    }
+  };
+
+  // load both on mount
+  useEffect(() => {
+    loadCardDetails();
+    loadApplicationDetails();
+  }, []);
 
   useEffect(() => {
-    axios
-      .get(`http://localhost:8080/api/applications/${applicationId}`)
-      .then((res) => {
-        setCurrentStage(res.data.current_stage);
-      })
-      .catch((err) => console.error(err));
-  }, []);
+    console.log("Updated Card Info:", cardInfo);
+    console.log("Updated Application Info:", applicationInfo);
+  }, [cardInfo, applicationInfo]);
 
 
 updated timeline.js
