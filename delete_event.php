@@ -335,8 +335,8 @@ app id logic
 
 updated timeline.js
 
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link, useLocation } from "react-router-dom";
 import "./Timeline.css";
 
 const steps = [
@@ -347,9 +347,21 @@ const steps = [
 ];
 
 const Timeline = ({ currentStage }) => {
-  const activeIndex = steps.findIndex(
-    (step) => step.name === currentStage
-  );
+  const [activeIndex, setActiveIndex] = useState(0);
+  const location = useLocation();
+
+  // ✅ Automatically update when currentStage changes
+  useEffect(() => {
+    if (!currentStage) return;
+
+    const index = steps.findIndex(
+      (s) => s.name.toLowerCase() === currentStage.toLowerCase()
+    );
+
+    if (index !== -1) {
+      setActiveIndex(index);
+    }
+  }, [currentStage]); // ← runs whenever currentStage changes
 
   return (
     <div className="timeline-container">
@@ -368,7 +380,6 @@ const Timeline = ({ currentStage }) => {
               <span className="circle-number">{index + 1}</span>
             </div>
           </Link>
-
           <div
             className={`step-text ${
               index === activeIndex
@@ -380,7 +391,6 @@ const Timeline = ({ currentStage }) => {
           >
             {step.name}
           </div>
-
           {index < steps.length - 1 && (
             <div
               className={`line ${index < activeIndex ? "active-line" : ""}`}
