@@ -297,3 +297,61 @@ const [currentStage, setCurrentStage] = useState("");
 
 updated timeline.js
 
+import React from "react";
+import { Link } from "react-router-dom";
+import "./Timeline.css";
+
+const steps = [
+  { name: "Application Submitted", path: "/show-application/application-status" },
+  { name: "Document Review", path: "/show-application/document-review" },
+  { name: "Credit Check", path: "/show-application/credit-check" },
+  { name: "Final Approval", path: "/show-application/final-approval" },
+];
+
+const Timeline = ({ currentStage }) => {
+  const activeIndex = steps.findIndex(
+    (step) => step.name === currentStage
+  );
+
+  return (
+    <div className="timeline-container">
+      {steps.map((step, index) => (
+        <div key={index} className="timeline-step">
+          <Link to={step.path} className="timeline-link">
+            <div
+              className={`circle ${
+                index === activeIndex
+                  ? "active"
+                  : index < activeIndex
+                  ? "completed"
+                  : ""
+              }`}
+            >
+              <span className="circle-number">{index + 1}</span>
+            </div>
+          </Link>
+
+          <div
+            className={`step-text ${
+              index === activeIndex
+                ? "active-text"
+                : index < activeIndex
+                ? "completed"
+                : ""
+            }`}
+          >
+            {step.name}
+          </div>
+
+          {index < steps.length - 1 && (
+            <div
+              className={`line ${index < activeIndex ? "active-line" : ""}`}
+            ></div>
+          )}
+        </div>
+      ))}
+    </div>
+  );
+};
+
+export default Timeline;
