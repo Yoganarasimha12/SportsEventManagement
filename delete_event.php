@@ -172,29 +172,29 @@ export default Timeline;
 
 timeline css
 
-/* Timeline container - fixed on left side */
+/* Main container for timeline */
 .timeline-container {
-  position: fixed;
-  top: 100px; /* adjust based on your Navbar height */
-  left: 60px; /* adjust for desired left margin */
-  width: 220px; /* fixed width */
-  background-color: #fff;
-  padding: 20px 10px;
-  border-radius: 16px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  position: relative;
+  display: flex;
+  flex-direction: column;
   font-family: "Inter", "Segoe UI", sans-serif;
-  z-index: 100;
+  width: 240px; /* fixed width for consistent layout */
+  background-color: #fff;
+  padding: 24px 16px;
+  border-radius: 16px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+  margin: 30px 0 30px 50px; /* top & left margin for spacing */
 }
 
-/* Step container */
+/* Each step container */
 .timeline-step {
   display: flex;
   align-items: center;
   position: relative;
-  margin-bottom: 35px;
+  margin-bottom: 40px;
 }
 
-/* Step link */
+/* Link style */
 .timeline-link {
   text-decoration: none;
 }
@@ -246,7 +246,7 @@ timeline css
   font-weight: 500;
 }
 
-/* Line between steps */
+/* Connecting line */
 .line {
   position: absolute;
   left: 19px;
@@ -262,19 +262,18 @@ timeline css
   background-color: #1b4d89;
 }
 
-/* Hover effect */
+/* Hover */
 .circle:hover {
   transform: scale(1.05);
   border-color: #1b4d89;
 }
 
-/* Optional: small screen adjustments */
+/* Responsive adjustment */
 @media (max-width: 768px) {
   .timeline-container {
-    position: static;
     width: 100%;
+    margin: 10px 0;
     box-shadow: none;
-    padding: 10px;
     border-radius: 0;
   }
 }
