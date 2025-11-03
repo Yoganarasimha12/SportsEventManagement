@@ -39,3 +39,28 @@ INSERT INTO credit_card_details (
   </div>
 </div>
 
+
+delivery 
+
+{/* Delivery Status Section */}
+<div className="delivery-status-container mt-6">
+  <p className="fw text-secondary mb-3">Delivery Status</p>
+
+  {/* Wrapper line */}
+  <div className="delivery-timeline">
+    {["Not Printed", "Printed", "Dispatched", "Delivered"].map((step, index) => {
+      const isActive = index < (deliverySteps[cardInfo.deliveryStatus] || 1);
+      return (
+        <div
+          key={step}
+          className={`delivery-step ${isActive ? "active" : ""}`}
+        >
+          <span className="delivery-circle" />
+          <span className="delivery-label">{step}</span>
+          {index < 3 && <span className="delivery-line" />} {/* line between circles */}
+        </div>
+      );
+    })}
+  </div>
+</div>
+
