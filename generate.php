@@ -179,3 +179,58 @@ public class CreditCardDetailsController {
         return ResponseEntity.ok("Credit card generated successfully");
     }
 }
+
+loadapp
+
+// ✅ Load Application Status from backend
+const loadApplicationStatus = async () => {
+  try {
+    const res = await axios.get(`http://localhost:8080/api/applications/${applicationId}`);
+    const appData = res.data;
+
+    // set flags based on backend value
+    setIsApproved(appData.applicationStatus === "Approved");
+    setIsRejected(appData.applicationStatus === "Rejected");
+
+  } catch (error) {
+    console.error("Error loading application status:", error);
+  }
+};
+
+handle confirm 
+
+const handleConfirm = async () => {
+  try {
+    // 1️⃣ Mark application as approved
+    await axios.put(`http://localhost:8080/api/applications/${applicationId}/approve`);
+
+    // 2️⃣ Generate credit card for the same application
+    await axios.put(`http://localhost:8080/api/creditcards/${applicationId}/generate-card`);
+
+    // 3️⃣ Refresh data instantly
+    await loadApplicationStatus();
+    await loadCardDetails();
+
+    // 4️⃣ Hide popup & alert
+    setShowPopup(false);
+    alert("Final approval confirmed. Credit card generated successfully.");
+
+  } catch (error) {
+    console.error("Error approving or generating card:", error);
+    alert("Failed to approve. Check console for details.");
+  }
+};
+
+handle reject
+
+const handleReject = async () => {
+  try {
+    await axios.put(`http://localhost:8080/api/applications/${applicationId}/reject`);
+    await loadApplicationStatus();
+    setShowPopup(false);
+    alert("Application rejected successfully.");
+  } catch (error) {
+    console.error("Error rejecting application:", error);
+    alert("Failed to reject application.");
+  }
+};
