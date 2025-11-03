@@ -100,3 +100,82 @@ const handleConfirm = async () => {
     alert("Operation failed. Check console for details.");
   }
 };
+
+updated
+
+
+package com.scb.axessspringboottraining.controller;
+
+import com.scb.axessspringboottraining.entity.*;
+import com.scb.axessspringboottraining.repo.*;
+import com.scb.axessspringboottraining.utils.CreditCardGenerator;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.*;
+import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.Optional;
+
+@RestController
+@RequestMapping("/api/creditcards")
+@CrossOrigin(origins = "http://localhost:3000")
+public class CreditCardDetailsController {
+
+    @Autowired
+    private CreditCardDetailsService service;
+
+    @Autowired
+    private CreditCardDetailsRepo creditCardDetailsRepo;
+
+    @Autowired
+    private ApplicationRepo applicationRepo;
+
+    @GetMapping("/{applicationId}")
+    public ResponseEntity<CreditCardDetails> getCardByApplicationId(@PathVariable String applicationId) {
+        CreditCardDetails card = service.getApplicationById(applicationId);
+        return ResponseEntity.ok(card);
+    }
+
+    @PostMapping("/{applicationId}")
+    public ResponseEntity<CreditCardDetails> createCardForApplication(
+            @PathVariable String applicationId,
+            @RequestBody CreditCardDetails cardDetails) {
+
+        CreditCardDetails savedCard = service.createCardForApplication(applicationId, cardDetails);
+        return ResponseEntity.status(HttpStatus.CREATED).body(savedCard);
+    }
+
+    // 🟢 Triggered when Approve/Confirm button is clicked in frontend
+    @PutMapping("/{applicationId}/generate-card")
+    public ResponseEntity<?> generateCreditCard(@PathVariable String applicationId) {
+        Optional<Application> appOpt = applicationRepo.findById(applicationId);
+
+        if (appOpt.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Application not found");
+        }
+
+        Application app = appOpt.get();
+
+        // If card already exists for this application, don’t regenerate
+        Optional<CreditCardDetails> existing = creditCardDetailsRepo.findByApplicationId(applicationId);
+        if (existing.isPresent()) {
+            return ResponseEntity.ok("Credit card already exists for this application");
+        }
+
+        // Create new credit card entry
+        CreditCardDetails card = new CreditCardDetails();
+        card.setApplication(app);
+        card.setCard_type(app.getCardType());
+        card.setCardNumber(CreditCardGenerator.generateCardNumber()); // ✅ using util
+        card.setCvv(CreditCardGenerator.generateCVV());                // ✅ using util
+        card.setExpiryDate(LocalDate.now().plusYears(5));
+        card.setGeneratedAt(LocalDateTime.now());
+        card.setCardStatus("Active");
+        card.setDeliveryStatus("Not Printed");
+
+        creditCardDetailsRepo.save(card);
+
+        return ResponseEntity.ok("Credit card generated successfully");
+    }
+}
