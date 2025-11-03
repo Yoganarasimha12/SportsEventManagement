@@ -155,7 +155,7 @@ add ons
 
 try
 
-<div className="delivery-status-container mt-4">
+<div className="delivery-status-container">
   <div className="delivery-header">
     <h6 className="delivery-title">Delivery Status</h6>
   </div>
@@ -165,17 +165,23 @@ try
       <span className="delivery-circle" />
       <span className="delivery-label">Sent to Print</span>
     </div>
-    <div className="delivery-line" />
+
+    <div className={`delivery-line ${currentStep >= 2 ? "active" : ""}`} />
+
     <div className={`delivery-step ${currentStep >= 2 ? "active" : ""}`}>
       <span className="delivery-circle" />
       <span className="delivery-label">Printed</span>
     </div>
-    <div className="delivery-line" />
+
+    <div className={`delivery-line ${currentStep >= 3 ? "active" : ""}`} />
+
     <div className={`delivery-step ${currentStep >= 3 ? "active" : ""}`}>
       <span className="delivery-circle" />
       <span className="delivery-label">Dispatched</span>
     </div>
-    <div className="delivery-line" />
+
+    <div className={`delivery-line ${currentStep >= 4 ? "active" : ""}`} />
+
     <div className={`delivery-step ${currentStep >= 4 ? "active" : ""}`}>
       <span className="delivery-circle" />
       <span className="delivery-label">Delivered</span>
@@ -189,7 +195,7 @@ del.css
 
 .delivery-status-container {
   display: flex;
-  flex-direction: column;  /* 👈 stack heading and steps vertically */
+  flex-direction: column;
   background: #ffffff;
   padding: 22px 30px;
   border-radius: 12px;
@@ -213,6 +219,7 @@ del.css
   display: flex;
   align-items: center;
   justify-content: space-between;
+  position: relative;
 }
 
 .delivery-step {
@@ -257,10 +264,10 @@ del.css
   height: 3px;
   background: #c6d3e6;
   margin: 0 6px;
-  transition: 0.3s ease-in-out;
-  margin-top: 13px; /* 👈 Adjust this to move the line up/down */
+  transition: background 0.3s ease-in-out;
+  margin-top: 13px; /* Adjust vertical position */
 }
 
-.delivery-step.active + .delivery-line {
+.delivery-line.active {
   background: #00a97f;
 }
