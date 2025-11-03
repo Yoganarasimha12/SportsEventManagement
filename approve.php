@@ -250,3 +250,184 @@ function FinalApproval(props) {
 }
 
 export default FinalApproval;
+
+
+approve2
+
+import React, { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
+import axios from "axios";
+import Timeline from "./Timeline";
+import "./Timeline.css";
+import "./CardIssued.css";
+
+function FinalApproval(props) {
+  // Read params from URL
+  const { applicationId, currentStage } = useParams();
+
+  // State management
+  const [cardInfo, setCardInfo] = useState({});
+  const [showPopup, setShowPopup] = useState(false);
+  const [status, setStatus] = useState(props.applicationInfo?.applicationStatus || "Pending");
+  const [loading, setLoading] = useState(false);
+
+  // Determine which stage to show in the timeline
+  const stage = props.applicationInfo?.currentStage || currentStage;
+
+  // API base
+  const backend = "http://localhost:8080/api";
+
+  // Load credit card details (if needed later)
+  const loadCardDetails = async () => {
+    try {
+      const api = `${backend}/creditcards/${applicationId}`;
+      const res = await axios.get(api);
+      console.log("Fetched Credit Card Details:", res.data);
+      setCardInfo(res.data);
+    } catch (error) {
+      console.error("Error fetching credit card details:", error);
+    }
+  };
+
+  useEffect(() => {
+    loadCardDetails();
+  }, [applicationId]);
+
+  // ===========================
+  // HANDLERS
+  // ===========================
+
+  // When user clicks Accept
+  const handleAccept = () => {
+    setShowPopup(true);
+  };
+
+  // Confirm approval (inside popup)
+  const handleConfirm = async () => {
+    try {
+      setLoading(true);
+      setShowPopup(false);
+
+      await axios.put(`${backend}/applications/${applicationId}/status`, {
+        status: "Approved",
+      });
+
+      setStatus("Approved");
+      alert("✅ Application approved successfully!");
+    } catch (error) {
+      console.error("Error approving application:", error);
+      alert("❌ Failed to approve application.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Reject logic
+  const handleReject = async () => {
+    if (!window.confirm("Are you sure you want to reject this application?")) return;
+
+    try {
+      setLoading(true);
+      await axios.put(`${backend}/applications/${applicationId}/status`, {
+        status: "Rejected",
+      });
+
+      setStatus("Rejected");
+      alert("❌ Application rejected successfully!");
+    } catch (error) {
+      console.error("Error rejecting application:", error);
+      alert("Failed to reject application.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleCancel = () => {
+    setShowPopup(false);
+  };
+
+  return (
+    <div className="row m-0 py-2">
+      {/* Left: Timeline */}
+      <div id="progress-bar" className="col-3 py-2">
+        <Timeline currentStage={stage} />
+      </div>
+
+      {/* Right: Card Info Section */}
+      <div id="progress-card" className="col-9 p-4 position-relative">
+        <div className="premium-info-approval">
+          {/* Header */}
+          <div id="progress-card-header" className="mb-3">
+            <h5>Final Approval</h5>
+          </div>
+
+          {/* Info Rows */}
+          <div className="d-flex justify-content-start py-2">
+            <div className="premium-info-row">
+              <span className="label">Application ID:</span>
+              <span className="value">{applicationId}</span>
+            </div>
+          </div>
+
+          <div className="d-flex justify-content-start py-2">
+            <div className="premium-info-row">
+              <span className="label">Application Status:</span>
+              <span className="value">{status}</span>
+            </div>
+          </div>
+
+          <div className="d-flex justify-content-start py-2">
+            <div className="premium-info-row">
+              <span className="label">Card Type:</span>
+              <span className="value">{props.applicationInfo?.cardType || "-"}</span>
+            </div>
+          </div>
+
+          {/* Action Buttons */}
+          <div className="button-group mt-3">
+            <button
+              className="accept-btn me-2"
+              onClick={handleAccept}
+              disabled={loading || status === "Approved"}
+            >
+              ✅ Accept
+            </button>
+
+            <button
+              className="reject-btn"
+              onClick={handleReject}
+              disabled={loading || status === "Rejected"}
+            >
+              ❌ Reject
+            </button>
+          </div>
+
+          {/* Confirmation Popup */}
+          {showPopup && (
+            <div className="popup-overlay">
+              <div className="popup-box">
+                <h5>
+                  <strong>Confirm Final Approval</strong>
+                </h5>
+                <p>
+                  By clicking <strong>Confirm</strong>, this application will be marked as{" "}
+                  <strong>Approved</strong>.
+                </p>
+                <div className="popup-buttons">
+                  <button className="confirm-btn" onClick={handleConfirm}>
+                    Confirm
+                  </button>
+                  <button className="cancel-1-btn" onClick={handleCancel}>
+                    Cancel
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export default FinalApproval;
