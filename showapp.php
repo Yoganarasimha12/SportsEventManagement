@@ -1,72 +1,72 @@
-import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';  // ✅ Added for dynamic routing
-import Navbar from '../components/Common/Navbar/Navbar';
-import Footer from '../components/Common/Footer/Footer';
-import ShowApplicationHeader from '../modules/ShowApplication/ShowApplicationHeader';
-import axios from 'axios';
+import React, { useEffect, useState } from "react";
+import { useParams, useLocation } from "react-router-dom";
+import axios from "axios";
 
-import DocumentStatus from '../modules/ShowApplication/DocumentStatus';
-import DocumentReview from '../modules/ShowApplication/DocumentReview';
-import CreditCheck from '../modules/ShowApplication/CreditCheck';
-import FinalApproval from '../modules/ShowApplication/FinalApproval';
+import Navbar from "../components/Common/Navbar/Navbar";
+import Footer from "../components/Common/Footer/Footer";
+import ShowApplicationHeader from "../modules/ShowApplication/ShowApplicationHeader";
+
+import DocumentStatus from "../modules/ShowApplication/DocumentStatus";
+import DocumentReview from "../modules/ShowApplication/DocumentReview";
+import CreditCheck from "../modules/ShowApplication/CreditCheck";
+import FinalApproval from "../modules/ShowApplication/FinalApproval";
+
+import "../modules/ShowApplication/ShowApplication.css";
 
 const ShowApplicationPage = () => {
-  // ✅ Get values from URL (example: /show-application/BL0001/final-approval)
+  // --- ROUTE PARAMS AND STATE FROM NAVIGATION ---
   const { applicationId, currentStage } = useParams();
+  const location = useLocation();
 
-  const customerId = "CC-0002"; // Keep static for now (can be made dynamic later)
-  const custApi = `http://localhost:8080/api/customers/${customerId}`;
+  // Data passed from DashboardPage navigate() call
+  const { customerId, fullName: passedFullName } = location.state || {};
 
+  // --- STATE VARIABLES ---
   const [application, setApplication] = useState({});
   const [customerInfo, setCustomerInfo] = useState({});
-  const [fullName, setFullName] = useState("");
+  const [fullName, setFullName] = useState(passedFullName || "");
 
-  // ✅ Helper: generate full name
+  // --- HELPERS ---
   const generateFullName = (fname, mname, lname) => {
-    if (mname && lname) {
-      return `${fname} ${mname} ${lname}`;
-    } else if (lname) {
-      return `${fname} ${lname}`;
-    } else {
-      return fname;
-    }
+    if (mname && lname) return `${fname} ${mname} ${lname}`.trim();
+    if (lname) return `${fname} ${lname}`.trim();
+    return fname || "";
   };
 
-  // ✅ Fetch customer details (and nested applications)
+  // --- FETCH CUSTOMER DETAILS ---
   const loadCustomerDetails = async () => {
+    if (!customerId) return;
     try {
-      const customerResponse = await axios.get(custApi);
-      setCustomerInfo(customerResponse.data);
+      const res = await axios.get(`http://localhost:8080/api/customers/${customerId}`);
+      setCustomerInfo(res.data);
+      setFullName(
+        generateFullName(res.data.first_name, res.data.middle_name, res.data.last_name)
+      );
     } catch (error) {
-      console.log(error);
+      console.error("Error loading customer details:", error);
     }
   };
 
+  // --- FETCH APPLICATION DETAILS ---
+  const loadApplicationDetails = async () => {
+    if (!applicationId) return;
+    try {
+      const res = await axios.get(`http://localhost:8080/api/applications/${applicationId}`);
+      setApplication(res.data);
+    } catch (error) {
+      console.error("Error loading application details:", error);
+    }
+  };
+
+  // --- EFFECTS ---
   useEffect(() => {
     loadCustomerDetails();
-  }, []);
+    loadApplicationDetails();
+  }, [applicationId, customerId]);
 
-  useEffect(() => {
-    if (customerInfo) {
-      setFullName(
-        generateFullName(
-          customerInfo.first_name,
-          customerInfo.middle_name,
-          customerInfo.last_name
-        )
-      );
-
-      // ✅ Find matching application by ID
-      const app = customerInfo.applications?.find(
-        (a) => a.applicationId === applicationId
-      );
-      setApplication(app);
-    }
-  }, [customerInfo, applicationId]);
-
-  // ✅ Choose which component to render based on the route param `currentStage`
+  // --- RENDER STAGE-BASED COMPONENT ---
   const renderCurrentStage = () => {
-    switch (currentStage) {
+    switch ((currentStage || "").toLowerCase()) {
       case "application-status":
         return <DocumentStatus applicationInfo={application} />;
       case "document-review":
@@ -83,19 +83,17 @@ const ShowApplicationPage = () => {
   return (
     <>
       <Navbar />
-
       <div id="us5-page">
-        {/* ✅ ShowApplication Header */}
+        {/* Header Section */}
         <ShowApplicationHeader
           id={application?.applicationId}
           name={fullName}
           currentStatus={application?.currentStatus}
         />
 
-        {/* ✅ Stage-based dynamic rendering */}
+        {/* Dynamic Section Based on Stage */}
         {renderCurrentStage()}
       </div>
-
       <Footer />
     </>
   );
