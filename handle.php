@@ -27,3 +27,24 @@ public ResponseEntity<?> approveApplication(@PathVariable String applicationId) 
     }
     return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Application not found");
 }
+
+reject 
+const handleReject = async () => {
+  if (!window.confirm("Are you sure you want to reject this application?")) return;
+
+  try {
+    // backend call to mark application as rejected
+    await axios.put(`http://localhost:8080/api/applications/${applicationId}/reject`);
+
+    // update UI
+    setIsApproved(false);
+    setShowPopup(false);
+    alert("Application has been rejected successfully.");
+  } catch (error) {
+    console.error("Error rejecting application:", error);
+    alert("Failed to reject. Check console for details.");
+  }
+};
+
+
+reject controller 
