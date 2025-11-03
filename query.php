@@ -65,3 +65,66 @@ delivery
     })}
   </div>
 </div>
+
+del.css
+
+.delivery-status-container {
+  margin-top: 2rem;
+  position: relative;
+}
+
+.delivery-timeline {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+}
+
+.delivery-step {
+  position: relative;
+  text-align: center;
+  flex: 1;
+}
+
+.delivery-circle {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: 2px solid #ccc;
+  background-color: #fff;
+  z-index: 2;
+  transition: all 0.3s ease;
+}
+
+.delivery-step.active .delivery-circle {
+  border-color: #28a745;
+  background-color: #28a745;
+}
+
+.delivery-line {
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  width: 100%;
+  height: 3px;
+  background-color: #ccc;
+  z-index: 1;
+}
+
+.delivery-step.active ~ .delivery-line,
+.delivery-step.active .delivery-line {
+  background-color: #28a745;
+}
+
+.delivery-label {
+  font-size: 0.9rem;
+  margin-top: 0.5rem;
+  color: #555;
+  white-space: nowrap;
+}
+
+.delivery-step.active .delivery-label {
+  font-weight: 600;
+  color: #28a745;
+}
+
