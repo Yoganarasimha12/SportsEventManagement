@@ -43,24 +43,26 @@ INSERT INTO credit_card_details (
 delivery 
 
 {/* Delivery Status Section */}
-<div className="delivery-status-container mt-5">
-  <h6 className="text-secondary mb-3 fw-bold">Delivery Status</h6>
+<div className="delivery-status-container">
+  <h6 className="text-secondary mb-3 fw-bold" style={{ position: "absolute", top: "-35px", right: "20px" }}>
+    Delivery Status
+  </h6>
 
-  <div className="delivery-timeline d-flex align-items-center justify-content-between position-relative">
+  <div className="d-flex align-items-center justify-content-end w-100 position-relative">
     {["Not Printed", "Printed", "Dispatched", "Delivered"].map((step, index) => {
       const stepNumber = index + 1;
       const isActive = stepNumber <= currentStep;
 
       return (
-        <div
-          key={step}
-          className={`delivery-step text-center flex-fill ${isActive ? "active" : ""}`}
-        >
-          <div className="delivery-circle mx-auto" />
-          <div className="delivery-label mt-2">{step}</div>
-          {/* Line between circles */}
-          {index < 3 && <div className="delivery-line" />}
-        </div>
+        <React.Fragment key={step}>
+          <div className={`delivery-step ${isActive ? "active" : ""}`}>
+            <div className="delivery-circle"></div>
+            <div className="delivery-label">{step}</div>
+          </div>
+
+          {/* Line between steps */}
+          {index < 3 && <div className={`delivery-line ${isActive ? "active" : ""}`}></div>}
+        </React.Fragment>
       );
     })}
   </div>
