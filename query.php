@@ -152,3 +152,115 @@ add ons
     })}
   </div>
 </div>
+
+try
+
+<div className="delivery-status-container mt-4">
+  <div className="delivery-header">
+    <h6 className="delivery-title">Delivery Status</h6>
+  </div>
+
+  <div className="delivery-steps-wrapper">
+    <div className={`delivery-step ${currentStep >= 1 ? "active" : ""}`}>
+      <span className="delivery-circle" />
+      <span className="delivery-label">Sent to Print</span>
+    </div>
+    <div className="delivery-line" />
+    <div className={`delivery-step ${currentStep >= 2 ? "active" : ""}`}>
+      <span className="delivery-circle" />
+      <span className="delivery-label">Printed</span>
+    </div>
+    <div className="delivery-line" />
+    <div className={`delivery-step ${currentStep >= 3 ? "active" : ""}`}>
+      <span className="delivery-circle" />
+      <span className="delivery-label">Dispatched</span>
+    </div>
+    <div className="delivery-line" />
+    <div className={`delivery-step ${currentStep >= 4 ? "active" : ""}`}>
+      <span className="delivery-circle" />
+      <span className="delivery-label">Delivered</span>
+    </div>
+  </div>
+</div>
+
+
+del.css
+
+
+.delivery-status-container {
+  display: flex;
+  flex-direction: column;  /* 👈 stack heading and steps vertically */
+  background: #ffffff;
+  padding: 22px 30px;
+  border-radius: 12px;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.15);
+  width: 90%;
+  margin: 40px auto 0;
+}
+
+.delivery-header {
+  text-align: left;
+  margin-bottom: 15px;
+}
+
+.delivery-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: #1a2b5f;
+}
+
+.delivery-steps-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.delivery-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 25%;
+  position: relative;
+}
+
+.delivery-circle {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  border: 3px solid #8fa6c5;
+  background-color: #e5eaf0;
+  transition: 0.3s ease-in-out;
+}
+
+.delivery-step.active .delivery-circle {
+  background: #00497f;
+  border-color: #00497f;
+  box-shadow: 0 0 12px rgba(0, 200, 150, 0.6);
+}
+
+.delivery-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #1a2b5f;
+  margin-top: 8px;
+  opacity: 0.55;
+  transition: 0.3s;
+}
+
+.delivery-step.active .delivery-label {
+  opacity: 1;
+  color: #00704a;
+}
+
+.delivery-line {
+  flex-grow: 1;
+  height: 3px;
+  background: #c6d3e6;
+  margin: 0 6px;
+  transition: 0.3s ease-in-out;
+  margin-top: 13px; /* 👈 Adjust this to move the line up/down */
+}
+
+.delivery-step.active + .delivery-line {
+  background: #00a97f;
+}
