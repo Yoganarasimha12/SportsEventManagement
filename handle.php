@@ -92,3 +92,8 @@ const handleReject = async () => {
     alert("Failed to reject. Check console for details.");
   }
 };
+
+
+// --- state variables ---
+const [isApproved, setIsApproved] = useState(false);
+const [isRejected, setIsRejected] = useState(false);
