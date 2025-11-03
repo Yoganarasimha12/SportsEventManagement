@@ -104,3 +104,123 @@ if (res.data?.application?.applicationStatus === "Approved") {
 } else if (res.data?.application?.applicationStatus === "Rejected") {
   setIsRejected(true);
 }
+
+generate 
+
+@PutMapping("/{applicationId}/approve")
+public ResponseEntity<String> approveApplication(@PathVariable String applicationId) {
+    Optional<Application> optionalApp = applicationRepo.findById(applicationId);
+    if (optionalApp.isEmpty()) {
+        return ResponseEntity.notFound().build();
+    }
+
+    Application app = optionalApp.get();
+    app.setApplicationStatus("Approved");
+    applicationRepo.save(app);
+
+    // 🟢 Generate credit card details automatically
+    CreditCard card = new CreditCard();
+    card.setApplication(app);
+    card.setCardType(app.getCardType());
+    card.setCardNumber(generateCardNumber());
+    card.setCvv(generateCVV());
+    card.setExpiryDate(LocalDate.now().plusYears(5)); // valid for 5 years
+    card.setCardStatus("Pending");
+    card.setDeliveryStatus("Not Printed");
+    card.setGeneratedAt(LocalDateTime.now());
+
+    creditCardRepo.save(card);
+
+    return ResponseEntity.ok("Application approved and credit card generated successfully");
+}
+
+// --- helper methods for generating details ---
+private String generateCardNumber() {
+    Random random = new Random();
+    StringBuilder sb = new StringBuilder();
+    for (int i = 0; i < 16; i++) {
+        sb.append(random.nextInt(10));
+    }
+    return sb.toString();
+}
+
+private String generateCVV() {
+    Random random = new Random();
+    int cvv = 100 + random.nextInt(900); // 3-digit
+    return String.valueOf(cvv);
+}
+
+updated handle confirm
+
+@PutMapping("/{applicationId}/approve")
+public ResponseEntity<?> approveApplication(@PathVariable String applicationId) {
+    Optional<Application> optionalApp = applicationRepo.findById(applicationId);
+    if (optionalApp.isEmpty()) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Application not found");
+    }
+
+    Application app = optionalApp.get();
+
+    // ✅ Check if already approved
+    if ("Approved".equalsIgnoreCase(app.getApplicationStatus())) {
+        return ResponseEntity.ok("Application already approved. Credit card exists.");
+    }
+
+    // 1️⃣ Update application status
+    app.setApplicationStatus("Approved");
+    applicationRepo.save(app);
+
+    // 2️⃣ Generate credit card details (link to this application)
+    CreditCardDetails card = new CreditCardDetails();
+    card.setApplication(app);
+    card.setCard_type(app.getCardType()); // get from Application table
+    card.setCardNumber(generateCardNumber());
+    card.setCvv(generateCVV());
+    card.setExpiryDate(LocalDate.now().plusYears(5)); // valid for 5 years
+    card.setGeneratedAt(LocalDateTime.now());
+    card.setCardStatus("Active"); // ✅ as you requested
+    card.setDeliveryStatus("Not Dispatched");
+
+    creditCardRepo.save(card);
+
+    // 3️⃣ Return the generated card as response
+    return ResponseEntity.ok(card);
+}
+
+// --- helper methods ---
+
+private String generateCardNumber() {
+    Random random = new Random();
+    StringBuilder sb = new StringBuilder();
+    for (int i = 0; i < 16; i++) {
+        sb.append(random.nextInt(10));
+    }
+    return sb.toString();
+}
+
+private String generateCVV() {
+    Random random = new Random();
+    int cvv = 100 + random.nextInt(900); // 3-digit
+    return String.valueOf(cvv);
+}
+
+
+updated handle confirm
+
+const handleConfirm = async () => {
+  try {
+    const res = await axios.put(`http://localhost:8080/api/applications/${applicationId}/approve`);
+
+    // set generated card details from backend
+    setCardInfo(res.data);
+
+    // update UI state
+    setIsApproved(true);
+    setShowPopup(false);
+    alert("Final approval confirmed. Credit card generated successfully.");
+  } catch (error) {
+    console.error("Error approving application:", error);
+    alert("Failed to approve. Check console for details.");
+  }
+};
+
