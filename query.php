@@ -17,3 +17,25 @@ INSERT INTO credit_card_details (
 );
 
 
+
+<div className="delivery-status-container mt-6">
+  <p className="fw-bold text-secondary mb-3">Delivery Status</p>
+  
+  <div className={`delivery-step ${currentStep >= 1 ? "active" : ""}`}>
+    <span className="delivery-circle" />
+    <span className="delivery-label">Sent to Print</span>
+  </div>
+  <div className={`delivery-step ${currentStep >= 2 ? "active" : ""}`}>
+    <span className="delivery-circle" />
+    <span className="delivery-label">Printed</span>
+  </div>
+  <div className={`delivery-step ${currentStep >= 3 ? "active" : ""}`}>
+    <span className="delivery-circle" />
+    <span className="delivery-label">Dispatched</span>
+  </div>
+  <div className={`delivery-step ${currentStep >= 4 ? "active" : ""}`}>
+    <span className="delivery-circle" />
+    <span className="delivery-label">Delivered</span>
+  </div>
+</div>
+
