@@ -130,3 +130,25 @@ del.css
   color: #28a745;
 }
 
+add ons
+{/* Delivery Status Section */}
+<div className="delivery-status-container flex-column">
+  <h6 className="delivery-status-title text-center mb-4">Delivery Status</h6>
+
+  <div className="d-flex align-items-center justify-content-center w-100 position-relative">
+    {["Not Printed", "Printed", "Dispatched", "Delivered"].map((step, index) => {
+      const stepNumber = index + 1;
+      const isActive = stepNumber <= currentStep;
+
+      return (
+        <React.Fragment key={step}>
+          <div className={`delivery-step ${isActive ? "active" : ""}`}>
+            <div className="delivery-circle"></div>
+            <div className="delivery-label">{step}</div>
+          </div>
+          {index < 3 && <div className={`delivery-line ${isActive ? "active" : ""}`}></div>}
+        </React.Fragment>
+      );
+    })}
+  </div>
+</div>
