@@ -96,3 +96,77 @@ button container
 
   <button className="premium-btn email-btn">Draft Email</button>
 </div>
+
+
+ccd contro
+
+@PutMapping("/{applicationId}/update-delivery-status")
+public ResponseEntity<?> updateDeliveryStatus(
+        @PathVariable String applicationId,
+        @RequestParam String status) {
+
+    Optional<CreditCardDetails> cardOpt = creditCardDetailsRepo.findByApplicationId(applicationId);
+    if (cardOpt.isEmpty()) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body("Credit card not found for application ID: " + applicationId);
+    }
+
+    CreditCardDetails card = cardOpt.get();
+    String currentStatus = card.getDeliveryStatus();
+
+    // ✅ Rule 1: Only "Print Initiated" can be updated from frontend
+    if (!"Print Initiated".equalsIgnoreCase(status)) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body("Sales user can only set status to 'Print Initiated'.");
+    }
+
+    // ✅ Rule 2: Only allow from null or "Not Printed"
+    if (currentStatus != null &&
+        !currentStatus.equalsIgnoreCase("Not Printed") &&
+        !currentStatus.trim().isEmpty()) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body("Cannot initiate print. Current status: " + currentStatus);
+    }
+
+    // ✅ Update to Print Initiated
+    card.setDeliveryStatus("Print Initiated");
+    creditCardDetailsRepo.save(card);
+
+    return ResponseEntity.ok("Delivery status updated to Print Initiated");
+}
+
+handle print
+
+const handlePrintInitiation = async () => {
+  try {
+    await axios.put(
+      `http://localhost:8080/api/creditcards/${applicationId}/update-delivery-status`,
+      null,
+      { params: { status: "Print Initiated" } }
+    );
+
+    alert("Print process initiated successfully!");
+    // immediately update UI
+    setCardInfo((prev) => ({ ...prev, deliveryStatus: "Print Initiated" }));
+  } catch (error) {
+    console.error("Error updating delivery status:", error);
+    alert(error.response?.data || "Failed to update status.");
+  }
+};
+
+
+buttons
+
+<div className="action-btn-container mt-4">
+  {(cardInfo.deliveryStatus === null ||
+    cardInfo.deliveryStatus === "" ||
+    cardInfo.deliveryStatus === "Not Printed") && (
+      <button
+        className="premium-btn print-btn"
+        onClick={handlePrintInitiation}
+      >
+        Send to Print Shop
+      </button>
+    )}
+  <button className="premium-btn email-btn">Draft Email</button>
+</div>
