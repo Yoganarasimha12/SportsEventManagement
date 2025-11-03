@@ -15,3 +15,5 @@ INSERT INTO credit_card_details (
     NOW(),                   -- generatedAt (auto-set to current timestamp)
     'Pending'                -- default status
 );
+
+
