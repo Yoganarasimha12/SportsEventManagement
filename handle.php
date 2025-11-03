@@ -97,3 +97,10 @@ const handleReject = async () => {
 // --- state variables ---
 const [isApproved, setIsApproved] = useState(false);
 const [isRejected, setIsRejected] = useState(false);
+
+
+if (res.data?.application?.applicationStatus === "Approved") {
+  setIsApproved(true);
+} else if (res.data?.application?.applicationStatus === "Rejected") {
+  setIsRejected(true);
+}
