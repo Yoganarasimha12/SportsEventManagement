@@ -13,3 +13,18 @@ const handleConfirm = async () => {
     alert("Failed to approve. Check console for details.");
   }
 };
+
+controller 
+
+// 🟢 Add this inside ApplicationController
+@PutMapping("/{applicationId}/approve")
+public ResponseEntity<?> approveApplication(@PathVariable String applicationId) {
+    Optional<Application> appOpt = applicationRepo.findById(applicationId);
+    if (appOpt.isPresent()) {
+        Application app = appOpt.get();
+        app.setCurrentStatus("Approved"); // update status
+        applicationRepo.save(app);
+        return ResponseEntity.ok("Application approved successfully");
+    }
+    return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Application not found");
+}
