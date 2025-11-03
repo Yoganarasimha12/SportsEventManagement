@@ -48,3 +48,17 @@ const handleReject = async () => {
 
 
 reject controller 
+
+
+@PutMapping("/{applicationId}/reject")
+public ResponseEntity<String> rejectApplication(@PathVariable String applicationId) {
+    Optional<Application> optionalApp = applicationRepo.findById(applicationId);
+    if (optionalApp.isPresent()) {
+        Application app = optionalApp.get();
+        app.setApplicationStatus("Rejected");
+        applicationRepo.save(app);
+        return ResponseEntity.ok("Application rejected successfully");
+    } else {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Application not found");
+    }
+}
