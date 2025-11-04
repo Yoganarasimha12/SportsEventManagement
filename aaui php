@@ -1,12 +1,13 @@
 <div className="premium-info-approval">
+
   {/* Card Details Header */}
   <div id="progress-card-header" className="mb-3">
     <h5>Credit Card Details</h5>
   </div>
 
-  {/* Info + Card Visual in same row */}
+  {/* INFO + CARD VISUAL SIDE BY SIDE */}
   <div className="d-flex justify-content-between align-items-start">
-    {/* LEFT: Info Fields */}
+    {/* LEFT SIDE: Info */}
     <div className="premium-info-left" style={{ flex: 1 }}>
       <div className="d-flex justify-content-start py-2">
         <div className="premium-info-row">
@@ -21,7 +22,7 @@
           <span className="value">
             {rules.creditLimit
               ? `Rs. ${rules.creditLimit.toLocaleString()}`
-              : "Rs. -"}
+              : "Rs.-"}
           </span>
         </div>
 
@@ -33,17 +34,18 @@
         </div>
       </div>
 
-      {/* Subtle Approved Badge */}
+      {/* Approved Badge */}
       {isApproved && (
         <div className="approval-status-badge mt-3 mb-2 text-success fw-semibold">
-          <i className="bi bi-check-circle-fill me-2"></i> Approved
+          <i className="bi bi-check-circle-fill me-2"></i>
+          Approved
         </div>
       )}
     </div>
 
-    {/* RIGHT: Card Visual */}
+    {/* RIGHT SIDE: Credit Card Visual (only when approved) */}
     <div
-      className="premium-card-visual"
+      className="premium-card-visual ms-3"
       style={{
         flex: "0 0 330px",
         minHeight: "220px",
@@ -78,35 +80,104 @@
       )}
     </div>
   </div>
-</div>
 
-{/* BELOW: Credit Card Details Section */}
-{isApproved && (
-  <div className="premium-card-section mt-5">
-    <div className="premium-layout d-flex justify-content-between">
-      {/* RIGHT INFO BOX (was inside premium-card-section before) */}
-      <div className="premium-info-box">
-        <div className="premium-info-row">
-          <span className="label">Card Type:</span>
-          <span className="value">{cardInfo.card_type || "-"}</span>
-        </div>
+  {/* BELOW: CARD DETAILS SECTION */}
+  {isApproved && (
+    <div className="premium-card-section mt-5">
+      <div className="premium-layout">
+        {/* RIGHT INFO BOX (unchanged) */}
+        <div className="premium-info-box">
+          <div className="premium-info-row">
+            <span className="label">Card Type:</span>
+            <span className="value">{cardInfo.card_type || "-"}</span>
+          </div>
 
-        <div className="premium-info-row">
-          <span className="label">Issued Date:</span>
-          <span className="value">
-            {cardInfo.generatedAt
-              ? cardInfo.generatedAt.slice(0, 10)
-              : "-"}
-          </span>
-        </div>
+          <div className="premium-info-row">
+            <span className="label">Issued Date:</span>
+            <span className="value">
+              {cardInfo.generatedAt
+                ? cardInfo.generatedAt.slice(0, 10)
+                : "-"}
+            </span>
+          </div>
 
-        <div className="premium-info-row">
-          <span className="label">Status:</span>
-          <span className="value">
-            {cardInfo.cardStatus || "-"}
-          </span>
+          <div className="premium-info-row">
+            <span className="label">Status:</span>
+            <span className="value">
+              {cardInfo.cardStatus || "-"}
+            </span>
+          </div>
         </div>
       </div>
     </div>
+  )}
+
+  {/* ACTION BUTTONS */}
+  <div className="action-btn-container mt-4">
+    <button className="premium-btn email-btn" onClick={handleOpenEmailModal}>
+      Draft Email
+    </button>
+
+    <FinalDraftEmailModal
+      show={showEmailModal}
+      handleClose={handleCloseEmailModal}
+      emailModalData={emailModalData}
+      applicationId={applicationId}
+      onPrintInitiated={(status) =>
+        setCardInfo((prev) => ({ ...prev, deliveryStatus: status }))
+      }
+    />
+
+    {!isApproved && !isRejected && (
+      <div className="button-group mt-3">
+        <button className="accept-btn me-2" onClick={handleAccept}>
+          Accept
+        </button>
+        <button className="reject-btn" onClick={handleReject}>
+          Reject
+        </button>
+      </div>
+    )}
   </div>
-)}
+
+  {/* POPUP CONFIRM MODAL */}
+  {showPopup && (
+    <div className="popup-overlay">
+      <div className="popup-box">
+        <strong>Confirm Final Approval</strong>
+        <p>
+          By clicking <strong>Confirm</strong>, you are confirming the Credit
+          Card is <strong>Ready to Issue.</strong>
+        </p>
+        <div className="popup-buttons">
+          <button className="confirm-btn" onClick={handleConfirm}>
+            Confirm
+          </button>
+          <button className="cancel-1-btn" onClick={handleCancel}>
+            Cancel
+          </button>
+        </div>
+      </div>
+    </div>
+  )}
+
+  {/* REJECTED SECTION */}
+  {isRejected && (
+    <div className="action-btn-container mt-4">
+      <button className="premium-btn email-btn" onClick={handleOpenEmailModal}>
+        Draft Email
+      </button>
+      <FinalDraftEmailModal
+        show={showEmailModal}
+        handleClose={handleCloseEmailModal}
+        emailModalData={{
+          creditStatus: "Rejected",
+          customerName: fullName,
+          card_type: applicationInfo?.card_type,
+          deliveryStatus: cardInfo?.deliveryStatus,
+        }}
+        applicationId={applicationId}
+      />
+    </div>
+  )}
+</div>
