@@ -246,3 +246,52 @@ update
   </div>
 
 </div>
+
+
+
+
+.premium-info-row.dual {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 100px; /* spacing between Credit Limit & Interest Rate */
+  margin-bottom: 10px;
+}
+
+.premium-info-row.dual .info-item {
+  display: flex;
+  flex-direction: column;
+}
+
+.info-item .label {
+  font-size: 17px;
+  color: #555;
+  font-weight: 600;
+  opacity: 0.6;
+  margin-bottom: 4px;
+}
+
+.info-item .value {
+  font-size: 15px;
+  font-weight: 600;
+  color: #1a2b5f;
+  opacity: 0.9;
+}
+
+/* ✅ Premium Approved badge */
+.approval-status-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #e8f5e9;
+  color: #2e7d32;
+  border-radius: 20px;
+  font-weight: 600;
+  font-size: 15px;
+  padding: 8px 16px;
+  box-shadow: 0 2px 8px rgba(46, 125, 50, 0.2);
+}
+
+.approval-status-badge i {
+  font-size: 18px;
+}
