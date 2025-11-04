@@ -144,3 +144,17 @@ isapp
     }
   />
 </div>
+
+
+handle accept
+
+
+const handleAccept = () => {
+  if (props.applicationInfo?.currentStage !== "Final Approval") {
+    alert("You can only accept the application at the Final Approval stage.");
+    return;
+  }
+
+  // If stage is valid, show confirmation popup
+  setShowPopup(true);
+};
