@@ -123,60 +123,72 @@ import axios from "axios";
 const DraftEmailModal = ({ show, handleClose, emailModalData, applicationId, onPrintInitiated }) => {
   const [subject, setSubject] = useState("");
   const [body, setBody] = useState("");
-  const [noteVisible, setNoteVisible] = useState(true); // show the orange note
+  const [noteVisible, setNoteVisible] = useState(true);
 
-  // Load template based on credit status
+  // 🧠 Load email content dynamically based on creditStatus
   useEffect(() => {
     if (emailModalData?.creditStatus === "Approved") {
       setSubject("Your Credit Card Approval & Print Process Initiation");
       setBody(
         `Dear ${emailModalData?.customerName || "Customer"},\n\n` +
-        `We’re excited to inform you that your credit card application has been approved. ` +
-        `By confirming this email, your card details will be securely forwarded to our print department for production.\n\n` +
-        `Best regards,\nCredit Card Services Team`
+          `Congratulations! Your credit card application has been approved.\n` +
+          `By sending this email, the print process for your card will be initiated.\n\n` +
+          `Best regards,\nCredit Card Services Team`
       );
     } else if (emailModalData?.creditStatus === "Rejected") {
-      setSubject("Credit Card Application Update");
+      setSubject("Credit Card Application Status Update");
       setBody(
         `Dear ${emailModalData?.customerName || "Customer"},\n\n` +
-        `We regret to inform you that your credit card application was not approved at this time.\n\n` +
-        `Best regards,\nCredit Card Services Team`
+          `We regret to inform you that your credit card application could not be approved at this time.\n` +
+          `Please contact our support team for more details.\n\n` +
+          `Best regards,\nCredit Card Services Team`
       );
     }
   }, [emailModalData]);
 
-  // ✅ Trigger backend update when clicking "Send"
+  // 🚀 Handle Send action
   const handleSend = async () => {
     try {
-      await axios.put(
-        `http://localhost:8080/api/creditcards/${applicationId}/update-delivery-status`,
-        null,
-        { params: { status: "Print Initiated" } }
-      );
+      // ✅ Common: simulate sending email (for now)
+      alert(`Email sent successfully to ${emailModalData?.customerName || "Customer"}`);
 
-      alert("Print process initiated successfully!");
-      onPrintInitiated?.("Print Initiated"); // optional callback to parent (FinalApproval)
+      // ✅ Only trigger print initiation if Approved
+      if (emailModalData?.creditStatus === "Approved") {
+        await axios.put(
+          `http://localhost:8080/api/creditcards/${applicationId}/update-delivery-status`,
+          null,
+          { params: { status: "Print Initiated" } }
+        );
 
-      // Hide the note after successful action
+        alert("Print process initiated successfully!");
+        onPrintInitiated?.("Print Initiated");
+      }
+
       setNoteVisible(false);
       handleClose();
     } catch (error) {
-      console.error("Error updating delivery status:", error);
-      alert(error.response?.data || "Failed to update print status.");
+      console.error("Error while sending email or updating delivery status:", error);
+      alert(error.response?.data || "Failed to complete the process.");
     }
   };
 
   return (
     <Modal show={show} onHide={handleClose} centered size="lg">
       <Modal.Header closeButton>
-        <Modal.Title>Draft Print Initiation Email</Modal.Title>
+        <Modal.Title>
+          {emailModalData?.creditStatus === "Approved"
+            ? "Draft Approval Email"
+            : "Draft Rejection Email"}
+        </Modal.Title>
       </Modal.Header>
 
       <Modal.Body>
-        {noteVisible && (
+        {/* 🟠 Only show warning note for Approved case */}
+        {emailModalData?.creditStatus === "Approved" && noteVisible && (
           <Alert variant="warning" className="py-2 px-3">
-            <strong>Note:</strong> By clicking <em>Send</em>, you will initiate the card print process —
-            your card details will be securely sent to the print shop for production.
+            <strong>Note:</strong> By clicking <em>Send</em>, you will initiate the card print
+            process — the approved card details will be securely sent to the print shop for
+            production.
           </Alert>
         )}
 
