@@ -225,3 +225,26 @@ const DraftEmailModal = ({ show, handleClose, emailModalData, applicationId, onP
 };
 
 export default DraftEmailModal;
+
+small update 
+
+useEffect(() => {
+  const cardType = emailModalData?.cardType || "Credit Card";
+
+  if (emailModalData?.creditStatus === "Approved") {
+    setSubject(`Congratulations! Your ${cardType} Request Has Been Approved`);
+    setBody(
+      `Dear ${emailModalData?.customerName || "Customer"},\n\n` +
+        `We are pleased to inform you that your ${cardType} application has been successfully approved.\n` +
+        `Thank you for choosing our services.\n\n` +
+        `Best regards,\nCredit Assessment Team`
+    );
+  } else if (emailModalData?.creditStatus === "Rejected") {
+    setSubject(`${cardType} Application Update - Application Rejected`);
+    setBody(
+      `Dear ${emailModalData?.customerName || "Customer"},\n\n` +
+        `We regret to inform you that your ${cardType} application was not approved at this time.\n\n` +
+        `Best regards,\nCredit Assessment Team`
+    );
+  }
+}, [emailModalData]);
