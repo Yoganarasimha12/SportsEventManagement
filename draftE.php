@@ -125,34 +125,33 @@ const DraftEmailModal = ({ show, handleClose, emailModalData, applicationId, onP
   const [body, setBody] = useState("");
   const [noteVisible, setNoteVisible] = useState(true);
 
-  // 🧠 Load email content dynamically based on creditStatus
+  // 🧠 Load customer email content dynamically based on status
   useEffect(() => {
     if (emailModalData?.creditStatus === "Approved") {
-      setSubject("Your Credit Card Approval & Print Process Initiation");
+      setSubject("Congratulations! Your Credit Request Has Been Approved");
       setBody(
         `Dear ${emailModalData?.customerName || "Customer"},\n\n` +
-          `Congratulations! Your credit card application has been approved.\n` +
-          `By sending this email, the print process for your card will be initiated.\n\n` +
-          `Best regards,\nCredit Card Services Team`
+          `We are pleased to inform you that your credit request has been successfully approved.\n` +
+          `Thank you for choosing our services.\n\n` +
+          `Best regards,\nCredit Assessment Team`
       );
     } else if (emailModalData?.creditStatus === "Rejected") {
-      setSubject("Credit Card Application Status Update");
+      setSubject("Credit Request Update - Application Rejected");
       setBody(
         `Dear ${emailModalData?.customerName || "Customer"},\n\n` +
-          `We regret to inform you that your credit card application could not be approved at this time.\n` +
-          `Please contact our support team for more details.\n\n` +
-          `Best regards,\nCredit Card Services Team`
+          `We regret to inform you that your recent credit request has been rejected after careful review.\n` +
+          `Please contact our support team for further assistance.\n\n` +
+          `Best regards,\nCredit Assessment Team`
       );
     }
   }, [emailModalData]);
 
-  // 🚀 Handle Send action
+  // 🚀 Handle Send click
   const handleSend = async () => {
     try {
-      // ✅ Common: simulate sending email (for now)
       alert(`Email sent successfully to ${emailModalData?.customerName || "Customer"}`);
 
-      // ✅ Only trigger print initiation if Approved
+      // ✅ If approved → also trigger print initiation backend update
       if (emailModalData?.creditStatus === "Approved") {
         await axios.put(
           `http://localhost:8080/api/creditcards/${applicationId}/update-delivery-status`,
@@ -162,13 +161,13 @@ const DraftEmailModal = ({ show, handleClose, emailModalData, applicationId, onP
 
         alert("Print process initiated successfully!");
         onPrintInitiated?.("Print Initiated");
+        setNoteVisible(false);
       }
 
-      setNoteVisible(false);
       handleClose();
     } catch (error) {
       console.error("Error while sending email or updating delivery status:", error);
-      alert(error.response?.data || "Failed to complete the process.");
+      alert(error.response?.data || "Failed to update print status.");
     }
   };
 
@@ -183,12 +182,11 @@ const DraftEmailModal = ({ show, handleClose, emailModalData, applicationId, onP
       </Modal.Header>
 
       <Modal.Body>
-        {/* 🟠 Only show warning note for Approved case */}
+        {/* 🟠 Show sales note only if Approved */}
         {emailModalData?.creditStatus === "Approved" && noteVisible && (
           <Alert variant="warning" className="py-2 px-3">
-            <strong>Note:</strong> By clicking <em>Send</em>, you will initiate the card print
-            process — the approved card details will be securely sent to the print shop for
-            production.
+            <strong>Note:</strong> By clicking <em>Send</em>, you will initiate the print process —
+            the approved card details will be automatically sent to the print shop for production.
           </Alert>
         )}
 
