@@ -158,3 +158,12 @@ const handleAccept = () => {
   // If stage is valid, show confirmation popup
   setShowPopup(true);
 };
+
+
+
+add ons
+
+if (props.applicationInfo?.currentStage !== "Final Approval") {
+    alert("You can only reject the application at the Final Approval stage.");
+    return;
+  }
