@@ -1,3 +1,6 @@
+
+
+
 <div className="premium-info-approval">
   {/* Card Details Header */}
   <div id="progress-card-header" className="mb-3">
@@ -120,3 +123,91 @@ css
   box-shadow: 0 2px 6px rgba(0, 200, 150, 0.2);
   text-align: center;
 }
+
+
+
+edit
+
+ <div className="approval-status-badge mt-3 mb-2 d-inline-flex align-items-center">
+        <i className="bi bi-check-circle-fill me-2"></i>
+        <span>Approved</span>
+      </div>
+
+
+try
+
+.premium-info-approval {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+  padding: 20px;
+}
+
+.premium-info-row .label {
+  font-weight: 600;
+  color: #1a2b5f;
+  margin-right: 8px;
+}
+
+.premium-info-row .value {
+  color: #2d2d2d;
+  font-weight: 500;
+}
+
+.approved-info-row .label {
+  font-weight: 600;
+  color: #1a2b5f;
+}
+
+.approved-info-row .value {
+  color: #212529;
+  font-weight: 500;
+}
+
+.approval-status-badge {
+  background: #e6fff5;
+  color: #007a5f;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  padding: 8px 16px;
+  border-radius: 12px;
+  display: inline-flex;
+  align-items: center;
+  font-size: 14px;
+  border: 1px solid #00b389;
+}
+
+.approval-status-badge i {
+  font-size: 1.2rem;
+  color: #00b389;
+}
+
+update
+
+
+{/* After Approval */}
+<div className="approved-info-row py-2">
+  <div className="info-pair">
+    <div className="info-item">
+      <span className="label">Credit Limit:</span>
+      <span className="value">
+        {rules.creditLimit
+          ? `Rs. ${rules.creditLimit.toLocaleString()}`
+          : "Rs. -"}
+      </span>
+    </div>
+
+    <div className="info-item">
+      <span className="label">Interest Rate:</span>
+      <span className="value">
+        {rules.interestRate ? `${rules.interestRate}%` : "--"}
+      </span>
+    </div>
+  </div>
+</div>
+
+{/* ✅ Approved Badge */}
+<div className="approval-status-badge mt-3 mb-2 d-inline-flex align-items-center">
+  <i className="bi bi-check-circle-fill me-2"></i>
+  <span>Approved</span>
+</div>
