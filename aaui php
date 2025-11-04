@@ -1,0 +1,112 @@
+<div className="premium-info-approval">
+  {/* Card Details Header */}
+  <div id="progress-card-header" className="mb-3">
+    <h5>Credit Card Details</h5>
+  </div>
+
+  {/* Info + Card Visual in same row */}
+  <div className="d-flex justify-content-between align-items-start">
+    {/* LEFT: Info Fields */}
+    <div className="premium-info-left" style={{ flex: 1 }}>
+      <div className="d-flex justify-content-start py-2">
+        <div className="premium-info-row">
+          <span className="label">Card Type:</span>
+          <span className="value">{applicationInfo.card_type || "-"}</span>
+        </div>
+      </div>
+
+      <div className="d-flex justify-content-between py-2">
+        <div className="premium-info-row me-5">
+          <span className="label">Credit Limit:</span>
+          <span className="value">
+            {rules.creditLimit
+              ? `Rs. ${rules.creditLimit.toLocaleString()}`
+              : "Rs. -"}
+          </span>
+        </div>
+
+        <div className="premium-info-row">
+          <span className="label">Interest Rate:</span>
+          <span className="value">
+            {rules.interestRate ? `${rules.interestRate}%` : "--"}
+          </span>
+        </div>
+      </div>
+
+      {/* Subtle Approved Badge */}
+      {isApproved && (
+        <div className="approval-status-badge mt-3 mb-2 text-success fw-semibold">
+          <i className="bi bi-check-circle-fill me-2"></i> Approved
+        </div>
+      )}
+    </div>
+
+    {/* RIGHT: Card Visual */}
+    <div
+      className="premium-card-visual"
+      style={{
+        flex: "0 0 330px",
+        minHeight: "220px",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+      }}
+    >
+      {isApproved ? (
+        <div className="credit-card-ui">
+          <div className="bank-logo">
+            <img
+              src="/Asset/Logos/try_scb_logo.png"
+              alt="Standard Chartered"
+            />
+          </div>
+          <div className="chip"></div>
+          <div className="cc-number">
+            {cardInfo.cardNumber || "XXXX-XXXX-XXXX-0123"}
+          </div>
+          <div className="cc-footer">
+            <span className="cc-holder">{fullName}</span>
+            <span className="cc-expiry">
+              {cardInfo.expiryDate
+                ? `Valid: ${cardInfo.expiryDate.slice(5, 7)}/${cardInfo.expiryDate.slice(2, 4)}`
+                : "Valid: --/--"}
+            </span>
+          </div>
+        </div>
+      ) : (
+        <div style={{ width: "100%", height: "100%" }}></div>
+      )}
+    </div>
+  </div>
+</div>
+
+{/* BELOW: Credit Card Details Section */}
+{isApproved && (
+  <div className="premium-card-section mt-5">
+    <div className="premium-layout d-flex justify-content-between">
+      {/* RIGHT INFO BOX (was inside premium-card-section before) */}
+      <div className="premium-info-box">
+        <div className="premium-info-row">
+          <span className="label">Card Type:</span>
+          <span className="value">{cardInfo.card_type || "-"}</span>
+        </div>
+
+        <div className="premium-info-row">
+          <span className="label">Issued Date:</span>
+          <span className="value">
+            {cardInfo.generatedAt
+              ? cardInfo.generatedAt.slice(0, 10)
+              : "-"}
+          </span>
+        </div>
+
+        <div className="premium-info-row">
+          <span className="label">Status:</span>
+          <span className="value">
+            {cardInfo.cardStatus || "-"}
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+)}
