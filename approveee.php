@@ -211,3 +211,38 @@ update
   <i className="bi bi-check-circle-fill me-2"></i>
   <span>Approved</span>
 </div>
+
+
+<div className="premium-info-approval">
+
+  {/* Card Details Header */}
+  <div id="progress-card-header" className="mb-3">
+    <h5>Card Details</h5>
+  </div>
+
+  {/* One row: Credit Limit & Interest Rate side by side */}
+  <div className="premium-info-row dual">
+    <div className="info-item">
+      <span className="label">Credit Limit:</span>
+      <span className="value">
+        {rules.creditLimit
+          ? `Rs. ${rules.creditLimit.toLocaleString()}`
+          : "Rs. -"}
+      </span>
+    </div>
+
+    <div className="info-item">
+      <span className="label">Interest Rate:</span>
+      <span className="value">
+        {rules.interestRate ? `${rules.interestRate}%` : "--"}
+      </span>
+    </div>
+  </div>
+
+  {/* Approved Badge */}
+  <div className="approval-status-badge mt-4">
+    <i className="bi bi-check-circle-fill me-2"></i>
+    <span>Approved</span>
+  </div>
+
+</div>
