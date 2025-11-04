@@ -75,3 +75,20 @@ public class CreditCardDetailsController {
         return ResponseEntity.status(HttpStatus.CREATED).body(savedCard);
     }
 }
+
+
+update draft in f
+
+<DraftEmailModal
+  show={showEmailModal}
+  handleClose={() => setShowEmailModal(false)}
+  emailModalData={{
+    creditStatus: applicationInfo?.applicationStatus, // "Approved" or "Rejected"
+    customerName: fullName,
+    cardType: applicationInfo?.cardType,
+  }}
+  applicationId={applicationId}
+  onPrintInitiated={(status) =>
+    setCardInfo((prev) => ({ ...prev, deliveryStatus: status }))
+  }
+/>
