@@ -92,3 +92,33 @@ update draft in f
     setCardInfo((prev) => ({ ...prev, deliveryStatus: status }))
   }
 />
+
+reject modal
+
+{/* Rejection Modal */}
+{isRejected && (
+  <Modal show={isRejected} onHide={() => setIsRejected(false)} centered>
+    <Modal.Header closeButton>
+      <Modal.Title>Application Rejected</Modal.Title>
+    </Modal.Header>
+    <Modal.Body className="text-center">
+      <p>
+        This application has been rejected. You can send a rejection email to the customer.
+      </p>
+      <Button variant="danger" onClick={handleOpenEmailModal}>
+        Draft Rejection Email
+      </Button>
+    </Modal.Body>
+  </Modal>
+)}
+
+{/* Reuse same modal component */}
+<FinalDraftEmailModal
+  show={showEmailModal}
+  handleClose={handleCloseEmailModal}
+  emailModalData={{
+    creditStatus: "Rejected",
+    customerName: fullName,
+  }}
+  applicationId={applicationInfo?.applicationId}
+/>
