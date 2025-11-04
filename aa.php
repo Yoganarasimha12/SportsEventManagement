@@ -122,3 +122,48 @@ reject modal
   }}
   applicationId={applicationInfo?.applicationId}
 />
+
+
+updated
+
+
+{/* ✅ Approved Application Draft Email Modal */}
+{isApproved && (
+  <div className="action-btn-container mt-4">
+    <button className="premium-btn email-btn" onClick={handleOpenEmailModal}>
+      Draft Email
+    </button>
+
+    <FinalDraftEmailModal
+      show={showEmailModal}
+      handleClose={handleCloseEmailModal}
+      emailModalData={{
+        creditStatus: "Approved",
+        customerName: fullName,
+        card_type: applicationInfo?.card_type,
+      }}
+      applicationId={applicationId}
+      onPrintInitiated={handlePrintInitiated}
+    />
+  </div>
+)}
+
+{/* 🚫 Rejected Application Draft Email Modal */}
+{isRejected && (
+  <div className="action-btn-container mt-4">
+    <button className="premium-btn email-btn" onClick={handleOpenEmailModal}>
+      Draft Email
+    </button>
+
+    <FinalDraftEmailModal
+      show={showEmailModal}
+      handleClose={handleCloseEmailModal}
+      emailModalData={{
+        creditStatus: "Rejected",
+        customerName: fullName,
+        card_type: applicationInfo?.card_type,
+      }}
+      applicationId={applicationId}
+    />
+  </div>
+)}
