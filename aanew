@@ -1,0 +1,48 @@
+<div className="delivery-status-container">
+  <div className="delivery-status-title">Delivery Status</div>
+
+  <div className="delivery-timeline">
+    {["Generated", "Printed", "Dispatched", "Delivered"].map((step, index) => {
+      const stepNumber = index + 1;
+      const isActive = stepNumber <= currentStep;
+
+      return (
+        <React.Fragment key={step}>
+          <div className={`delivery-step ${isActive ? "active" : ""}`}>
+            <div className="delivery-circle"></div>
+            <div className="delivery-label">{step}</div>
+          </div>
+
+          {/* Connector line AFTER each step except the last */}
+          {index < 3 && (
+            <div
+              className={`delivery-line ${
+                stepNumber < currentStep ? "active" : ""
+              }`}
+            ></div>
+          )}
+        </React.Fragment>
+      );
+    })}
+  </div>
+</div>
+   
+
+
+css
+
+
+
+.delivery-line {
+  flex-grow: 1;
+  height: 3px;
+  background: #c6d3e6;
+  margin: 0 6px;
+  transition: background 0.3s ease-in-out;
+  margin-top: -20px;
+  border-radius: 2px;
+}
+
+.delivery-line.active {
+  background: #00A97F;
+}
