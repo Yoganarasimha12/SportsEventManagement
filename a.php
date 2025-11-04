@@ -167,3 +167,18 @@ if (props.applicationInfo?.currentStage !== "Final Approval") {
     alert("You can only reject the application at the Final Approval stage.");
     return;
   }
+
+
+check 
+
+
+useEffect(() => {
+  const delivery = emailModalData?.deliveryStatus;
+
+  // Hide the note if print already started or completed
+  if (delivery === "Print Initiated" || delivery === "Printed" || delivery === "Dispatched" || delivery === "Delivered") {
+    setNoteVisible(false);
+  } else {
+    setNoteVisible(true);
+  }
+}, [emailModalData]);
