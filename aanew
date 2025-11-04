@@ -13,7 +13,7 @@
             <div className="delivery-label">{step}</div>
           </div>
 
-          {/* Connector line AFTER each step except the last */}
+          {/* Connector line — between steps */}
           {index < 3 && (
             <div
               className={`delivery-line ${
@@ -26,21 +26,92 @@
     })}
   </div>
 </div>
-   
 
 
 css
 
 
+.delivery-status-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  background: #ffffff;
+  padding: 22px 30px;
+  border-radius: 12px;
+  border-left: 5px solid #0473EA;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.15);
+  width: 100%;
+  height: auto;
+  margin-bottom: 45px;
+}
 
+/* Title */
+.delivery-status-title {
+  color: #0473EA;
+  font-size: 22px;
+  font-weight: 600;
+  padding-bottom: 12px;
+  margin-bottom: 20px;
+  border-bottom: 2px solid #edf2f7;
+  width: 100%;
+}
+
+/* Timeline row */
+.delivery-timeline {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+/* Each step */
+.delivery-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  z-index: 2;
+}
+
+/* Circle */
+.delivery-circle {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  border: 3px solid #8fa6c5;
+  background-color: #e5eaf0;
+  transition: 0.3s ease-in-out;
+}
+
+.delivery-step.active .delivery-circle {
+  background: #38D200;
+  border-color: #00A97F;
+  box-shadow: 0 0 12px rgba(0, 200, 150, 0.6);
+}
+
+/* Label below circle */
+.delivery-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #1a2b5f;
+  margin-top: 8px;
+  opacity: 0.55;
+  text-align: center;
+}
+
+.delivery-step.active .delivery-label {
+  opacity: 1;
+  color: #00704A;
+}
+
+/* Connecting line between steps */
 .delivery-line {
   flex-grow: 1;
-  height: 3px;
+  height: 4px;
   background: #c6d3e6;
-  margin: 0 6px;
   transition: background 0.3s ease-in-out;
-  margin-top: -20px;
-  border-radius: 2px;
+  z-index: 1;
+  border-radius: 3px;
 }
 
 .delivery-line.active {
